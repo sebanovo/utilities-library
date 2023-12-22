@@ -1,0 +1,22 @@
+{
+  "name": "utilities-library",
+  "version": "1.0.1",
+  "main": "./src/index.js",
+  "scripts": {
+    "dev": "ts-node ./src/index.ts",
+    "build": "tsc",
+    "docs": "jsdoc -c jsdoc.json -R README.md",
+    "deploy": "gh-pages -d doc"
+  },
+  "keywords": [],
+  "author": "Sebastian Cespedes Rodas",
+  "license": "ISC",
+  "description": "Borrar Luego",
+  "devDependencies": {
+    "@pixi/jsdoc-template": "^2.6.0",
+    "gh-pages": "^6.1.0",
+    "jsdoc": "^4.0.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
