@@ -1,6 +1,6 @@
 # Libreria de Utilidades 
 
-Visita la documentación : https://SebastianINF.github.io/Library-Utilities
+Visita la documentación : https://sebastianinf.github.io/Library-Utilities/ 
 
 # Clase Matriz 
 
