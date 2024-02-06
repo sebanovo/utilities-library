@@ -8,4 +8,8 @@ doc
 
 jsdoc.json
 
+.eslintrc.json
+
+.eslintignore
+
 tsconfig.json
