@@ -1,10 +1,10 @@
-# Libreria de Utilidades 
+# Libreria de Utilidades
 
-Visita la documentación : https://sebastianinf.github.io/Library-Utilities/ 
+Visita la documentación : <https://sebastianinf.github.io/utilities-library/>
 
-# Clase Matriz 
+## Clase Matriz
 
-## Metodos de la Clase Matriz
+### Metodos de la Clase Matriz
 
 - Cargar
 - Descargar
@@ -48,7 +48,7 @@ Visita la documentación : https://sebastianinf.github.io/Library-Utilities/
 - Ordenar columnas por numero de primos
 - Ordenar filas por numero de primos
 
-## Ejemplo
+## Ejemplo 1
 
 ```JavaScript
 // Crear una instancia de Matriz
@@ -66,9 +66,9 @@ m1.segmentar(n1.verificarPar) //<-- funcion integer
 m1.intercalar(n1.verificarPrimo) // <-- funcion integer
 ```
 
-# Clase Vector
+## Clase Vector
 
-## Metodos de la Clase Vector
+### Metodos de la Clase Vector
 
 - Cargar elemento x elemento
 - Cargar
@@ -111,7 +111,7 @@ m1.intercalar(n1.verificarPrimo) // <-- funcion integer
 - Intercalar par y no par
 - Intercalar primo y no primo
 
-## Ejemplo
+## Ejemplo 2
 
 ```javascript
 // Crear una instancia de Vector
@@ -137,7 +137,8 @@ resultado.interseccionDeConjuntos(vector1, vector2);
 console.log(resultado.retornarVector()); // Resultado: [3, 4]
 ```
 
-# Metodos de la Clase Integer
+## Metodos de la Clase Integer
+
 - Cargar
 - Descargar
 - Invertir
@@ -149,8 +150,8 @@ console.log(resultado.retornarVector()); // Resultado: [3, 4]
 - Verificar cuadrado perfecto
 - Veriricar fibonacci
 
-## Ejemplo
- 
+## Ejemplo 3
+
 ```javascript
 // Instancia de la clase Integer
 const n1 = new Integer()
@@ -160,6 +161,7 @@ n1.cargar(4)
 const isPar = n1.verificarPar()
 console.log(isPar)
 ```
+
 ## Contribuciones
 
 Si deseas contribuir a esta librería, por favor eres libre de mandarme una pull request, yo la revisare y la incorporare a la libreria si veo que aporta valor.

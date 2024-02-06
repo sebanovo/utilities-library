@@ -12,20 +12,20 @@
     "template": "./node_modules/@pixi/jsdoc-template"
   },
   "templates": {
-    "applicationName": "Library-Utilties",
+    "applicationName": "Utilities Library",
     "disqus": "",
     "googleAnalytics": "",
     "openGraph": {
-      "title": "Library-Utilities Docs",
+      "title": "Utilities Library Docs",
       "type": "website",
       "image": "",
       "site_name": "",
       "url": ""
     },
     "meta": {
-      "title": "Library-Utilities",
-      "description": "Libreria Para utilidades",
-      "keyword": "Utilities"
+      "title": "Utilities Library",
+      "description": "library for managing vectors, matrices, integers",
+      "keyword": "Library"
     },
     "linenums": true,
     "source": {

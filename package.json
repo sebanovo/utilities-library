@@ -11,7 +11,7 @@
   "keywords": [],
   "author": "Sebastian Cespedes Rodas",
   "license": "ISC",
-  "description": "Borrar Luego",
+  "description": "vector - matriz - integer",
   "devDependencies": {
     "@pixi/jsdoc-template": "^2.6.0",
     "gh-pages": "^6.1.0",
@@ -19,9 +19,9 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
-   "repository": {
+  "repository": {
     "type": "git",
-    "url": "git+https://github.com/SebastianINF/Library-Utilities.git"
+    "url": "git+https://github.com/SebastianINF/utilities-library.git"
   },
-  "homepage": "https://sebastianinf.github.io/Library-Utilities/"
+  "homepage": "https://sebastianinf.github.io/utilities-library/"
 }
