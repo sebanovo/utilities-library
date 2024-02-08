@@ -1,9 +1,10 @@
 {
   "name": "utilities-library",
   "version": "1.0.6",
-  "main": "./dist/index.js",
+  "main": "index.js",
   "scripts": {
     "dev": "ts-node ./src/index.ts",
+    "prepare": "tsc",
     "build": "tsc",
     "docs": "jsdoc -c jsdoc.json -R README.md",
     "deploy": "gh-pages -d doc"
