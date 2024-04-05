@@ -1,5 +1,5 @@
 import Matriz from './Matriz'
 import Vector from './Vector'
-import Integer from './Integer'
+import Numero from './Numero'
 
-export { Matriz, Vector, Integer }
+export { Matriz, Vector, Numero }

@@ -1,6 +1,6 @@
 {
   "name": "utilities-library",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "main": "index.js",
   "scripts": {
     "dev": "ts-node ./src/index.ts",

@@ -1,4 +1,4 @@
-import Integer from './Integer'
+import Numero, { type MethodsOfNumero } from './Numero'
 /**
  * @module Matriz
  */
@@ -18,7 +18,9 @@ export default class Matriz {
    * @returns {void}
    */
   cargar (nf: number, nc: number, a: number, b: number): void {
-    if (nf === null || nc === null || a === null || b === null) { throw new Error('Ingrese los parametros en cargar') }
+    if (nf === null || nc === null || a === null || b === null) {
+      throw new Error('Ingrese los parametros en cargar')
+    }
 
     this.f = nf
     this.c = nc
@@ -68,7 +70,9 @@ export default class Matriz {
    * @returns {void}
    */
   cargarSerieAritmetica (nf: number, nc: number, a1: number, r: number): void {
-    if (nf === null || nc === null || a1 === null || r === null) { throw new Error('Ingrese los parametros en cargar') }
+    if (nf === null || nc === null || a1 === null || r === null) {
+      throw new Error('Ingrese los parametros en cargar')
+    }
 
     this.f = nf
     this.c = nc
@@ -94,7 +98,9 @@ export default class Matriz {
    * @returns {void}
    */
   cargarSerieGeometrica (nf: number, nc: number, a1: number, r: number): void {
-    if (nf === null || nc === null || a1 === null || r === null) { throw new Error('Ingrese los parametros en cargar') }
+    if (nf === null || nc === null || a1 === null || r === null) {
+      throw new Error('Ingrese los parametros en cargar')
+    }
 
     this.f = nf
     this.c = nc
@@ -236,7 +242,9 @@ export default class Matriz {
    * @returns {void}
    */
   suma (m1: Matriz, m2: Matriz): void {
-    if (m1.f !== m2.f || m1.c !== m2.c) { throw new Error('No se pueden sumar matrices de dimensiones diferentes') }
+    if (m1.f !== m2.f || m1.c !== m2.c) {
+      throw new Error('No se pueden sumar matrices de dimensiones diferentes')
+    }
     this.f = m1.f
     this.c = m1.c
 
@@ -257,7 +265,9 @@ export default class Matriz {
    * @returns {void}
    */
   resta (m1: Matriz, m2: Matriz): void {
-    if (m1.f !== m2.f || m1.c !== m2.c) { throw new Error('No se pueden sumar matrices de dimensiones diferentes') }
+    if (m1.f !== m2.f || m1.c !== m2.c) {
+      throw new Error('No se pueden sumar matrices de dimensiones diferentes')
+    }
     this.f = m1.f
     this.c = m1.c
 
@@ -443,19 +453,14 @@ export default class Matriz {
   }
 
   /**
-   * Segmenta la matriz pasandole una funcion de un objeto de la instancia Integer
-   * @param {Function} method metodo del objeto Integer
+   * Segmenta la matriz pasandole una funcion de un objeto de la instancia Numero
+   * @param {MethodsOfNumero} method metodo del objeto Numero
    */
-  segmentar (method: Function): void {
+  segmentar (method: MethodsOfNumero): void {
     if (!method) throw new Error('El metodo esta vacio')
     let inc
-    const n1 = new Integer()
-    const n2 = new Integer()
-
-    // @ts-expect-error
-    n1.method = method
-    // @ts-expect-error
-    n2.method = method
+    const n1 = new Numero()
+    const n2 = new Numero()
 
     for (let f1 = 0; f1 < this.f; f1++) {
       for (let c1 = 0; c1 < this.c; c1++) {
@@ -469,12 +474,9 @@ export default class Matriz {
             n1.cargar(this.v[f2][c2])
             n2.cargar(this.v[f1][c1])
             if (
-              // @ts-expect-error
-              (n1.method() && !n2.method()) ||
-              // @ts-expect-error
-              (n1.method() && n2.method() && this.v[f2][c2] < this.v[f1][c1]) ||
-              // @ts-expect-error
-              (!n1.method() && !n2.method() && this.v[f2][c2] < this.v[f1][c1])
+              (n1[method]() && !n2[method]()) ||
+              (n1[method]() && n2[method]() && this.v[f2][c2] < this.v[f1][c1]) ||
+              (!n1[method]() && !n2[method]() && this.v[f2][c2] < this.v[f1][c1])
             ) {
               this.intercambiar(f2, c2, f1, c1)
             }
@@ -485,22 +487,17 @@ export default class Matriz {
   }
 
   /**
-   * Intercalar la matriz pasandole una funcion de un objeto de la instancia Integer
-   * @param {Function} method metodo del objeto Integer
+   * Intercalar la matriz pasandole una funcion de un objeto de la instancia Numero
+   * @param {MethodsOfNumero} method metodo del objeto Numero
    */
-  intercalar (method: Function): void {
+  intercalar (method: MethodsOfNumero): void {
     if (!method) throw new Error('El metodo esta vacio')
 
     let inc
     let bool = true
 
-    const n1 = new Integer()
-    const n2 = new Integer()
-
-    // @ts-expect-error
-    n1.method = method
-    // @ts-expect-error
-    n2.method = method
+    const n1 = new Numero()
+    const n2 = new Numero()
 
     for (let f1 = 0; f1 < this.f; f1++) {
       for (let c1 = 0; c1 < this.c; c1++) {
@@ -515,18 +512,9 @@ export default class Matriz {
               n1.cargar(this.v[f2][c2])
               n2.cargar(this.v[f1][c1])
               if (
-                // @ts-expect-error
-                (n1.method() && !n2.method()) ||
-                // @ts-expect-error
-                (n1.method() &&
-                  // @ts-expect-error
-                  n2.method() &&
-                  this.v[f2][c2] < this.v[f1][c1]) ||
-                // @ts-expect-error
-                (!n1.method() &&
-                  // @ts-expect-error
-                  !n2.method() &&
-                  this.v[f2][c2] < this.v[f1][c1])
+                (n1[method]() && !n2[method]()) ||
+                (n1[method]() && n2[method]() && this.v[f2][c2] < this.v[f1][c1]) ||
+                (!n1[method]() && !n2[method]() && this.v[f2][c2] < this.v[f1][c1])
               ) {
                 this.intercambiar(f2, c2, f1, c1)
               }
@@ -543,15 +531,9 @@ export default class Matriz {
               n1.cargar(this.v[f2][c2])
               n2.cargar(this.v[f1][c1])
               if (
-                // @ts-expect-error
-                (!n1.method() && n2.method()) ||
-                // @ts-expect-error
-                (!n1.method() &&
-                  // @ts-expect-error
-                  !n2.method() &&
-                  this.v[f2][c2] < this.v[f1][c1]) ||
-                // @ts-expect-error
-                (n1.method() && n2.method() && this.v[f2][c2] < this.v[f1][c1])
+                (!n1[method]() && n2[method]()) ||
+                (!n1[method]() && !n2[method]() && this.v[f2][c2] < this.v[f1][c1]) ||
+                (n1[method]() && n2[method]() && this.v[f2][c2] < this.v[f1][c1])
               ) {
                 this.intercambiar(f2, c2, f1, c1)
               }
@@ -565,8 +547,8 @@ export default class Matriz {
 
   // extensiones 1 (Añadir Columna)
   /**
-   * Se debe ingresar un metodo de la clase Integer
-   * @param {Function} method metodo de la clase Integer
+   * Se debe ingresar un metodo de la clase Numero
+   * @param {Function} method metodo de la clase Numero
    */
   #añadirColumna (method: Function): void {
     if (!this.v[this.c]) {
@@ -616,7 +598,7 @@ export default class Matriz {
    */
   contarParesFila (fila: number): number {
     let count = 0
-    const n1 = new Integer()
+    const n1 = new Numero()
     for (let c1 = 0; c1 < this.c; c1++) {
       n1.cargar(this.v[fila][c1])
       if (n1.verificarPar()) {
@@ -633,7 +615,7 @@ export default class Matriz {
    */
   contarNoParesFila (fila: number): number {
     let count = 0
-    const n1 = new Integer()
+    const n1 = new Numero()
     for (let c1 = 0; c1 < this.c; c1++) {
       n1.cargar(this.v[fila][c1])
       if (!n1.verificarPar()) {
@@ -650,7 +632,7 @@ export default class Matriz {
    */
   contarPrimosFila (fila: number): number {
     let count = 0
-    const n1 = new Integer()
+    const n1 = new Numero()
     for (let c1 = 0; c1 < this.c; c1++) {
       n1.cargar(this.v[fila][c1])
       if (n1.verificarPrimo()) {
@@ -667,7 +649,7 @@ export default class Matriz {
    */
   contarNoPrimosFila (fila: number): number {
     let count = 0
-    const n1 = new Integer()
+    const n1 = new Numero()
     for (let c1 = 0; c1 < this.c; c1++) {
       n1.cargar(this.v[fila][c1])
       if (!n1.verificarPrimo()) {
@@ -684,7 +666,7 @@ export default class Matriz {
    */
   contarCapicuasFila (fila: number): number {
     let count = 0
-    const n1 = new Integer()
+    const n1 = new Numero()
     for (let c1 = 0; c1 < this.c; c1++) {
       n1.cargar(this.v[fila][c1])
       if (n1.verificarCapicua()) {
@@ -701,7 +683,7 @@ export default class Matriz {
    */
   contarNoCapicuasFila (fila: number): number {
     let count = 0
-    const n1 = new Integer()
+    const n1 = new Numero()
     for (let c1 = 0; c1 < this.c; c1++) {
       n1.cargar(this.v[fila][c1])
       if (!n1.verificarCapicua()) {
@@ -718,7 +700,7 @@ export default class Matriz {
    */
   contarFibonaccisFila (fila: number): number {
     let count = 0
-    const n1 = new Integer()
+    const n1 = new Numero()
     for (let c1 = 0; c1 < this.c; c1++) {
       n1.cargar(this.v[fila][c1])
       if (n1.verificarFibonacci()) {
@@ -735,7 +717,7 @@ export default class Matriz {
    */
   contarNoFibonaccisFila (fila: number): number {
     let count = 0
-    const n1 = new Integer()
+    const n1 = new Numero()
     for (let c1 = 0; c1 < this.c; c1++) {
       n1.cargar(this.v[fila][c1])
       if (!n1.verificarFibonacci()) {
@@ -881,7 +863,7 @@ export default class Matriz {
    */
   contarParesColumna (columna: number): number {
     let count = 0
-    const n1 = new Integer()
+    const n1 = new Numero()
     for (let f1 = 0; f1 < this.f; f1++) {
       n1.cargar(this.v[f1][columna])
       if (n1.verificarPar()) {
@@ -898,7 +880,7 @@ export default class Matriz {
    */
   contarNoParesColumna (columna: number): number {
     let count = 0
-    const n1 = new Integer()
+    const n1 = new Numero()
     for (let f1 = 0; f1 < this.f; f1++) {
       n1.cargar(this.v[f1][columna])
       if (!n1.verificarPar()) {
@@ -915,7 +897,7 @@ export default class Matriz {
    */
   contarPrimosColumna (columna: number): number {
     let count = 0
-    const n1 = new Integer()
+    const n1 = new Numero()
     for (let f1 = 0; f1 < this.f; f1++) {
       n1.cargar(this.v[f1][columna])
       if (n1.verificarPrimo()) {
@@ -932,7 +914,7 @@ export default class Matriz {
    */
   contarNoPrimosColumna (columna: number): number {
     let count = 0
-    const n1 = new Integer()
+    const n1 = new Numero()
     for (let f1 = 0; f1 < this.f; f1++) {
       n1.cargar(this.v[f1][columna])
       if (!n1.verificarPrimo()) {
@@ -949,7 +931,7 @@ export default class Matriz {
    */
   contarCapicuasColumna (columna: number): number {
     let count = 0
-    const n1 = new Integer()
+    const n1 = new Numero()
     for (let f1 = 0; f1 < this.f; f1++) {
       n1.cargar(this.v[f1][columna])
       if (n1.verificarCapicua()) {
@@ -966,7 +948,7 @@ export default class Matriz {
    */
   contarNoCapicuasColumna (columna: number): number {
     let count = 0
-    const n1 = new Integer()
+    const n1 = new Numero()
     for (let f1 = 0; f1 < this.f; f1++) {
       n1.cargar(this.v[f1][columna])
       if (!n1.verificarCapicua()) {
@@ -983,7 +965,7 @@ export default class Matriz {
    */
   contarFibonaccisColumna (columna: number): number {
     let count = 0
-    const n1 = new Integer()
+    const n1 = new Numero()
     for (let f1 = 0; f1 < this.f; f1++) {
       n1.cargar(this.v[f1][columna])
       if (n1.verificarFibonacci()) {
@@ -1000,7 +982,7 @@ export default class Matriz {
    */
   contarNoFibonaccisColumna (columna: number): number {
     let count = 0
-    const n1 = new Integer()
+    const n1 = new Numero()
     for (let f1 = 0; f1 < this.f; f1++) {
       n1.cargar(this.v[f1][columna])
       if (n1.verificarFibonacci()) {
@@ -1298,24 +1280,19 @@ export default class Matriz {
   // segmentar
   /**
    * Segmentar la triangular de acuerdo al metodo que le pasemos
-   * @param {Function} method metodo de la instancia Integer
+   * @param {MethodsOfNumero} method metodo de la instancia Numero
    * @throws {Error} Si el metodo esta vacio
    * @throws {Error} Si la matriz no es cuadrada
    * @returns {void}
    */
-  segmentarTriangularInferiorIzquierda (method: Function): void {
+  segmentarTriangularInferiorIzquierda (method: MethodsOfNumero): void {
     if (!method) throw new Error('El metodo esta vacio')
     if (this.c !== this.f) throw new Error('Las Matriz no es cuadrada')
 
     let inc
 
-    const n1 = new Integer()
-    const n2 = new Integer()
-
-    // @ts-expect-error
-    n1.method = method
-    // @ts-expect-error
-    n2.method = method
+    const n1 = new Numero()
+    const n2 = new Numero()
 
     for (let f1 = 1; f1 < this.f; f1++) {
       for (let c1 = 0; c1 < f1; c1++) {
@@ -1329,12 +1306,9 @@ export default class Matriz {
             n1.cargar(this.v[f2][c2])
             n2.cargar(this.v[f1][c1])
             if (
-              // @ts-expect-error
-              (n1.method() && !n2.method()) ||
-              // @ts-expect-error
-              (n1.method() && n2.method() && this.v[f2][c2] < this.v[f1][c1]) ||
-              // @ts-expect-error
-              (!n1.method() && !n2.method() && this.v[f2][c2] < this.v[f1][c1])
+              (n1[method]() && !n2[method]()) ||
+              (n1[method]() && n2[method]() && this.v[f2][c2] < this.v[f1][c1]) ||
+              (!n1[method]() && !n2[method]() && this.v[f2][c2] < this.v[f1][c1])
             ) {
               this.intercambiar(f2, c2, f1, c1)
             }
@@ -1346,24 +1320,19 @@ export default class Matriz {
 
   /**
    * Segmentar la triangular de acuerdo al metodo que le pasemos
-   * @param {Function} method metodo de la instancia Integer
+   * @param { MethodsOfNumero} method metodo de la instancia Numero
    * @throws {Error} Si el metodo esta vacio
    * @throws {Error} Si la matriz no es cuadrada
    * @returns {void}
    */
-  segmentarTriangularInferiorDerecha (method: Function): void {
+  segmentarTriangularInferiorDerecha (method: MethodsOfNumero): void {
     if (!method) throw new Error('El metodo esta vacio')
     if (this.c !== this.f) throw new Error('Las Matriz no es cuadrada')
 
     let inc
 
-    const n1 = new Integer()
-    const n2 = new Integer()
-
-    // @ts-expect-error
-    n1.method = method
-    // @ts-expect-error
-    n2.method = method
+    const n1 = new Numero()
+    const n2 = new Numero()
 
     for (let f1 = 1; f1 < this.f; f1++) {
       for (let c1 = this.c - f1; c1 < this.c; c1++) {
@@ -1377,12 +1346,9 @@ export default class Matriz {
             n1.cargar(this.v[f2][c2])
             n2.cargar(this.v[f1][c1])
             if (
-              // @ts-expect-error
-              (n1.method() && !n2.method()) ||
-              // @ts-expect-error
-              (n1.method() && n2.method() && this.v[f2][c2] < this.v[f1][c1]) ||
-              // @ts-expect-error
-              (!n1.method() && !n2.method() && this.v[f2][c2] < this.v[f1][c1])
+              (n1[method]() && !n2[method]()) ||
+              (n1[method]() && n2[method]() && this.v[f2][c2] < this.v[f1][c1]) ||
+              (!n1[method]() && !n2[method]() && this.v[f2][c2] < this.v[f1][c1])
             ) {
               this.intercambiar(f2, c2, f1, c1)
             }
@@ -1394,23 +1360,18 @@ export default class Matriz {
 
   /**
    * Segmentar la triangular de acuerdo al metodo que le pasemos
-   * @param {Function} method metodo de la instancia Integer
+   * @param {MethodsOfNumero} method metodo de la instancia Numero
    * @throws {Error} Si el metodo esta vacio
    * @throws {Error} Si la matriz no es cuadrada
    * @returns {void}
    */
-  segmentarTriangularSuperiorIzquierda (method: Function): void {
+  segmentarTriangularSuperiorIzquierda (method: MethodsOfNumero): void {
     if (!method) throw new Error('El metodo esta vacio')
     if (this.c !== this.f) throw new Error('Las Matriz no es cuadrada')
     let inc
 
-    const n1 = new Integer()
-    const n2 = new Integer()
-
-    // @ts-expect-error
-    n1.method = method
-    // @ts-expect-error
-    n2.method = method
+    const n1 = new Numero()
+    const n2 = new Numero()
 
     for (let f1 = 0; f1 < this.f - 1; f1++) {
       for (let c1 = 0; c1 < this.c - f1 - 1; c1++) {
@@ -1424,12 +1385,9 @@ export default class Matriz {
             n1.cargar(this.v[f2][c2])
             n2.cargar(this.v[f1][c1])
             if (
-              // @ts-expect-error
-              (n1.method() && !n2.method()) ||
-              // @ts-expect-error
-              (n1.method() && n2.method() && this.v[f2][c2] < this.v[f1][c1]) ||
-              // @ts-expect-error
-              (!n1.method() && !n2.method() && this.v[f2][c2] < this.v[f1][c1])
+              (n1[method]() && !n2[method]()) ||
+              (n1[method]() && n2[method]() && this.v[f2][c2] < this.v[f1][c1]) ||
+              (!n1[method]() && !n2[method]() && this.v[f2][c2] < this.v[f1][c1])
             ) {
               this.intercambiar(f2, c2, f1, c1)
             }
@@ -1441,23 +1399,18 @@ export default class Matriz {
 
   /**
    * Segmentar la triangular de acuerdo al metodo que le pasemos
-   * @param {Function} method metodo de la instancia Integer
+   * @param {MethodsOfNumero} method metodo de la instancia Numero
    * @throws {Error} Si el metodo esta vacio
    * @throws {Error} Si la matriz no es cuadrada
    * @returns {void}
    */
-  segmentarTriangularSuperiorDerecha (method: Function): void {
+  segmentarTriangularSuperiorDerecha (method: MethodsOfNumero): void {
     if (!method) throw new Error('El metodo esta vacio')
     if (this.c !== this.f) throw new Error('Las Matriz no es cuadrada')
     let inc
 
-    const n1 = new Integer()
-    const n2 = new Integer()
-
-    // @ts-expect-error
-    n1.method = method
-    // @ts-expect-error
-    n2.method = method
+    const n1 = new Numero()
+    const n2 = new Numero()
 
     for (let f1 = 0; f1 < this.f - 1; f1++) {
       for (let c1 = f1 + 1; c1 < this.c; c1++) {
@@ -1471,12 +1424,9 @@ export default class Matriz {
             n1.cargar(this.v[f2][c2])
             n2.cargar(this.v[f1][c1])
             if (
-              // @ts-expect-error
-              (n1.method() && !n2.method()) ||
-              // @ts-expect-error
-              (n1.method() && n2.method() && this.v[f2][c2] < this.v[f1][c1]) ||
-              // @ts-expect-error
-              (!n1.method() && !n2.method() && this.v[f2][c2] < this.v[f1][c1])
+              (n1[method]() && !n2[method]()) ||
+              (n1[method]() && n2[method]() && this.v[f2][c2] < this.v[f1][c1]) ||
+              (!n1[method]() && !n2[method]() && this.v[f2][c2] < this.v[f1][c1])
             ) {
               this.intercambiar(f2, c2, f1, c1)
             }
@@ -1489,25 +1439,20 @@ export default class Matriz {
   // Intercalar
   /**
    * Intercala la triangular de acuerdo al metodo que le pasemos
-   * @param {Function} method metodo de la instancia Integer
+   * @param {MethodsOfNumero} method metodo de la instancia Numero
    * @throws {Error} Si el metodo esta vacio
    * @throws {Error} Si la matriz no es cuadrada
    * @returns {void}
    */
-  intercalarTriangularInferiorIzquierda (method: Function): void {
+  intercalarTriangularInferiorIzquierda (method: MethodsOfNumero): void {
     if (!method) throw new Error('El metodo esta vacio')
     if (this.c !== this.f) throw new Error('Las Matriz no es cuadrada')
 
     let inc
     let bool = true
 
-    const n1 = new Integer()
-    const n2 = new Integer()
-
-    // @ts-expect-error
-    n1.method = method
-    // @ts-expect-error
-    n2.method = method
+    const n1 = new Numero()
+    const n2 = new Numero()
 
     for (let f1 = 1; f1 < this.f; f1++) {
       for (let c1 = 0; c1 < f1; c1++) {
@@ -1522,18 +1467,9 @@ export default class Matriz {
               n1.cargar(this.v[f2][c2])
               n2.cargar(this.v[f1][c1])
               if (
-                // @ts-expect-error
-                (n1.method() && !n2.method()) ||
-                // @ts-expect-error
-                (n1.method() &&
-                  // @ts-expect-error
-                  n2.method() &&
-                  this.v[f2][c2] < this.v[f1][c1]) ||
-                // @ts-expect-error
-                (!n1.method() &&
-                  // @ts-expect-error
-                  !n2.method() &&
-                  this.v[f2][c2] < this.v[f1][c1])
+                (n1[method]() && !n2[method]()) ||
+                (n1[method]() && n2[method]() && this.v[f2][c2] < this.v[f1][c1]) ||
+                (!n1[method]() && !n2[method]() && this.v[f2][c2] < this.v[f1][c1])
               ) {
                 this.intercambiar(f2, c2, f1, c1)
               }
@@ -1550,15 +1486,9 @@ export default class Matriz {
               n1.cargar(this.v[f2][c2])
               n2.cargar(this.v[f1][c1])
               if (
-                // @ts-expect-error
-                (!n1.method() && n2.method()) ||
-                // @ts-expect-error
-                (!n1.method() &&
-                  // @ts-expect-error
-                  !n2.method() &&
-                  this.v[f2][c2] < this.v[f1][c1]) ||
-                // @ts-expect-error
-                (n1.method() && n2.method() && this.v[f2][c2] < this.v[f1][c1])
+                (!n1[method]() && n2[method]()) ||
+                (!n1[method]() && !n2[method]() && this.v[f2][c2] < this.v[f1][c1]) ||
+                (n1[method]() && n2[method]() && this.v[f2][c2] < this.v[f1][c1])
               ) {
                 this.intercambiar(f2, c2, f1, c1)
               }
@@ -1572,25 +1502,20 @@ export default class Matriz {
 
   /**
    * Intercala la triangular de acuerdo al metodo que le pasemos
-   * @param {Function} method metodo de la instancia Integer
+   * @param {MethodsOfNumero} method metodo de la instancia Numero
    * @throws {Error} Si el metodo esta vacio
    * @throws {Error} Si la matriz no es cuadrada
    * @returns {void}
    */
-  intercalarTriangularInferiorDerecha (method: Function): void {
+  intercalarTriangularInferiorDerecha (method: MethodsOfNumero): void {
     if (!method) throw new Error('El metodo esta vacio')
     if (this.c !== this.f) throw new Error('Las Matriz no es cuadrada')
 
     let inc
     let bool = true
 
-    const n1 = new Integer()
-    const n2 = new Integer()
-
-    // @ts-expect-error
-    n1.method = method
-    // @ts-expect-error
-    n2.method = method
+    const n1 = new Numero()
+    const n2 = new Numero()
 
     for (let f1 = 1; f1 < this.f; f1++) {
       for (let c1 = this.c - f1; c1 < this.c; c1++) {
@@ -1605,18 +1530,9 @@ export default class Matriz {
               n1.cargar(this.v[f2][c2])
               n2.cargar(this.v[f1][c1])
               if (
-                // @ts-expect-error
-                (n1.method() && !n2.method()) ||
-                // @ts-expect-error
-                (n1.method() &&
-                  // @ts-expect-error
-                  n2.method() &&
-                  this.v[f2][c2] < this.v[f1][c1]) ||
-                // @ts-expect-error
-                (!n1.method() &&
-                  // @ts-expect-error
-                  !n2.method() &&
-                  this.v[f2][c2] < this.v[f1][c1])
+                (n1[method]() && !n2[method]()) ||
+                (n1[method]() && n2[method]() && this.v[f2][c2] < this.v[f1][c1]) ||
+                (!n1[method]() && !n2[method]() && this.v[f2][c2] < this.v[f1][c1])
               ) {
                 this.intercambiar(f2, c2, f1, c1)
               }
@@ -1633,15 +1549,9 @@ export default class Matriz {
               n1.cargar(this.v[f2][c2])
               n2.cargar(this.v[f1][c1])
               if (
-                // @ts-expect-error
-                (!n1.method() && n2.method()) ||
-                // @ts-expect-error
-                (!n1.method() &&
-                  // @ts-expect-error
-                  !n2.method() &&
-                  this.v[f2][c2] < this.v[f1][c1]) ||
-                // @ts-expect-error
-                (n1.method() && n2.method() && this.v[f2][c2] < this.v[f1][c1])
+                (!n1[method]() && n2[method]()) ||
+                (!n1[method]() && !n2[method]() && this.v[f2][c2] < this.v[f1][c1]) ||
+                (n1[method]() && n2[method]() && this.v[f2][c2] < this.v[f1][c1])
               ) {
                 this.intercambiar(f2, c2, f1, c1)
               }
@@ -1655,25 +1565,20 @@ export default class Matriz {
 
   /**
    * Intercala la triangular de acuerdo al metodo que le pasemos
-   * @param {Function} method metodo de la instancia Integer
+   * @param {MethodsOfNumero} method metodo de la instancia Numero
    * @throws {Error} Si el metodo esta vacio
    * @throws {Error} Si la matriz no es cuadrada
    * @returns {void}
    */
-  intercalarTriangularSuperiorIzquierda (method: Function): void {
+  intercalarTriangularSuperiorIzquierda (method: MethodsOfNumero): void {
     if (!method) throw new Error('El metodo esta vacio')
     if (this.c !== this.f) throw new Error('Las Matriz no es cuadrada')
 
     let inc
     let bool = true
 
-    const n1 = new Integer()
-    const n2 = new Integer()
-
-    // @ts-expect-error
-    n1.method = method
-    // @ts-expect-error
-    n2.method = method
+    const n1 = new Numero()
+    const n2 = new Numero()
 
     for (let f1 = 0; f1 < this.f - 1; f1++) {
       for (let c1 = 0; c1 < this.c - f1 - 1; c1++) {
@@ -1688,18 +1593,9 @@ export default class Matriz {
               n1.cargar(this.v[f2][c2])
               n2.cargar(this.v[f1][c1])
               if (
-                // @ts-expect-error
-                (n1.method() && !n2.method()) ||
-                // @ts-expect-error
-                (n1.method() &&
-                  // @ts-expect-error
-                  n2.method() &&
-                  this.v[f2][c2] < this.v[f1][c1]) ||
-                // @ts-expect-error
-                (!n1.method() &&
-                  // @ts-expect-error
-                  !n2.method() &&
-                  this.v[f2][c2] < this.v[f1][c1])
+                (n1[method]() && !n2[method]()) ||
+                (n1[method]() && n2[method]() && this.v[f2][c2] < this.v[f1][c1]) ||
+                (!n1[method]() && !n2[method]() && this.v[f2][c2] < this.v[f1][c1])
               ) {
                 this.intercambiar(f2, c2, f1, c1)
               }
@@ -1716,15 +1612,9 @@ export default class Matriz {
               n1.cargar(this.v[f2][c2])
               n2.cargar(this.v[f1][c1])
               if (
-                // @ts-expect-error
-                (!n1.method() && n2.method()) ||
-                // @ts-expect-error
-                (!n1.method() &&
-                  // @ts-expect-error
-                  !n2.method() &&
-                  this.v[f2][c2] < this.v[f1][c1]) ||
-                // @ts-expect-error
-                (n1.method() && n2.method() && this.v[f2][c2] < this.v[f1][c1])
+                (!n1[method]() && n2[method]()) ||
+                (!n1[method]() && !n2[method]() && this.v[f2][c2] < this.v[f1][c1]) ||
+                (n1[method]() && n2[method]() && this.v[f2][c2] < this.v[f1][c1])
               ) {
                 this.intercambiar(f2, c2, f1, c1)
               }
@@ -1738,25 +1628,20 @@ export default class Matriz {
 
   /**
    * Intercala la triangular de acuerdo al metodo que le pasemos
-   * @param {Function} method metodo de la instancia Integer
+   * @param {MethodsOfNumero} method metodo de la instancia Numero
    * @throws {Error} Si el metodo esta vacio
    * @throws {Error} Si la matriz no es cuadrada
    * @returns {void}
    */
-  intercalarTriangularSuperiorDerecha (method: Function): void {
+  intercalarTriangularSuperiorDerecha (method: MethodsOfNumero): void {
     if (!method) throw new Error('El metodo esta vacio')
     if (this.c !== this.f) throw new Error('Las Matriz no es cuadrada')
 
     let inc
     let bool = true
 
-    const n1 = new Integer()
-    const n2 = new Integer()
-
-    // @ts-expect-error
-    n1.method = method
-    // @ts-expect-error
-    n2.method = method
+    const n1 = new Numero()
+    const n2 = new Numero()
 
     for (let f1 = 0; f1 < this.f - 1; f1++) {
       for (let c1 = f1 + 1; c1 < this.c; c1++) {
@@ -1771,18 +1656,9 @@ export default class Matriz {
               n1.cargar(this.v[f2][c2])
               n2.cargar(this.v[f1][c1])
               if (
-                // @ts-expect-error
-                (n1.method() && !n2.method()) ||
-                // @ts-expect-error
-                (n1.method() &&
-                  // @ts-expect-error
-                  n2.method() &&
-                  this.v[f2][c2] < this.v[f1][c1]) ||
-                // @ts-expect-error
-                (!n1.method() &&
-                  // @ts-expect-error
-                  !n2.method() &&
-                  this.v[f2][c2] < this.v[f1][c1])
+                (n1[method]() && !n2[method]()) ||
+                (n1[method]() && n2[method]() && this.v[f2][c2] < this.v[f1][c1]) ||
+                (!n1[method]() && !n2[method]() && this.v[f2][c2] < this.v[f1][c1])
               ) {
                 this.intercambiar(f2, c2, f1, c1)
               }
@@ -1799,15 +1675,9 @@ export default class Matriz {
               n1.cargar(this.v[f2][c2])
               n2.cargar(this.v[f1][c1])
               if (
-                // @ts-expect-error
-                (!n1.method() && n2.method()) ||
-                // @ts-expect-error
-                (!n1.method() &&
-                  // @ts-expect-error
-                  !n2.method() &&
-                  this.v[f2][c2] < this.v[f1][c1]) ||
-                // @ts-expect-error
-                (n1.method() && n2.method() && this.v[f2][c2] < this.v[f1][c1])
+                (!n1[method]() && n2[method]()) ||
+                (!n1[method]() && !n2[method]() && this.v[f2][c2] < this.v[f1][c1]) ||
+                (n1[method]() && n2[method]() && this.v[f2][c2] < this.v[f1][c1])
               ) {
                 this.intercambiar(f2, c2, f1, c1)
               }

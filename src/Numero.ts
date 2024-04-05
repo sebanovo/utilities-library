@@ -1,11 +1,11 @@
 /**
- * @module Integer
+ * @module Numero
  */
 
 /**
  * Clase que representa un número entero y proporciona métodos para manipularlo.
  */
-export default class Integer {
+export default class Numero {
   #number = 0
   /**
    * Carga un número en la instancia.
@@ -81,9 +81,9 @@ export default class Integer {
    * Verifica si el número es cuadrado perfecto
    * @returns {boolean}
    */
-  verificarCuadradoPerfecto (num: number): boolean {
-    const raizCua = Math.floor(Math.sqrt(num))
-    return raizCua * raizCua === num
+  verificarCuadradoPerfecto (): boolean {
+    const raizCuadrada = Math.floor(Math.sqrt(this.#number))
+    return raizCuadrada * raizCuadrada === this.#number
   }
 
   /**
@@ -91,9 +91,15 @@ export default class Integer {
    * @returns {boolean}
    */
   verificarFibonacci (): boolean {
-    return (
-      this.verificarCuadradoPerfecto(5 * this.#number * this.#number + 4) ||
-      this.verificarCuadradoPerfecto(5 * this.#number * this.#number - 4)
-    )
+    const copia1 = new Numero()
+    const copia2 = new Numero()
+    copia1.cargar(5 * this.#number * this.#number + 4)
+    copia2.cargar(5 * this.#number * this.#number - 4)
+    return copia1.verificarCuadradoPerfecto() || copia2.verificarCuadradoPerfecto()
   }
 }
+
+export type MethodsOfNumero = Exclude<
+keyof Numero,
+'cargar' | 'descargar' | 'invertir' | 'retornarLongitud'
+>

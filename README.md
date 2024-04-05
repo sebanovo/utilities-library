@@ -2,6 +2,12 @@
 
 Visita la documentación : <https://github.com/SebastianINF/utilities-library>
 
+## Instalación : 
+
+```shell
+npm i utilities-library
+```
+
 ## Clase Matriz
 
 ### Metodos de la Clase Matriz
@@ -59,11 +65,10 @@ m1.cargar(4,4,1,9)
 m1.ordenar()
 
 // Segmentar: 
-n1 = new Integer()
-m1.segmentar(n1.verificarPar) //<-- funcion integer 
+m1.segmentar("verificarPar") //<-- funcion Numero 
 
 // Intercalar: 
-m1.intercalar(n1.verificarPrimo) // <-- funcion integer
+m1.intercalar("verificarPar") // <-- funcion Numero 
 ```
 
 ## Clase Vector
@@ -137,7 +142,7 @@ resultado.interseccionDeConjuntos(vector1, vector2);
 console.log(resultado.retornarVector()); // Resultado: [3, 4]
 ```
 
-## Metodos de la Clase Integer
+## Metodos de la Clase Numero 
 
 - Cargar
 - Descargar
@@ -153,13 +158,13 @@ console.log(resultado.retornarVector()); // Resultado: [3, 4]
 ## Ejemplo 3
 
 ```javascript
-// Instancia de la clase Integer
-const n1 = new Integer()
+// Instancia de la clase Numero 
+const n1 = new Numero()
 n1.cargar(4)
 
 // verificar par
 const isPar = n1.verificarPar()
-console.log(isPar)
+console.log(isPar) // <-- true o false
 ```
 
 ## Contribuciones

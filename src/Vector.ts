@@ -3,7 +3,7 @@ import { type objetoMaxYFrec } from './types/types'
  * @module Vector
  */
 
-import Integer from './Integer'
+import Numero from './Numero'
 /**
  * Clase que representa un vector y proporciona diversas operaciones y manipulaciones.
  */
@@ -20,8 +20,7 @@ export default class Vector {
   cargar (numeroDeElementos: number, valorInicial: number, valorFinal: number): void {
     this.n = numeroDeElementos
     for (let i = 0; i < this.n; i++) {
-      const numeroAleatorio =
-        Math.floor(Math.random() * valorFinal) + valorInicial
+      const numeroAleatorio = Math.floor(Math.random() * valorFinal) + valorInicial
       this.v[i] = numeroAleatorio
     }
   }
@@ -95,7 +94,7 @@ export default class Vector {
    * @param {Vector} v2 - Vector donde se cargarán los números primos.
    */
   seleccionarPrimos (v2: Vector): void {
-    const n1 = new Integer()
+    const n1 = new Numero()
     for (let i = 0; i < this.n; i++) {
       n1.cargar(this.v[i])
       if (n1.verificarPrimo()) {
@@ -109,7 +108,7 @@ export default class Vector {
    * @param {Vector} v3 - Vector donde se cargarán los números no primos.
    */
   seleccionarNoPrimos (v3: Vector): void {
-    const n1 = new Integer()
+    const n1 = new Numero()
     for (let i = 0; i < this.n; i++) {
       n1.cargar(this.v[i])
       if (!n1.verificarPrimo()) {
@@ -497,8 +496,8 @@ export default class Vector {
    * Segmenta el vector separando los números pares de los impares.
    */
   segmentarParYNoPar (): void {
-    const n1 = new Integer()
-    const n2 = new Integer()
+    const n1 = new Numero()
+    const n2 = new Numero()
     for (let p = 0; p < this.n - 1; p++) {
       for (let d = p + 1; d < this.n; d++) {
         n1.cargar(this.v[d])
@@ -518,20 +517,16 @@ export default class Vector {
    * Segmenta el vector separando los números primos de los no primos.
    */
   segmentarPrimoYNoPrimo (): void {
-    const n1 = new Integer()
-    const n2 = new Integer()
+    const n1 = new Numero()
+    const n2 = new Numero()
     for (let p = 0; p < this.n - 1; p++) {
       for (let d = p + 1; d < this.n; d++) {
         n1.cargar(this.v[d])
         n2.cargar(this.v[p])
         if (
           (n1.verificarPrimo() && !n2.verificarPrimo()) ||
-          (n1.verificarPrimo() &&
-            n2.verificarPrimo() &&
-            this.v[d] < this.v[p]) ||
-          (!n1.verificarPrimo() &&
-            !n2.verificarPrimo() &&
-            this.v[d] < this.v[p])
+          (n1.verificarPrimo() && n2.verificarPrimo() && this.v[d] < this.v[p]) ||
+          (!n1.verificarPrimo() && !n2.verificarPrimo() && this.v[d] < this.v[p])
         ) {
           this.intercambiarElementos(d, p)
         }
@@ -544,8 +539,8 @@ export default class Vector {
    */
   intercalarParYNoPar (): void {
     let b = true
-    const n1 = new Integer()
-    const n2 = new Integer()
+    const n1 = new Numero()
+    const n2 = new Numero()
 
     for (let p = 0; p < this.n - 1; p++) {
       if (b) {
@@ -568,9 +563,7 @@ export default class Vector {
 
           if (
             (!n1.verificarPar() && n2.verificarPar()) ||
-            (!n1.verificarPar() &&
-              !n2.verificarPar() &&
-              this.v[d] < this.v[p]) ||
+            (!n1.verificarPar() && !n2.verificarPar() && this.v[d] < this.v[p]) ||
             (n1.verificarPar() && n2.verificarPar() && this.v[d] < this.v[p])
           ) {
             this.intercambiarElementos(d, p)
@@ -586,8 +579,8 @@ export default class Vector {
    */
   intercalarPrimoYNoPrimo (): void {
     let b = true
-    const n1 = new Integer()
-    const n2 = new Integer()
+    const n1 = new Numero()
+    const n2 = new Numero()
 
     for (let p = 0; p < this.n - 1; p++) {
       if (b) {
@@ -597,12 +590,8 @@ export default class Vector {
 
           if (
             (n1.verificarPrimo() && !n2.verificarPrimo()) ||
-            (n1.verificarPrimo() &&
-              n2.verificarPrimo() &&
-              this.v[d] < this.v[p]) ||
-            (!n1.verificarPrimo() &&
-              !n2.verificarPrimo() &&
-              this.v[d] < this.v[p])
+            (n1.verificarPrimo() && n2.verificarPrimo() && this.v[d] < this.v[p]) ||
+            (!n1.verificarPrimo() && !n2.verificarPrimo() && this.v[d] < this.v[p])
           ) {
             this.intercambiarElementos(d, p)
           }
@@ -615,12 +604,8 @@ export default class Vector {
 
           if (
             (!n1.verificarPrimo() && n2.verificarPrimo()) ||
-            (!n1.verificarPrimo() &&
-              !n2.verificarPrimo() &&
-              this.v[d] < this.v[p]) ||
-            (n1.verificarPrimo() &&
-              n2.verificarPrimo() &&
-              this.v[d] < this.v[p])
+            (!n1.verificarPrimo() && !n2.verificarPrimo() && this.v[d] < this.v[p]) ||
+            (n1.verificarPrimo() && n2.verificarPrimo() && this.v[d] < this.v[p])
           ) {
             this.intercambiarElementos(d, p)
           }
@@ -890,7 +875,7 @@ export default class Vector {
    * @param {Vector} v2 objeto de la clase vector
    * @param {Vector} v3 objeto de la clase vector
    */
-  encontrarLaFrecuenciaDeDistribucioIntegerreUnSegmento (
+  encontrarLaFrecuenciaDeDistribucioNumeroreUnSegmento (
     a: number,
     b: number,
     v2: Vector,
@@ -919,7 +904,7 @@ export default class Vector {
    */
   contarCapicuas (): number {
     let contarCapicuas = 0
-    const n1 = new Integer()
+    const n1 = new Numero()
 
     for (let i = 0; i < this.n; i++) {
       n1.cargar(this.v[i])
@@ -938,7 +923,7 @@ export default class Vector {
    */
   contarNoCapicuas (): number {
     let contarNoCapicuas = 0
-    const n1 = new Integer()
+    const n1 = new Numero()
 
     for (let i = 0; i < this.n; i++) {
       n1.cargar(this.v[i])
@@ -955,20 +940,16 @@ export default class Vector {
    * Segmenta los capicuas y los no capicuas
    */
   segmentarCapicuaYNoCapicua (): void {
-    const n1 = new Integer()
-    const n2 = new Integer()
+    const n1 = new Numero()
+    const n2 = new Numero()
     for (let p = 0; p < this.n - 1; p++) {
       for (let d = p + 1; d < this.n; d++) {
         n1.cargar(this.v[d])
         n2.cargar(this.v[p])
         if (
           (n1.verificarCapicua() && !n2.verificarCapicua()) ||
-          (n1.verificarCapicua() &&
-            n2.verificarCapicua() &&
-            this.v[d] < this.v[p]) ||
-          (!n1.verificarCapicua() &&
-            !n2.verificarCapicua() &&
-            this.v[d] < this.v[p])
+          (n1.verificarCapicua() && n2.verificarCapicua() && this.v[d] < this.v[p]) ||
+          (!n1.verificarCapicua() && !n2.verificarCapicua() && this.v[d] < this.v[p])
         ) {
           this.intercambiarElementos(d, p)
         }
