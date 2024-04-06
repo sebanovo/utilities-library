@@ -269,6 +269,26 @@ export default class Vector {
     return this.v[elemento]
   }
 
+  #checarParametros (a: number, b: number): never | void {
+    if (a < 0 || a > this.n - 1 || b < 0 || b > this.n - 1) throw new Error('Parametros fuera de los limites')
+  }
+
+  /**
+   * suma los números del vector
+   * @param a posicion inicial
+   * @param b posicion final
+   * @returns la suma
+   */
+  sumar (a = 0, b = this.n - 1): number {
+    // nose
+    this.#checarParametros(a, b)
+    let suma = 0
+    for (let i = a; i <= b; i++) {
+      suma = suma + this.v[i]
+    }
+    return suma
+  }
+
   /**
    * Retorna el vector completo.
    * @returns {number[]} - Vector completo.
