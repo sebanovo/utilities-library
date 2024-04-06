@@ -99,7 +99,4 @@ export default class Numero {
   }
 }
 
-export type MethodsOfNumero = Exclude<
-keyof Numero,
-'cargar' | 'descargar' | 'invertir' | 'retornarLongitud'
->
+export type MethodsOfNumero = 'verificarPar' | 'verificarPrimo' | 'verificarCapicua' | 'verificarCuadradoPerfecto' | 'verificarFibonacci'
