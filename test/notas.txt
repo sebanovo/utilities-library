@@ -1,0 +1,8 @@
+- Mirar el metodo de vector seleccionarPorPosicion
+- Arreglar Vector seleccionar error ejecutarlo varias veces con el mismo Vector
+- TODO: hacer mas algoritmico eliminar Duplicados de Vector
+- TODO: hacer mas algoritmico la (Intersección , Union, Diferencia Simetrica) de conjuntos
+-TODO: haer mas algoritmico insertarVectorPorPosicion
+
+-TODO: hacer las validaciones respectivas con (method , direccion)
+- NOTA: me quede en insertarVectorPorPosicion
