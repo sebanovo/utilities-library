@@ -13,3 +13,5 @@ jsdoc.json
 .eslintignore
 
 tsconfig.json
+
+test
