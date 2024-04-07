@@ -6,13 +6,13 @@
  * Clase que representa un número entero y proporciona métodos para manipularlo.
  */
 export default class Numero {
-  #number = 0
+  numero = 0
   /**
    * Carga un número en la instancia.
    * @param {number} numero - número que se carga en la instancia.
    */
-  cargar (numero: number): void {
-    this.#number = numero
+  cargar (number: number): void {
+    this.numero = number
   }
 
   /**
@@ -20,7 +20,7 @@ export default class Numero {
    * @returns {number}
    */
   descargar (): number {
-    return this.#number
+    return this.numero
   }
 
   /**
@@ -29,13 +29,13 @@ export default class Numero {
   invertir (): void {
     let digito
     let resultado = 0
-    let numero = this.#number
+    let numero = this.numero
     while (numero > 0) {
       digito = numero % 10
       resultado = resultado * 10 + digito
       numero = Math.floor(numero / 10)
     }
-    this.#number = resultado
+    this.numero = resultado
   }
 
   /**
@@ -43,7 +43,7 @@ export default class Numero {
    * @returns {number}
    */
   retornarLongitud (): number {
-    return this.#number.toString().length
+    return this.numero.toString().length
   }
 
   /**
@@ -51,7 +51,7 @@ export default class Numero {
    * @returns {boolean}
    */
   verificarPar (): boolean {
-    return this.#number % 2 === 0
+    return this.numero % 2 === 0
   }
 
   /**
@@ -59,12 +59,12 @@ export default class Numero {
    * @returns {boolean}
    */
   verificarPrimo (): boolean {
-    for (let i = 2; i < this.#number; i++) {
-      if (this.#number % i === 0) {
+    for (let i = 2; i < this.numero; i++) {
+      if (this.numero % i === 0) {
         return false
       }
     }
-    return this.#number > 1
+    return this.numero > 1
   }
 
   /**
@@ -72,9 +72,9 @@ export default class Numero {
    * @returns {boolean}
    */
   verificarCapicua (): boolean {
-    const copia = this.#number
+    const copia = this.numero
     this.invertir()
-    return copia === this.#number
+    return copia === this.numero
   }
 
   /**
@@ -82,8 +82,8 @@ export default class Numero {
    * @returns {boolean}
    */
   verificarCuadradoPerfecto (): boolean {
-    const raizCuadrada = Math.floor(Math.sqrt(this.#number))
-    return raizCuadrada * raizCuadrada === this.#number
+    const raizCuadrada = Math.floor(Math.sqrt(this.numero))
+    return raizCuadrada * raizCuadrada === this.numero
   }
 
   /**
@@ -93,8 +93,8 @@ export default class Numero {
   verificarFibonacci (): boolean {
     const copia1 = new Numero()
     const copia2 = new Numero()
-    copia1.cargar(5 * this.#number * this.#number + 4)
-    copia2.cargar(5 * this.#number * this.#number - 4)
+    copia1.cargar(5 * this.numero * this.numero + 4)
+    copia2.cargar(5 * this.numero * this.numero - 4)
     return copia1.verificarCuadradoPerfecto() || copia2.verificarCuadradoPerfecto()
   }
 }
