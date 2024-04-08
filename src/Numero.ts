@@ -42,7 +42,7 @@ export default class Numero {
    * Retorna la longitud del número
    * @returns {number}
    */
-  retornarLongitud (): number {
+  length (): number {
     return this.numero.toString().length
   }
 
@@ -50,7 +50,7 @@ export default class Numero {
    * Verifica si el número es par
    * @returns {boolean}
    */
-  verificarPar (): boolean {
+  esPar (): boolean {
     return this.numero % 2 === 0
   }
 
@@ -58,7 +58,7 @@ export default class Numero {
    * Verifica si el número es primo
    * @returns {boolean}
    */
-  verificarPrimo (): boolean {
+  esPrimo (): boolean {
     for (let i = 2; i < this.numero; i++) {
       if (this.numero % i === 0) {
         return false
@@ -71,7 +71,7 @@ export default class Numero {
    * Verifica si el número es capicua
    * @returns {boolean}
    */
-  verificarCapicua (): boolean {
+  esCapicua (): boolean {
     const copia = this.numero
     this.invertir()
     return copia === this.numero
@@ -81,7 +81,7 @@ export default class Numero {
    * Verifica si el número es cuadrado perfecto
    * @returns {boolean}
    */
-  verificarCuadradoPerfecto (): boolean {
+  esCuadradoPerfecto (): boolean {
     const raizCuadrada = Math.floor(Math.sqrt(this.numero))
     return raizCuadrada * raizCuadrada === this.numero
   }
@@ -90,13 +90,13 @@ export default class Numero {
    * Verifica si el número es fibonacci
    * @returns {boolean}
    */
-  verificarFibonacci (): boolean {
+  esFibonacci (): boolean {
     const copia1 = new Numero()
     const copia2 = new Numero()
     copia1.cargar(5 * this.numero * this.numero + 4)
     copia2.cargar(5 * this.numero * this.numero - 4)
-    return copia1.verificarCuadradoPerfecto() || copia2.verificarCuadradoPerfecto()
+    return copia1.esCuadradoPerfecto() || copia2.esCuadradoPerfecto()
   }
 }
 
-export type MethodsOfNumero = 'verificarPar' | 'verificarPrimo' | 'verificarCapicua' | 'verificarCuadradoPerfecto' | 'verificarFibonacci'
+export type MethodsOfNumero = 'esPar' | 'esPrimo' | 'esCapicua' | 'esCuadradoPerfecto' | 'esFibonacci'
