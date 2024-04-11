@@ -27,33 +27,59 @@ npm i utilities-library
 - Pertenencia
 - Verificar todos aprobados
 - Verificar todos iguales
+- Verificar todos diferentes
 - Verificar ordenado
 - Verificar ordenado por razon
+- Suma de matrices
+- Resta de matrices 
+- Multiplicación de matrices
+- Multiplicación por escalar
+- Transposicion
+- Intercambiar 
+- Devolver mayor
+- Devolver menor
+- Busqueda secuencial
+- Busqueda binaria (pending)
+- Frecuencia
+- Ordenar
+- Intercalar
 - Sumar filas
 - Sumar columnas
 - Ordenar filas
 - Ordenar columnas
 - Encontrar mayor frecuencia filas
 - Ordenar matriz por intercambio
-- Segmentar par y no par
-- Intercalar par y no par
-- Intercambiar filas por el menor
-- Ordenar triangular inferior derecha
-- Ordenar triangular inferior izquierda
-- Encontrar mayor de la triangular inferior derecha
-- Segmentar par y no par triangular inferior derecha
-- Segmentar par y no par triangular inferior izquierda
-- Transposicion
-- Rrdenar columnas triangular inferior izquierda
+- Segmentar
+- Intercalar
+- Suma, multiplicación /fila
+- Suma, multiplicación /columna
+- Contar : par, primo, capicua, fibonacci, frecuencia ,mayor frecuencia, menor frecuencia, unicos /fila
+- Contar : par, primo, capicua, fibonacci, frecuencia ,mayor frecuencia, menor frecuencia, unicos /columna
+- Añadir fila
+- Añadir columa
+- Intercambiar filas 
+- Intercambiar columnas
+- Ordenar digonal principal
+- Ordenar diagonal secundaria
+- Ordenar triangular superior derecha (pending)
+- Ordenar triangular superior izquierda (pending)
+- Ordenar triangular inferior izquierda (pending)
+- Ordenar triangular inferior izquierda (pending)
+- Segmentar triangular superior derecha
+- Segmentar triangular superior izquierda
+- Segmentar triangular inferior derecha
+- Segmentar triangular inferir izquierda
+- Intercalar triangular superior derecha
+- Intercalar triangular superior izquierda
+- Intercalar triangular inferior derecha
+- Intercalar triangular inferir izquierda
 - Encontrar elemento de mayor frecuencia y su frecuencia
-- Ordenar cuadrado interior
-- Segmentar par y no par cuadrado interior
-- Ordenar rangos
-- Segmentar rangos par y no par
-- Ordenar filas por numero de elementos diferentes
-- Ordenar columnas por numero de primos
-- Ordenar filas por numero de primos
-
+- Ordenar columnas triangular inferior izquierda (pending)
+- Ordenar cuadrado interior (pending)
+- Segmentar cuadrado interior (pending)
+- Ordenar rangos (pending)
+- Segmentar rangos par y no par (pending)
+  
 ## Ejemplo 1
 
 ```JavaScript
@@ -65,10 +91,10 @@ m1.cargar(4,4,1,9)
 m1.ordenar()
 
 // Segmentar: 
-m1.segmentar("verificarPar") //<-- funcion Numero 
+m1.segmentar("esPar") //<-- funcion Numero 
 
 // Intercalar: 
-m1.intercalar("verificarPar") // <-- funcion Numero 
+m1.intercalar("esPar") // <-- funcion Numero 
 ```
 
 ## Clase Vector
@@ -81,9 +107,7 @@ m1.intercalar("verificarPar") // <-- funcion Numero
 - Cargar serie aritmética
 - Cargar serie Fibonacci
 - Seleccionar por posición
-- Seleccionar primos
-- Seleccionar no primos
-- Seleccionar buenos
+- Seleccionar 
 - Promedio
 - Máximo
 - Frecuencia
@@ -91,30 +115,26 @@ m1.intercalar("verificarPar") // <-- funcion Numero
 - Desviación estándar
 - Búsqueda binaria
 - Búsqueda secuencial
-- Ordenamiento ascendente
-- Ordenamiento descendente
+- Ordenamiento Por Intercambio 
+- Ordenamiento Por Selección 
 - Unión de conjuntos
 - Intersección de conjuntos
 - Diferencia de conjuntos A-B
 - Diferencia de conjuntos B-A
 - Invertir
-- Contar elementos de las posiciones submúltiplos
-- Buscar elemento mayor de las posiciones múltiplos
+- Contar número de las posiciones submúltiplos
+- Buscar número mayor de las posiciones múltiplos
 - Buscar la media de las posiciones múltiplos
-- Verificar si todos los elementos son iguales
-- Verificar si el segmento está ordenado
+- Verificar elementos iguales 
+- Verificar ordenado 
 - Insertar vector2 en 1 respecto a una posición
-- Eliminar elementos de un segmento
+- Eliminar elementos 
 - Duplicar elementos
-- Ordenar elementos de un segmento
 - Encontrar elemento menos repetido de un segmento
 - Encontrar la frecuencia de distribución de un segmento
-- Intercalar primos y no primos
-- Segmentar par y no par
-- Segmentar primos y no primos
-- Segmentar capicuas y no capicuas
-- Intercalar par y no par
-- Intercalar primo y no primo
+- Segmentar
+- Intercalar
+- Contar números que cumples con la condicion (par | primo | capicua | fibonacci)
 
 ## Ejemplo 2
 
@@ -147,13 +167,14 @@ console.log(resultado.retornarVector()); // Resultado: [3, 4]
 - Cargar
 - Descargar
 - Invertir
-- Retornar longitud
-- Veriricar par
-- Verificar primo
-- Verificar fibonacci
-- Verificar capicua
-- Verificar cuadrado perfecto
-- Veriricar fibonacci
+- Length
+- Ordenar
+- Es par
+- Es primo
+- Es fibonacci
+- Es capicua
+- Es cuadrado perfecto
+- Es fibonacci
 
 ## Ejemplo 3
 
@@ -163,8 +184,28 @@ const n1 = new Numero()
 n1.cargar(4)
 
 // verificar par
-const isPar = n1.verificarPar()
+const isPar = n1.esPar()
 console.log(isPar) // <-- true o false
+```
+
+## Metodos de la Clase Cadena 
+
+- Cargar
+- Descargar
+- Es vocal 
+- Es letra 
+- Contar Espacios 
+- Contar Vocales 
+- Contar Letras
+- Invertir
+
+## Ejemplo 4 
+```javascript
+const c1 = new Cadena() 
+c1.cargar("Hola mundo")
+const contador = contarVocales()
+
+console.log(contador) // <-- 4
 ```
 
 ## Contribuciones

@@ -47,6 +47,41 @@ export default class Numero {
   }
 
   /**
+   * Ordena el número
+   * @param {'asc' | 'desc'}  direcction Direccion del ordenamiento
+   * @returns {void | never}
+   */
+  ordenar (direcction: 'asc' | 'desc' = 'asc'): void {
+    if (direcction !== 'asc' && direcction !== 'desc') throw new Error("La direccion tiene que ser 'asc' o 'desc'")
+    let aux
+    let response = 0
+    if (direcction === 'asc') {
+      for (let count = 0; count < 10; count++) {
+        aux = this.numero
+        while (aux > 0) {
+          const digit = aux % 10
+          if (digit === count) {
+            response = (response * 10) + digit
+          }
+          aux = Math.floor(aux / 10)
+        }
+      }
+    } else {
+      for (let count = 9; count > 0; count--) {
+        aux = this.numero
+        while (aux > 0) {
+          const digit = aux % 10
+          if (digit === count) {
+            response = (response * 10) + digit
+          }
+          aux = Math.floor(aux / 10)
+        }
+      }
+    }
+    this.numero = response
+  }
+
+  /**
    * Verifica si el número es par
    * @returns {boolean}
    */
@@ -100,3 +135,5 @@ export default class Numero {
 }
 
 export type MethodsOfNumero = 'esPar' | 'esPrimo' | 'esCapicua' | 'esCuadradoPerfecto' | 'esFibonacci'
+
+export const methodsOfNumero: MethodsOfNumero[] = ['esPar', 'esPrimo', 'esCapicua', 'esCuadradoPerfecto', 'esFibonacci']

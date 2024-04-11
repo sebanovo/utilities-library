@@ -5,32 +5,36 @@
 /**
  * Clase que representa un vector y proporciona diversas operaciones y manipulaciones.
  */
-export default class Cadena {
-  s: string = ''
+export default class Cadena extends String {
+  cadena: string = ''
   /**
    *
    * @param {string} cadena - Cadena a cargar
    */
   cargar (cadena: string): void {
-    this.s = cadena
+    this.cadena = cadena
+  }
+
+  descargar (): this {
+    return this
   }
 
   esVocal (): boolean {
     const vocales = 'aeiouáéíóúäëïöüAEIOUÁÉÍÓÚÄËÏÖÜ' // Todas las vocales
-    return vocales.includes(this.s)
+    return vocales.includes(this.cadena)
   }
 
   esLetra (): boolean {
     const letras =
     'qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNMáéíóúÁÉÍÓÚäëïöüÄËÏÖÜ' // todas las letras
-    return letras.includes(this.s)
+    return letras.includes(this.cadena)
   }
 
   contarEspacios (): number {
     // nose
     let count = 0
-    for (let i = 0; i < this.s.length; i++) {
-      if (this.s[i] === ' ') {
+    for (let i = 0; i < this.cadena.length; i++) {
+      if (this.cadena[i] === ' ') {
         count++
       }
     }
@@ -40,8 +44,8 @@ export default class Cadena {
   contarVocales (): number {
     let count = 0
     const n1 = new Cadena()
-    for (let i = 0; i < this.s.length; i++) {
-      n1.cargar(this.s[i])
+    for (let i = 0; i < this.cadena.length; i++) {
+      n1.cargar(this.cadena[i])
       if (n1.esVocal()) {
         count++
       }
@@ -52,8 +56,8 @@ export default class Cadena {
   contarLetras (): number {
     let count = 0
     const n1 = new Cadena()
-    for (let i = 0; i < this.s.length; i++) {
-      n1.cargar(this.s[i])
+    for (let i = 0; i < this.cadena.length; i++) {
+      n1.cargar(this.cadena[i])
       if (n1.esLetra()) {
         count++
       }
@@ -62,8 +66,8 @@ export default class Cadena {
   }
 
   invertir (): void {
-    const arr = this.s.split('')
-    let final = this.s.length
+    const arr = this.cadena.split('')
+    let final = this.cadena.length
     let inicio = 0
     while (inicio < final) {
       const temp = arr[inicio]
@@ -72,6 +76,6 @@ export default class Cadena {
       inicio++
       final--
     }
-    this.s = arr.join('')
+    this.cadena = arr.join('')
   }
 }

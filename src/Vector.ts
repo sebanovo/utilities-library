@@ -1,4 +1,4 @@
-import Numero, { type MethodsOfNumero } from './Numero'
+import Numero, { type MethodsOfNumero, methodsOfNumero } from './Numero'
 import { type objetoMaxYFrec } from './types/types'
 /**
  * @module Vector
@@ -104,6 +104,8 @@ export default class Vector {
    * @param {Boolean} yesOrNo  Valor Booleano
    */
   seleccionar (v2: Vector, method: MethodsOfNumero, yesOrNo: boolean = true): void {
+    this.#checarMethodsOfNumero(method)
+
     const n1 = new Numero()
     for (let i = 0; i < this.length; i++) {
       n1.cargar(this.vector[i])
@@ -130,7 +132,16 @@ export default class Vector {
   }
 
   #checarParametros (a: number, b: number): never | void {
-    if (a < 0 || a > this.length - 1 || b < 0 || b > this.length - 1) { throw new Error('Parametros fuera de los limites') }
+    if (a < 0 || a > this.length - 1 || b < 0 || b > this.length - 1) throw new Error('Parametros fuera de los limites')
+  }
+
+  #checarDireccion (direccion: string): never | void {
+    if (direccion !== 'asc' && direccion !== 'desc') throw new Error("La dirección tiene que ser 'asc' o 'desc'")
+  }
+
+  #checarMethodsOfNumero (method: MethodsOfNumero): never | void {
+    const index = methodsOfNumero.indexOf(method)
+    if (index === -1) throw new Error('El metodo no corresponse a una funcion de la clase Número')
   }
 
   /**
@@ -246,7 +257,7 @@ export default class Vector {
   /**
    * Realiza una búsqueda binaria en el vector para encontrar un valor específico.
    * @param {number} valorBuscado - Valor a buscar en el vector.
-   * @param {number} a posicion inicial
+   * @param {number} a posicion inic/al
    * @param {number} a posicion final
    * @returns {boolean} - `true` si se encuentra el valor, `false` de lo contrario.
    */
@@ -332,10 +343,8 @@ export default class Vector {
    * @param {number} a - Posición del primer elemento.
    * @param {number} b - Posición del segundo elemento.
    */
-  intercambiarElementos (a: number, b: number): void {
-    const variableAuxiliar = this.vector[a]
-    this.vector[a] = this.vector[b]
-    this.vector[b] = variableAuxiliar
+  intercambiar (a: number, b: number): void {
+    [this.vector[a], this.vector[b]] = [this.vector[b], this.vector[a]]
   }
 
   /**
@@ -350,16 +359,12 @@ export default class Vector {
     b: number = this.length - 1
   ): void {
     this.#checarParametros(a, b)
+    this.#checarDireccion(direccion)
+
     for (let i = a; i <= b; i++) {
       for (let j = a; j < b; j++) {
-        if (direccion === 'asc') {
-          if (this.vector[j] > this.vector[j + 1]) {
-            this.intercambiarElementos(j, j + 1)
-          }
-        } else {
-          if (this.vector[j] < this.vector[j + 1]) {
-            this.intercambiarElementos(j, j + 1)
-          }
+        if (direccion === 'asc' ? this.vector[j] > this.vector[j + 1] : this.vector[j] < this.vector[j + 1]) {
+          this.intercambiar(j, j + 1)
         }
       }
     }
@@ -373,23 +378,16 @@ export default class Vector {
    */
   ordenamientoPorSeleccion (direccion: 'asc' | 'desc' = 'asc', a: number = 0, b: number = this.length - 1): void {
     this.#checarParametros(a, b)
+    this.#checarDireccion(direccion)
 
     for (let i = a; i <= b; i++) {
-      let indiceMinimo = i
+      let indice = i
       for (let j = i + 1; j <= b; j++) {
-        if (direccion === 'asc') {
-          if (this.vector[j] < this.vector[indiceMinimo]) {
-            indiceMinimo = j
-          }
-        } else {
-          if (this.vector[j] > this.vector[indiceMinimo]) {
-            indiceMinimo = j
-          }
+        if (direccion === 'asc' ? this.vector[j] < this.vector[indice] : this.vector[j] > this.vector[indice]) {
+          indice = j
         }
       }
-      const temp = this.vector[i]
-      this.vector[i] = this.vector[indiceMinimo]
-      this.vector[indiceMinimo] = temp
+      this.intercambiar(i, indice)
     }
   }
 
@@ -401,24 +399,15 @@ export default class Vector {
    */
   ordenamientoBurbuja (direccion: 'asc' | 'desc' = 'asc', a: number = 0, b: number = this.length - 1): void {
     this.#checarParametros(a, b)
+    this.#checarDireccion(direccion)
+
     let intercambio
     do {
       intercambio = false
       for (let i = a; i < b; i++) {
-        if (direccion === 'asc') {
-          if (this.vector[i] > this.vector[i + 1]) {
-            const temp = this.vector[i]
-            this.vector[i] = this.vector[i + 1]
-            this.vector[i + 1] = temp
-            intercambio = true
-          }
-        } else {
-          if (this.vector[i] < this.vector[i + 1]) {
-            const temp = this.vector[i]
-            this.vector[i] = this.vector[i + 1]
-            this.vector[i + 1] = temp
-            intercambio = true
-          }
+        if (direccion === 'asc' ? this.vector[i] > this.vector[i + 1] : this.vector[i] < this.vector[i + 1]) {
+          this.intercambiar(i, i + 1)
+          intercambio = true
         }
       }
     } while (intercambio)
@@ -450,10 +439,10 @@ export default class Vector {
    * @return {void} carga el vector actual la interseccion
    */
   interseccionDeConjuntos (v1: Vector, v2: Vector): void {
-    const longitudV1 = v1.retornarDimension()
-    const longitudV2 = v2.retornarDimension()
-    const vector1 = v1.retornarVector()
-    const vector2 = v2.retornarVector()
+    const longitudV1 = v1.length
+    const longitudV2 = v2.length
+    const vector1 = v1.vector
+    const vector2 = v2.vector
 
     for (let i = 0; i < longitudV1; i++) {
       for (let j = 0; j < longitudV2; j++) {
@@ -472,10 +461,10 @@ export default class Vector {
    * @param {Vector} v2 - Segundo conjunto.
    */
   unionDeConjuntos (v1: Vector, v2: Vector): void {
-    const longitudV1 = v1.retornarDimension()
-    const longitudV2 = v2.retornarDimension()
-    const vector1 = v1.retornarVector()
-    const vector2 = v2.retornarVector()
+    const longitudV1 = v1.length
+    const longitudV2 = v2.length
+    const vector1 = v1.vector
+    const vector2 = v2.vector
 
     for (let i = 0; i < longitudV1; i++) {
       this.cargarElementoXElemento(vector1[i])
@@ -494,8 +483,8 @@ export default class Vector {
    * @param {Vector} v2 - Conjunto B.
    */
   diferenciaDeConjuntosAB (v1: Vector, v2: Vector): void {
-    const longitudV1 = v1.retornarDimension()
-    const vector1 = v1.retornarVector()
+    const longitudV1 = v1.length
+    const vector1 = v1.vector
 
     for (let i = 0; i < longitudV1; i++) {
       if (!v2.pertenencia(vector1[i])) {
@@ -512,8 +501,8 @@ export default class Vector {
    * @param {Vector} v2 - Conjunto B.
    */
   diferenciaDeConjuntosBA (v1: Vector, v2: Vector): void {
-    const longitudV2 = v2.retornarDimension()
-    const vector2 = v2.retornarVector()
+    const longitudV2 = v2.length
+    const vector2 = v2.vector
 
     for (let i = 0; i < longitudV2; i++) {
       if (!v1.pertenencia(vector2[i])) {
@@ -531,6 +520,7 @@ export default class Vector {
    * @param {number} b posicion final
    */
   segmentar (method: MethodsOfNumero, a: number = 0, b: number = this.length - 1): void {
+    this.#checarMethodsOfNumero(method)
     this.#checarParametros(a, b)
 
     const n1 = new Numero()
@@ -544,7 +534,7 @@ export default class Vector {
           (n1[method]() && n2[method]() && this.vector[d] < this.vector[p]) ||
           (!n1[method]() && !n2[method]() && this.vector[d] < this.vector[p])
         ) {
-          this.intercambiarElementos(d, p)
+          this.intercambiar(d, p)
         }
       }
     }
@@ -557,6 +547,7 @@ export default class Vector {
    * @param {number} b posicion final
    */
   intercalar (method: MethodsOfNumero, a: number = 0, b: number = this.length - 1): void {
+    this.#checarMethodsOfNumero(method)
     this.#checarParametros(a, b)
 
     let bool = true
@@ -574,7 +565,7 @@ export default class Vector {
             (n1[method]() && n2[method]() && this.vector[d] < this.vector[p]) ||
             (!n1[method]() && !n2[method]() && this.vector[d] < this.vector[p])
           ) {
-            this.intercambiarElementos(d, p)
+            this.intercambiar(d, p)
           }
         }
       } else {
@@ -587,7 +578,7 @@ export default class Vector {
             (!n1[method]() && !n2[method]() && this.vector[d] < this.vector[p]) ||
             (n1[method]() && n2[method]() && this.vector[d] < this.vector[p])
           ) {
-            this.intercambiarElementos(d, p)
+            this.intercambiar(d, p)
           }
         }
       }
@@ -605,7 +596,7 @@ export default class Vector {
     let inicio = a
     let fin = b
     while (inicio < fin) {
-      this.intercambiarElementos(inicio, fin)
+      this.intercambiar(inicio, fin)
       inicio++
       fin--
     }
@@ -684,9 +675,10 @@ export default class Vector {
    * @returns {boolean} - Indica si el segmento está ordenado.
    */
   verificarOrdenado (direccion: 'asc' | 'desc' = 'asc', a: number, b: number): boolean {
+    this.#checarDireccion(direccion)
     this.#checarParametros(a, b)
     for (let i = a; i < b; i++) {
-      if (this.vector[i] > this.vector[i + 1]) {
+      if (direccion === 'asc' ? this.vector[i] > this.vector[i + 1] : this.vector[i] < this.vector[i + 1]) {
         return false
       }
     }
@@ -700,10 +692,10 @@ export default class Vector {
    * @param {number} posicion - Posición en la que se insertará el vector.
    */
   insertarVectorPorPosicion (v1: Vector, v2: Vector, posicion: number): void {
-    const n1 = v1.retornarDimension()
-    const n2 = v2.retornarDimension()
-    const vector1 = v1.retornarVector()
-    const vector2 = v2.retornarVector()
+    const n1 = v1.length
+    const n2 = v2.length
+    const vector1 = v1.vector
+    const vector2 = v2.vector
 
     for (let i = 0; i < posicion; i++) {
       this.cargarElementoXElemento(vector1[i])
@@ -764,7 +756,7 @@ export default class Vector {
   }
 
   /**
-   * Ordena los elementos de un segmento del vector usando el método de burbuja.
+   * Ordena los elementos de un segmento del vector.
    * @param {number} a - Índice de inicio del segmento.
    * @param {number} b - Índice de fin del segmento.
    */
@@ -888,13 +880,14 @@ export default class Vector {
   }
 
   /**
-   * Cuenta la cantidad de números si capicúas en el vector.
+   * Cuenta la cantidad de numeros que cumplen con la condición.
    * @param {MethodsOfNumero} method Metodo de la clase Número
    * @param {number } a posicion inicial
    * @param {number } b posicion final
    * @returns {number} - Número de elementos no capicúas en el vector.
    */
   contar (method: MethodsOfNumero, a: number = 0, b: number = this.length - 1): number {
+    this.#checarMethodsOfNumero(method)
     this.#checarParametros(a, b)
 
     let contador = 0

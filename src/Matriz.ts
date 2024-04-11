@@ -1,4 +1,4 @@
-import Numero, { type MethodsOfNumero } from './Numero'
+import Numero, { type MethodsOfNumero, methodsOfNumero } from './Numero'
 /**
  * @module Matriz
  */
@@ -48,6 +48,11 @@ export default class Matriz {
       s = s + '\n'
     }
     return s
+  }
+
+  #checarMethodsOfNumero (method: MethodsOfNumero): never | void {
+    const index = methodsOfNumero.indexOf(method)
+    if (index === -1) throw new Error('El metodo no corresponse a una funcion de la clase Número')
   }
 
   /**
@@ -135,11 +140,11 @@ export default class Matriz {
   }
 
   /**
-   * Verifica si un número es mayor a los elementos de la matriz
+   * Verifica si un número es mayor a todos los números de la matriz
    * @param {number} num numero a comparar
    * @returns {boolean}
    */
-  verificarMayorA (num: number): boolean {
+  verificarMayor (num: number): boolean {
     for (let f1 = 0; f1 < this.rowLength; f1++) {
       for (let c1 = 0; c1 < this.columnLength; c1++) {
         if (this.matriz[f1][c1] < num) {
@@ -151,11 +156,11 @@ export default class Matriz {
   }
 
   /**
-   * Verifica si un número es menor a los elementos de la matriz
+   * Verifica si un número es menor a todos los números de la matriz
    * @param {number} num numero a comparar
    * @returns {boolean}
    */
-  verificarMenorA (num: number): boolean {
+  verificarMenor (num: number): boolean {
     for (let f1 = 0; f1 < this.rowLength; f1++) {
       for (let c1 = 0; c1 < this.columnLength; c1++) {
         if (this.matriz[f1][c1] > num) {
@@ -359,9 +364,10 @@ export default class Matriz {
    * @param {number} c2 columna 2
    */
   intercambiar (f1: number, c1: number, f2: number, c2: number): void {
-    const temp = this.matriz[f1][c1]
-    this.matriz[f1][c1] = this.matriz[f2][c2]
-    this.matriz[f2][c2] = temp
+    [this.matriz[f1][c1],
+      this.matriz[f2][c2]] =
+    [this.matriz[f2][c2],
+      this.matriz[f1][c1]]
   }
 
   /**
@@ -457,7 +463,7 @@ export default class Matriz {
    * @param {MethodsOfNumero} method metodo del objeto Numero
    */
   segmentar (method: MethodsOfNumero): void {
-    if (!method) throw new Error('El metodo esta vacio')
+    this.#checarMethodsOfNumero(method)
     let inc
     const n1 = new Numero()
     const n2 = new Numero()
@@ -491,7 +497,7 @@ export default class Matriz {
    * @param {MethodsOfNumero} method metodo del objeto Numero
    */
   intercalar (method: MethodsOfNumero): void {
-    if (!method) throw new Error('El metodo esta vacio')
+    this.#checarMethodsOfNumero(method)
 
     let inc
     let bool = true
@@ -601,7 +607,7 @@ export default class Matriz {
     const n1 = new Numero()
     for (let c1 = 0; c1 < this.columnLength; c1++) {
       n1.cargar(this.matriz[fila][c1])
-      if (n1.verificarPar()) {
+      if (n1.esPar()) {
         count++
       }
     }
@@ -618,7 +624,7 @@ export default class Matriz {
     const n1 = new Numero()
     for (let c1 = 0; c1 < this.columnLength; c1++) {
       n1.cargar(this.matriz[fila][c1])
-      if (!n1.verificarPar()) {
+      if (!n1.esPar()) {
         count++
       }
     }
@@ -635,7 +641,7 @@ export default class Matriz {
     const n1 = new Numero()
     for (let c1 = 0; c1 < this.columnLength; c1++) {
       n1.cargar(this.matriz[fila][c1])
-      if (n1.verificarPrimo()) {
+      if (n1.esPrimo()) {
         count++
       }
     }
@@ -652,7 +658,7 @@ export default class Matriz {
     const n1 = new Numero()
     for (let c1 = 0; c1 < this.columnLength; c1++) {
       n1.cargar(this.matriz[fila][c1])
-      if (!n1.verificarPrimo()) {
+      if (!n1.esPrimo()) {
         count++
       }
     }
@@ -669,7 +675,7 @@ export default class Matriz {
     const n1 = new Numero()
     for (let c1 = 0; c1 < this.columnLength; c1++) {
       n1.cargar(this.matriz[fila][c1])
-      if (n1.verificarCapicua()) {
+      if (n1.esCapicua()) {
         count++
       }
     }
@@ -686,7 +692,7 @@ export default class Matriz {
     const n1 = new Numero()
     for (let c1 = 0; c1 < this.columnLength; c1++) {
       n1.cargar(this.matriz[fila][c1])
-      if (!n1.verificarCapicua()) {
+      if (!n1.esCapicua()) {
         count++
       }
     }
@@ -703,7 +709,7 @@ export default class Matriz {
     const n1 = new Numero()
     for (let c1 = 0; c1 < this.columnLength; c1++) {
       n1.cargar(this.matriz[fila][c1])
-      if (n1.verificarFibonacci()) {
+      if (n1.esFibonacci()) {
         count++
       }
     }
@@ -720,7 +726,7 @@ export default class Matriz {
     const n1 = new Numero()
     for (let c1 = 0; c1 < this.columnLength; c1++) {
       n1.cargar(this.matriz[fila][c1])
-      if (!n1.verificarFibonacci()) {
+      if (!n1.esFibonacci()) {
         count++
       }
     }
@@ -866,7 +872,7 @@ export default class Matriz {
     const n1 = new Numero()
     for (let f1 = 0; f1 < this.rowLength; f1++) {
       n1.cargar(this.matriz[f1][columna])
-      if (n1.verificarPar()) {
+      if (n1.esPar()) {
         count++
       }
     }
@@ -883,7 +889,7 @@ export default class Matriz {
     const n1 = new Numero()
     for (let f1 = 0; f1 < this.rowLength; f1++) {
       n1.cargar(this.matriz[f1][columna])
-      if (!n1.verificarPar()) {
+      if (!n1.esPar()) {
         count++
       }
     }
@@ -900,7 +906,7 @@ export default class Matriz {
     const n1 = new Numero()
     for (let f1 = 0; f1 < this.rowLength; f1++) {
       n1.cargar(this.matriz[f1][columna])
-      if (n1.verificarPrimo()) {
+      if (n1.esPrimo()) {
         count++
       }
     }
@@ -917,7 +923,7 @@ export default class Matriz {
     const n1 = new Numero()
     for (let f1 = 0; f1 < this.rowLength; f1++) {
       n1.cargar(this.matriz[f1][columna])
-      if (!n1.verificarPrimo()) {
+      if (!n1.esPrimo()) {
         count++
       }
     }
@@ -934,7 +940,7 @@ export default class Matriz {
     const n1 = new Numero()
     for (let f1 = 0; f1 < this.rowLength; f1++) {
       n1.cargar(this.matriz[f1][columna])
-      if (n1.verificarCapicua()) {
+      if (n1.esCapicua()) {
         count++
       }
     }
@@ -951,7 +957,7 @@ export default class Matriz {
     const n1 = new Numero()
     for (let f1 = 0; f1 < this.rowLength; f1++) {
       n1.cargar(this.matriz[f1][columna])
-      if (!n1.verificarCapicua()) {
+      if (!n1.esCapicua()) {
         count++
       }
     }
@@ -968,7 +974,7 @@ export default class Matriz {
     const n1 = new Numero()
     for (let f1 = 0; f1 < this.rowLength; f1++) {
       n1.cargar(this.matriz[f1][columna])
-      if (n1.verificarFibonacci()) {
+      if (n1.esFibonacci()) {
         count++
       }
     }
@@ -985,7 +991,7 @@ export default class Matriz {
     const n1 = new Numero()
     for (let f1 = 0; f1 < this.rowLength; f1++) {
       n1.cargar(this.matriz[f1][columna])
-      if (n1.verificarFibonacci()) {
+      if (n1.esFibonacci()) {
         count++
       }
     }
@@ -1277,16 +1283,15 @@ export default class Matriz {
     }
   }
 
-  // segmentar
+  // #segmentar
   /**
    * Segmentar la triangular de acuerdo al metodo que le pasemos
    * @param {MethodsOfNumero} method metodo de la instancia Numero
-   * @throws {Error} Si el metodo esta vacio
    * @throws {Error} Si la matriz no es cuadrada
    * @returns {void}
    */
   segmentarTriangularInferiorIzquierda (method: MethodsOfNumero): void {
-    if (!method) throw new Error('El metodo esta vacio')
+    this.#checarMethodsOfNumero(method)
     if (this.columnLength !== this.rowLength) throw new Error('Las Matriz no es cuadrada')
 
     let inc
@@ -1321,12 +1326,11 @@ export default class Matriz {
   /**
    * Segmentar la triangular de acuerdo al metodo que le pasemos
    * @param { MethodsOfNumero} method metodo de la instancia Numero
-   * @throws {Error} Si el metodo esta vacio
    * @throws {Error} Si la matriz no es cuadrada
    * @returns {void}
    */
   segmentarTriangularInferiorDerecha (method: MethodsOfNumero): void {
-    if (!method) throw new Error('El metodo esta vacio')
+    this.#checarMethodsOfNumero(method)
     if (this.columnLength !== this.rowLength) throw new Error('Las Matriz no es cuadrada')
 
     let inc
@@ -1361,12 +1365,11 @@ export default class Matriz {
   /**
    * Segmentar la triangular de acuerdo al metodo que le pasemos
    * @param {MethodsOfNumero} method metodo de la instancia Numero
-   * @throws {Error} Si el metodo esta vacio
    * @throws {Error} Si la matriz no es cuadrada
    * @returns {void}
    */
   segmentarTriangularSuperiorIzquierda (method: MethodsOfNumero): void {
-    if (!method) throw new Error('El metodo esta vacio')
+    this.#checarMethodsOfNumero(method)
     if (this.columnLength !== this.rowLength) throw new Error('Las Matriz no es cuadrada')
     let inc
 
@@ -1400,12 +1403,11 @@ export default class Matriz {
   /**
    * Segmentar la triangular de acuerdo al metodo que le pasemos
    * @param {MethodsOfNumero} method metodo de la instancia Numero
-   * @throws {Error} Si el metodo esta vacio
    * @throws {Error} Si la matriz no es cuadrada
    * @returns {void}
    */
   segmentarTriangularSuperiorDerecha (method: MethodsOfNumero): void {
-    if (!method) throw new Error('El metodo esta vacio')
+    this.#checarMethodsOfNumero(method)
     if (this.columnLength !== this.rowLength) throw new Error('Las Matriz no es cuadrada')
     let inc
 
@@ -1436,16 +1438,15 @@ export default class Matriz {
     }
   }
 
-  // Intercalar
+  // #intercalar
   /**
    * Intercala la triangular de acuerdo al metodo que le pasemos
    * @param {MethodsOfNumero} method metodo de la instancia Numero
-   * @throws {Error} Si el metodo esta vacio
    * @throws {Error} Si la matriz no es cuadrada
    * @returns {void}
    */
   intercalarTriangularInferiorIzquierda (method: MethodsOfNumero): void {
-    if (!method) throw new Error('El metodo esta vacio')
+    this.#checarMethodsOfNumero(method)
     if (this.columnLength !== this.rowLength) throw new Error('Las Matriz no es cuadrada')
 
     let inc
@@ -1503,12 +1504,11 @@ export default class Matriz {
   /**
    * Intercala la triangular de acuerdo al metodo que le pasemos
    * @param {MethodsOfNumero} method metodo de la instancia Numero
-   * @throws {Error} Si el metodo esta vacio
    * @throws {Error} Si la matriz no es cuadrada
    * @returns {void}
    */
   intercalarTriangularInferiorDerecha (method: MethodsOfNumero): void {
-    if (!method) throw new Error('El metodo esta vacio')
+    this.#checarMethodsOfNumero(method)
     if (this.columnLength !== this.rowLength) throw new Error('Las Matriz no es cuadrada')
 
     let inc
@@ -1566,12 +1566,11 @@ export default class Matriz {
   /**
    * Intercala la triangular de acuerdo al metodo que le pasemos
    * @param {MethodsOfNumero} method metodo de la instancia Numero
-   * @throws {Error} Si el metodo esta vacio
    * @throws {Error} Si la matriz no es cuadrada
    * @returns {void}
    */
   intercalarTriangularSuperiorIzquierda (method: MethodsOfNumero): void {
-    if (!method) throw new Error('El metodo esta vacio')
+    this.#checarMethodsOfNumero(method)
     if (this.columnLength !== this.rowLength) throw new Error('Las Matriz no es cuadrada')
 
     let inc
@@ -1629,12 +1628,11 @@ export default class Matriz {
   /**
    * Intercala la triangular de acuerdo al metodo que le pasemos
    * @param {MethodsOfNumero} method metodo de la instancia Numero
-   * @throws {Error} Si el metodo esta vacio
    * @throws {Error} Si la matriz no es cuadrada
    * @returns {void}
    */
   intercalarTriangularSuperiorDerecha (method: MethodsOfNumero): void {
-    if (!method) throw new Error('El metodo esta vacio')
+    this.#checarMethodsOfNumero(method)
     if (this.columnLength !== this.rowLength) throw new Error('Las Matriz no es cuadrada')
 
     let inc
