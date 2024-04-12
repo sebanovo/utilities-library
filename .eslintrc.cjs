@@ -6,7 +6,7 @@ module.exports = {
   extends: 'standard-with-typescript',
   parserOptions: {
     ecmaVersion: 'latest',
-    sourceType: 'module'
+    sourceType: 'module',
   },
   rules: {
     '@typescript-eslint/no-unsafe-argument': 'off',
@@ -14,5 +14,5 @@ module.exports = {
     '@typescript-eslint/ban-types': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/no-useless-constructor' : 'off'
-  }
+  } 
 }

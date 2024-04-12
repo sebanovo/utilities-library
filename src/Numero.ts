@@ -9,7 +9,7 @@ export default class Numero {
   numero = 0
   /**
    * Carga un número en la instancia.
-   * @param {number} numero - número que se carga en la instancia.
+   * @param {number} number - número que se carga en la instancia.
    */
   cargar (number: number): void {
     this.numero = number
@@ -21,6 +21,10 @@ export default class Numero {
    */
   descargar (): number {
     return this.numero
+  }
+
+  #checarDireccion (direccion: string): never | void {
+    if (direccion !== 'asc' && direccion !== 'desc') throw new Error("La dirección tiene que ser 'asc' o 'desc'")
   }
 
   /**
@@ -48,14 +52,15 @@ export default class Numero {
 
   /**
    * Ordena el número
-   * @param {'asc' | 'desc'}  direcction Direccion del ordenamiento
+   * @param {'asc' | 'desc'}  direccion Direccion del ordenamiento
    * @returns {void | never}
    */
-  ordenar (direcction: 'asc' | 'desc' = 'asc'): void {
-    if (direcction !== 'asc' && direcction !== 'desc') throw new Error("La direccion tiene que ser 'asc' o 'desc'")
+  ordenar (direccion: 'asc' | 'desc' = 'asc'): void {
+    this.#checarDireccion(direccion)
+
     let aux
     let response = 0
-    if (direcction === 'asc') {
+    if (direccion === 'asc') {
       for (let count = 0; count < 10; count++) {
         aux = this.numero
         while (aux > 0) {
@@ -131,6 +136,36 @@ export default class Numero {
     copia1.cargar(5 * this.numero * this.numero + 4)
     copia2.cargar(5 * this.numero * this.numero - 4)
     return copia1.esCuadradoPerfecto() || copia2.esCuadradoPerfecto()
+  }
+
+  eliminarDigitosPares (): void {
+    // pending
+  }
+
+  eliminarDigitosImpares (): void {
+    // pending
+  }
+
+  insertarDigitoPorPosicion (pos: number, digit: number): void {
+    // pending
+  }
+
+  remplazarDigitoPorPosicion (pos: number, digit: number): void {
+    // pending
+  }
+
+  // 524 -> 55555224444
+  repetirDigitos (): void {
+    // pending
+  }
+
+  encontrarMayorYMenorDigito (): void {
+    // pending
+  }
+
+  factorial (): number {
+    // pending
+    return 0
   }
 }
 

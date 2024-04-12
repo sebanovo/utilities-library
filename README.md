@@ -192,12 +192,31 @@ console.log(isPar) // <-- true o false
 
 - Cargar
 - Descargar
-- Es vocal 
-- Es letra 
-- Contar Espacios 
+- Es vocal (static) 
+- Es letra (static)
+- Es espacio (static)
+- Es digito (static)
+- Rs palindromo
+- Contar caracter
 - Contar Vocales 
 - Contar Letras
 - Invertir
+- Eliminar caracter
+- Eliminar vocales
+- Eliminar letras 
+- Eliminar números
+- Primer palabra
+- Posicion primer palabra
+- Eliminar primer palabra
+- Eliminar Hasta primer palabra
+- Contar palabras
+- Palabra mas larga
+- Palabra menos larga
+- Eliminar primer letra de cada palabra
+- Eliminar última letra de cada palabra
+- Eliminar primera y última letra de cada palabra
+- Invertir cada palabra (pending)
+- Invertir frase (pending)
 
 ## Ejemplo 4 
 ```javascript

@@ -55,8 +55,12 @@ export default class Matriz {
     if (index === -1) throw new Error('El metodo no corresponse a una funcion de la clase Número')
   }
 
+  #checarDireccion (direccion: string): never | void {
+    if (direccion !== 'asc' && direccion !== 'desc') throw new Error("La dirección tiene que ser 'asc' o 'desc'")
+  }
+
   /**
-   * retorna un objeto con la fila y la columna
+   * Retorna un objeto con la fila y la columna
    * @returns {object}
    */
   retornarDimension (): object {
@@ -175,12 +179,12 @@ export default class Matriz {
    * Verifica si la matriz esta ordenada
    * @returns {boolean}
    */
-  verificarOrdenado (): boolean {
+  verificarOrdenado (direccion: 'asc' | 'desc' = 'asc'): boolean {
     let control = this.matriz[0][0]
 
     for (let f1 = 0; f1 < this.rowLength; f1++) {
       for (let c1 = 0; c1 < this.columnLength; c1++) {
-        if (this.matriz[f1][c1] < control) {
+        if (direccion === 'asc' ? this.matriz[f1][c1] < control : this.matriz[f1][c1] > control) {
           return false
         }
         control = this.matriz[f1][c1]
@@ -350,10 +354,9 @@ export default class Matriz {
         m1.matriz[f1][c1] = this.matriz[c1][f1]
       }
     }
-    const temp = this.rowLength
-    this.rowLength = this.columnLength
-    this.columnLength = temp
-    this.matriz = m1.matriz // Actualizar la matriz original con la transpuesta
+    // Intercambiar
+    [this.rowLength, this.columnLength] = [this.columnLength, this.rowLength]
+    this.matriz = m1.matriz
   }
 
   /**
@@ -438,7 +441,8 @@ export default class Matriz {
   /**
    * Ordena la matriz
    */
-  ordenar (): void {
+  ordenar (direccion: 'asc' | 'desc' = 'asc'): void {
+    this.#checarDireccion(direccion)
     let inc
     for (let f1 = 0; f1 < this.rowLength; f1++) {
       for (let c1 = 0; c1 < this.columnLength; c1++) {
@@ -449,7 +453,7 @@ export default class Matriz {
             inc = 0
           }
           for (let c2 = inc; c2 < this.columnLength; c2++) {
-            if (this.matriz[f1][c1] > this.matriz[f2][c2]) {
+            if (direccion === 'asc' ? this.matriz[f1][c1] > this.matriz[f2][c2] : this.matriz[f1][c1] < this.matriz[f2][c2]) {
               this.intercambiar(f1, c1, f2, c2)
             }
           }
@@ -1739,5 +1743,33 @@ export default class Matriz {
         }
       }
     }
+  }
+
+  cargarL (numeroDeFilasYColumnas: number): void {
+    // pending
+  }
+
+  cargarDiana (numeroDeFilasYColumnas: number): void {
+    // pending
+  }
+
+  cargarCuadradoMagico (numeroDeFilasYColumnas: number): void {
+    // pending
+  }
+
+  cargarCaracol (numeroDeFilasYColumnas: number): void {
+    // pending
+  }
+
+  cargarDiagonalesSecundarias (numeroDeFilasYColumnas: number): void {
+    // pending
+  }
+
+  cargarDiagonalesPrincipales (numeroDeFilasYColumnas: number): void {
+    // pending
+  }
+
+  cargarVibora (numeroDeFilasYColumnas: number): void {
+    // pending
   }
 }

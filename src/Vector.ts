@@ -1,9 +1,11 @@
 import Numero, { type MethodsOfNumero, methodsOfNumero } from './Numero'
-import { type objetoMaxYFrec } from './types/types'
 /**
  * @module Vector
  */
-
+export interface objetoMaxYFrec {
+  maximo: number
+  frecuencia: number
+}
 /**
  * Clase que representa un vector y proporciona diversas operaciones y manipulaciones.
  */
@@ -902,5 +904,9 @@ export default class Vector {
       contador++
     }
     return contador
+  }
+
+  eliminarNumero (numero: number): void {
+    // pending
   }
 }
