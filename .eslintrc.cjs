@@ -13,6 +13,6 @@ module.exports = {
     '@typescript-eslint/strict-boolean-expressions': 'off',
     '@typescript-eslint/ban-types': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
-    '@typescript-eslint/no-useless-constructor' : 'off'
+    '@typescript-eslint/no-useless-constructor' : 'off',
   } 
 }

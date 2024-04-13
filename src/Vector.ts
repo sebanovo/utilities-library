@@ -906,7 +906,17 @@ export default class Vector {
     return contador
   }
 
+  /**
+   * Elimina un número del vector
+   * @param {number} numero numero a eliminar del vector
+   */
   eliminarNumero (numero: number): void {
     // pending
   }
 }
+
+/**
+ * Pending
+ * -------
+ * Eliminar Numero
+ */

@@ -1745,20 +1745,232 @@ export default class Matriz {
     }
   }
 
+  // #recursividad
+
+  /**
+   * Carga la matriz con la matriz de L's invertidas
+   * @param numeroDeFilasYColumnas Es el numero de filas y columnas
+   * @example
+   * cargarL(5);
+   *
+   * 1  2  3  4  5
+   * 2  2  3  4  5
+   * 3  3  3  4  5
+   * 4  4  4  4  5
+   * 5  5  5  5  5
+   */
   cargarL (numeroDeFilasYColumnas: number): void {
-    // pending
+    const llenarL = (f: number, n: number): void => {
+      if (n === 0) {
+        // nada
+      } else {
+        if (!this.matriz[f]) {
+          this.matriz[f] = []
+        }
+        if (!this.matriz[n - 1]) {
+          this.matriz[n - 1] = []
+        }
+        this.matriz[f][n - 1] = f + 1
+        this.matriz[n - 1][f] = f + 1
+        llenarL(f, n - 1)
+      }
+    }
+
+    const cargar = (m: number): void => {
+      if (m === 0) {
+        // nada
+      } else {
+        cargar(m - 1)
+        llenarL(m - 1, m)
+      }
+    }
+    cargar(numeroDeFilasYColumnas)
+    this.rowLength = numeroDeFilasYColumnas
+    this.columnLength = numeroDeFilasYColumnas
   }
 
+  /**
+   * Carga la matriz Diana
+   * @param numeroDeFilasYColumnas Es el numero de filas y columnas
+   * @example
+   * cargarDiana(5);
+   *
+   * 3  3  3  3  3
+   * 3  2  2  2  3
+   * 3  2  1  2  3
+   * 3  2  2  2  3
+   * 3  3  3  3  3
+   */
   cargarDiana (numeroDeFilasYColumnas: number): void {
-    // pending
+    const llenarAro = (fa: number, fb: number, a: number, n: number, z: number): void => {
+      if (n === 0) {
+        // nada
+      } else {
+        llenarAro(fa, fb, a, n - 1, z)
+        if (!this.matriz[fb]) {
+          this.matriz[fb] = []
+        }
+        if (!this.matriz[n + a - 1]) {
+          this.matriz[n + a - 1] = []
+        }
+        if (!this.matriz[fa]) {
+          this.matriz[fa] = []
+        }
+        if (!this.matriz[n + a - 1]) {
+          this.matriz[n + a - 1] = []
+        }
+        this.matriz[fb][n + a - 1] = z
+        this.matriz[n + a - 1][fb] = z
+        this.matriz[fa][n + a - 1] = z
+        this.matriz[n + a - 1][fa] = z
+      }
+    }
+
+    const cargar = (fa: number, fb: number): void => {
+      const m = fb - fa + 1
+      if (m === 0) {
+        // nada
+      } else if (m === 1) {
+        if (!this.matriz[fb]) {
+          this.matriz[fb] = []
+        }
+        this.matriz[fb][fb] = 1
+      } else {
+        cargar(fa + 1, fb - 1)
+        llenarAro(fa, fb, fa, m, Math.floor((m + 1) / 2))
+      }
+    }
+    cargar(0, numeroDeFilasYColumnas - 1)
+
+    this.rowLength = numeroDeFilasYColumnas
+    this.columnLength = numeroDeFilasYColumnas
   }
 
+  /**
+   * Carga cuadrado magico
+   * @param numeroDeFilasYColumnas Es el numero de filas y columnas
+   * @example
+   * cargarCuadradoMagico(5);
+   *
+   * 17   24    1    8   15
+   * 23    5    7   14   16
+   *  4    6   13   20   22
+   * 10   12   19   21   3
+   * 11   18   25    2   9
+   */
   cargarCuadradoMagico (numeroDeFilasYColumnas: number): void {
-    // pending
+    let f: number, c: number
+    const cargar = (m: number, z: number): void => {
+      if (m % 2 === 0 || z === 0) {
+        throw new Error('La fila o la columna no debe ser par')
+      } else if (z === 1) {
+        f = 0
+        c = Math.floor(m / 2)
+        if (!this.matriz[f]) {
+          this.matriz[f] = []
+        }
+        this.matriz[f][c] = 1
+      } else {
+        cargar(m, z - 1)
+        if ((z - 1) % m === 0) { // r2
+          f++
+        } else { // r1
+          c = (c + 1) % m
+          if (f === 0) {
+            f = m - 1
+          } else {
+            f--
+          }
+        }
+        if (!this.matriz[f]) {
+          this.matriz[f] = []
+        }
+        this.matriz[f][c] = z
+      }
+    }
+    cargar(numeroDeFilasYColumnas, numeroDeFilasYColumnas * numeroDeFilasYColumnas)
+    this.rowLength = numeroDeFilasYColumnas
+    this.columnLength = numeroDeFilasYColumnas
   }
 
+  /**
+   * Carga matriz caracol
+   * @param numeroDeFilasYColumnas Es el numero de filas y columnas
+   * @example
+   * cargarCaracol(5);
+   *
+   *  1   2   3   4  5
+   * 16  17  18  19  6
+   * 15  24  25  20  7
+   * 14  23  22  21  8
+   * 13  12  11  10  9
+   */
   cargarCaracol (numeroDeFilasYColumnas: number): void {
-    // pending
+    const arriba = (f: number, ca: number, cb: number): void => {
+      if (ca < cb) {
+        if (!this.matriz[f - 1]) {
+          this.matriz[f - 1] = []
+        }
+        this.matriz[f - 1][ca - 1] = r
+        r++
+        arriba(f, ca + 1, cb)
+      }
+    }
+
+    const derecha = (fa: number, fb: number, c: number): void => {
+      if (fa < fb) {
+        if (!this.matriz[fb - 1]) {
+          this.matriz[fb - 1] = []
+        }
+        this.matriz[fb - 1][c - 1] = r
+        r++
+        derecha(fa, fb - 1, c)
+      }
+    }
+
+    const abajo = (f: number, ca: number, cb: number): void => {
+      if (ca < cb) {
+        if (!this.matriz[f - 1]) {
+          this.matriz[f - 1] = []
+        }
+        this.matriz[f - 1][cb - 1] = r
+        r++
+        abajo(f, ca, cb - 1)
+      }
+    }
+
+    const izquierda = (fa: number, fb: number, c: number): void => {
+      if (fa < fb) {
+        if (!this.matriz[fa - 1]) {
+          this.matriz[fa - 1] = []
+        }
+        this.matriz[fa - 1][c - 1] = r
+        r++
+        izquierda(fa + 1, fb, c)
+      }
+    }
+
+    const cargar = (
+      fa: number, fb: number, ca: number, cb: number): void => {
+      if (fa <= fb && ca <= cb) {
+        if (fa === fb && ca === cb) {
+          if (!this.matriz[ca - 1]) {
+            this.matriz[ca - 1] = []
+          }
+          this.matriz[ca - 1][fa - 1] = r
+        } else {
+          arriba(fa, ca, cb)
+          izquierda(fa, fb, cb)
+          abajo(fb, ca, cb)
+          derecha(fa, fb, ca)
+        }
+        cargar(fa + 1, fb - 1, ca + 1, cb - 1)
+      }
+    }
+    let r: number = 1
+    cargar(1, numeroDeFilasYColumnas, 1, numeroDeFilasYColumnas)
+    this.rowLength = numeroDeFilasYColumnas
+    this.columnLength = numeroDeFilasYColumnas
   }
 
   cargarDiagonalesSecundarias (numeroDeFilasYColumnas: number): void {
@@ -1773,3 +1985,11 @@ export default class Matriz {
     // pending
   }
 }
+
+/**
+ * Pending
+ * ------
+ * cargar diagonales secundarias
+ * cargar diagonales principales
+ * cargar Vibora
+ */

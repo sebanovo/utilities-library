@@ -240,12 +240,17 @@ export default class Cadena {
    * Elimina desde el utlimo caracter hasta encontrar la primer palabra
    * ```js
    *   x = "hola a todos *123" => "hola a "
+   * ni puta idea de el algoritmo
    * ```
    */
   eliminarDesdePrimerPalabra (): void {
     // pending
   }
 
+  /**
+   * Cuenta la cantidad de palabras
+   * @returns {number}
+   */
   contarPalabras (): number {
     let count = 0
     for (let i = 0; i < this.cadena.length; i++) {
@@ -258,6 +263,10 @@ export default class Cadena {
     return count
   }
 
+  /**
+   * Retorna la palabra más larga
+   * @returns {string}
+   */
   palabraMasLarga (): string {
     const aux = new Cadena()
     aux.cargar(this.cadena)
@@ -273,6 +282,10 @@ export default class Cadena {
     return masLarga
   }
 
+  /**
+   * Retorna la palabra menos larga
+   * @returns {string}
+   */
   palabraMenosLarga (): string {
     const aux = new Cadena()
     aux.cargar(this.cadena)
@@ -288,6 +301,9 @@ export default class Cadena {
     return menosLarga
   }
 
+  /**
+   * Elimina la primera letra de cada palabra
+   */
   eliminarPrimerLetraDeCadaPalabra (): void {
     let aux = ''
     for (let i = 0; i < this.cadena.length; i++) {
@@ -305,9 +321,12 @@ export default class Cadena {
         aux = aux + posterior
       }
     }
-    this.cadena = aux.trim()
+    this.cadena = aux
   }
 
+  /**
+   * Elimina la última letra de cada palabra
+   */
   eliminarUltimaLetraDeCadaPalabra (): void {
     let aux = ''
     for (let i = 0; i < this.cadena.length; i++) {
@@ -325,7 +344,7 @@ export default class Cadena {
         aux = aux + anterior
       }
     }
-    this.cadena = aux.trim()
+    this.cadena = aux
   }
 
   eliminarPrimeraYUltimaLetraDeCadaPalabra (): void {
@@ -333,17 +352,49 @@ export default class Cadena {
     this.eliminarUltimaLetraDeCadaPalabra()
   }
 
-  invertirCadaPalabra (): void {
-    // pending
-    const aux = new Cadena()
-    aux.cargar(this.cadena)
-    const totalPalabras = aux.contarPalabras()
-    for (let i = 0; i < totalPalabras; i++) {
-      // pending
+  /**
+   * Elimina la cadena
+   * @param {number} inicio valor inicial
+   * @param {number} arrastre valor de arrastre
+   */
+  eliminar (inicio: number = 0, arrastre: number = this.cadena.length - 1): void {
+    if (inicio < 0 || inicio >= this.cadena.length) throw new Error('El inicio tiene que ser mayor a 0')
+    if (arrastre < 1) throw new Error('El arrastre no tiene que ser mayor que 0')
+    if (inicio + arrastre > this.cadena.length) {
+      arrastre = this.cadena.length - 1
     }
+    let aux = ''
+    for (let i = 0; i < this.cadena.length; i++) {
+      if (i < inicio || i >= inicio + arrastre) {
+        aux = aux + this.cadena[i]
+      }
+    }
+    this.cadena = aux
+  }
+
+  /**
+   * Inserta una cadena en una posicion
+   * @param {string} cadena cadena a insertar
+   * @param {number} posicion posicion a insertar
+   */
+  insertar (cadena: string, posicion: number): void {
+    // pending
+  }
+
+  invertirCadaPalabra (): void {
+
   }
 
   invertirFrase (): void {
     // pending
   }
 }
+
+/**
+ * Pending
+ * --------
+ * Eliminar Desde primer palabra
+ * insertar
+ * Invertir cada palabra
+ * invertir frase
+ */

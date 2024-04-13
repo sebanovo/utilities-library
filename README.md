@@ -79,6 +79,15 @@ npm i utilities-library
 - Segmentar cuadrado interior (pending)
 - Ordenar rangos (pending)
 - Segmentar rangos par y no par (pending)
+
+#### Recursividad 
+- Cargar L'
+- Cargar diagonal
+- Cargar Cuadrado Magico
+- Cargar Caracol
+- Cargar Diagonales Pricipales (pending)
+- Cargar Diagonales Secundarias (pending)
+- Cargar Vibora (pending)
   
 ## Ejemplo 1
 
@@ -134,7 +143,7 @@ m1.intercalar("esPar") // <-- funcion Numero
 - Encontrar la frecuencia de distribución de un segmento
 - Segmentar
 - Intercalar
-- Contar números que cumples con la condicion (par | primo | capicua | fibonacci)
+- Contar números que cumples con la condicion (par | primo | capicua | fibonacci) (pending)
 
 ## Ejemplo 2
 
@@ -209,9 +218,12 @@ console.log(isPar) // <-- true o false
 - Posicion primer palabra
 - Eliminar primer palabra
 - Eliminar Hasta primer palabra
+- Eliminar Desde primer palabra (dudoso)
 - Contar palabras
 - Palabra mas larga
 - Palabra menos larga
+- Eliminar
+- Insertar (pending)
 - Eliminar primer letra de cada palabra
 - Eliminar última letra de cada palabra
 - Eliminar primera y última letra de cada palabra
