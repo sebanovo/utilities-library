@@ -36,6 +36,84 @@ export default class Matriz {
   }
 
   /**
+   * Cargar Vibora por filas
+   * @param nf Número de filas
+   * @param nc Número de columnas
+   * @example
+   * cargarViboraPorFilas(5,5)
+   * 1   2  3  4  5
+   * 10  9  8  7  6
+   * 11 12 13 14 15
+   * 20 19 18 17 16
+   * 21 22 23 24 25
+   */
+  cargarViboraPorFilas (nf: number, nc: number): void {
+    // pending
+    this.rowLength = nf
+    this.columnLength = nc
+    let r = 1
+    for (let f1 = 0; f1 < this.rowLength; f1++) {
+      for (let c1 = 0; c1 < this.columnLength; c1++) {
+        if (!this.matriz[f1]) {
+          this.matriz[f1] = []
+        }
+        this.matriz[f1][c1] = r
+        r++
+      }
+    }
+    for (let f1 = 0; f1 < this.rowLength; f1++) {
+      if (f1 % 2 === 1) {
+        let inicio = 0
+        let final = this.columnLength - 1
+        while (inicio < final) {
+          this.intercambiar(f1, inicio, f1, final)
+          inicio++
+          final--
+        }
+      }
+    }
+  }
+
+  /**
+   * Cargar Vibora por columnas
+   * @param nf Número de filas
+   * @param nc Número de columnas
+   * @example
+   * cargarViboraPorColumnas(5,5)
+   * 1 10 11 20 21
+   * 2  9 12 19 22
+   * 3  8 13 18 23
+   * 4  7 14 17 24
+   * 5  6 15 16 25
+   */
+  cargarViboraPorColumnas (nf: number, nc: number): void {
+    // pending
+    this.rowLength = nf
+    this.columnLength = nc
+    let r = 1
+    for (let c1 = 0; c1 < this.columnLength; c1++) {
+      for (let f1 = 0; f1 < this.rowLength; f1++) {
+        if (!this.matriz[f1]) {
+          this.matriz[f1] = []
+        }
+        this.matriz[f1][c1] = r
+        r++
+      }
+    }
+    for (let c1 = 0; c1 < this.columnLength; c1++) {
+      if (c1 % 2 === 1) {
+        let inicio = 0
+        let final = this.rowLength - 1
+        while (inicio < final) {
+          this.intercambiar(inicio, c1, final, c1)
+          inicio++
+          final--
+        }
+      }
+    }
+  }
+
+  /**
    * Metodo que retorna la matriz en formato especial de cadena
    * @returns {string}
    */
@@ -43,7 +121,7 @@ export default class Matriz {
     let s = ''
     for (let f1 = 0; f1 < this.rowLength; f1++) {
       for (let c1 = 0; c1 < this.columnLength; c1++) {
-        s = s + this.matriz[f1][c1] + '\t'
+        s = s + (this.matriz[f1][c1] ?? ' ') + '\t'
       }
       s = s + '\n'
     }
@@ -52,11 +130,11 @@ export default class Matriz {
 
   #checarMethodsOfNumero (method: MethodsOfNumero): never | void {
     const index = methodsOfNumero.indexOf(method)
-    if (index === -1) throw new Error('El metodo no corresponse a una funcion de la clase Número')
+    if (index === -1) { throw new Error('El metodo no corresponse a una funcion de la clase Número') }
   }
 
   #checarDireccion (direccion: string): never | void {
-    if (direccion !== 'asc' && direccion !== 'desc') throw new Error("La dirección tiene que ser 'asc' o 'desc'")
+    if (direccion !== 'asc' && direccion !== 'desc') { throw new Error("La dirección tiene que ser 'asc' o 'desc'") }
   }
 
   /**
@@ -184,7 +262,11 @@ export default class Matriz {
 
     for (let f1 = 0; f1 < this.rowLength; f1++) {
       for (let c1 = 0; c1 < this.columnLength; c1++) {
-        if (direccion === 'asc' ? this.matriz[f1][c1] < control : this.matriz[f1][c1] > control) {
+        if (
+          direccion === 'asc'
+            ? this.matriz[f1][c1] < control
+            : this.matriz[f1][c1] > control
+        ) {
           return false
         }
         control = this.matriz[f1][c1]
@@ -355,7 +437,7 @@ export default class Matriz {
       }
     }
     // Intercambiar
-    [this.rowLength, this.columnLength] = [this.columnLength, this.rowLength]
+    ;[this.rowLength, this.columnLength] = [this.columnLength, this.rowLength]
     this.matriz = m1.matriz
   }
 
@@ -367,10 +449,10 @@ export default class Matriz {
    * @param {number} c2 columna 2
    */
   intercambiar (f1: number, c1: number, f2: number, c2: number): void {
-    [this.matriz[f1][c1],
-      this.matriz[f2][c2]] =
-    [this.matriz[f2][c2],
-      this.matriz[f1][c1]]
+    ;[this.matriz[f1][c1], this.matriz[f2][c2]] = [
+      this.matriz[f2][c2],
+      this.matriz[f1][c1]
+    ]
   }
 
   /**
@@ -453,7 +535,11 @@ export default class Matriz {
             inc = 0
           }
           for (let c2 = inc; c2 < this.columnLength; c2++) {
-            if (direccion === 'asc' ? this.matriz[f1][c1] > this.matriz[f2][c2] : this.matriz[f1][c1] < this.matriz[f2][c2]) {
+            if (
+              direccion === 'asc'
+                ? this.matriz[f1][c1] > this.matriz[f2][c2]
+                : this.matriz[f1][c1] < this.matriz[f2][c2]
+            ) {
               this.intercambiar(f1, c1, f2, c2)
             }
           }
@@ -485,8 +571,12 @@ export default class Matriz {
             n2.cargar(this.matriz[f1][c1])
             if (
               (n1[method]() && !n2[method]()) ||
-              (n1[method]() && n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1]) ||
-              (!n1[method]() && !n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1])
+              (n1[method]() &&
+                n2[method]() &&
+                this.matriz[f2][c2] < this.matriz[f1][c1]) ||
+              (!n1[method]() &&
+                !n2[method]() &&
+                this.matriz[f2][c2] < this.matriz[f1][c1])
             ) {
               this.intercambiar(f2, c2, f1, c1)
             }
@@ -523,8 +613,12 @@ export default class Matriz {
               n2.cargar(this.matriz[f1][c1])
               if (
                 (n1[method]() && !n2[method]()) ||
-                (n1[method]() && n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1]) ||
-                (!n1[method]() && !n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1])
+                (n1[method]() &&
+                  n2[method]() &&
+                  this.matriz[f2][c2] < this.matriz[f1][c1]) ||
+                (!n1[method]() &&
+                  !n2[method]() &&
+                  this.matriz[f2][c2] < this.matriz[f1][c1])
               ) {
                 this.intercambiar(f2, c2, f1, c1)
               }
@@ -542,8 +636,12 @@ export default class Matriz {
               n2.cargar(this.matriz[f1][c1])
               if (
                 (!n1[method]() && n2[method]()) ||
-                (!n1[method]() && !n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1]) ||
-                (n1[method]() && n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1])
+                (!n1[method]() &&
+                  !n2[method]() &&
+                  this.matriz[f2][c2] < this.matriz[f1][c1]) ||
+                (n1[method]() &&
+                  n2[method]() &&
+                  this.matriz[f2][c2] < this.matriz[f1][c1])
               ) {
                 this.intercambiar(f2, c2, f1, c1)
               }
@@ -1099,7 +1197,10 @@ export default class Matriz {
     }
     for (let f1 = 0; f1 < this.rowLength; f1++) {
       this.matriz[f1][this.columnLength] = this.#mayorFrecuenciaFila(f1)
-      this.matriz[f1][this.columnLength + 1] = this.frecuenciaFila(f1, this.matriz[f1][this.columnLength])
+      this.matriz[f1][this.columnLength + 1] = this.frecuenciaFila(
+        f1,
+        this.matriz[f1][this.columnLength]
+      )
     }
     this.columnLength++
     this.columnLength++
@@ -1115,7 +1216,10 @@ export default class Matriz {
     }
     for (let f1 = 0; f1 < this.rowLength; f1++) {
       this.matriz[f1][this.columnLength] = this.#menorFrecuenciaFila(f1)
-      this.matriz[f1][this.columnLength + 1] = this.frecuenciaFila(f1, this.matriz[f1][this.columnLength])
+      this.matriz[f1][this.columnLength + 1] = this.frecuenciaFila(
+        f1,
+        this.matriz[f1][this.columnLength]
+      )
     }
     this.columnLength++
     this.columnLength++
@@ -1180,7 +1284,10 @@ export default class Matriz {
     }
     for (let c1 = 0; c1 < this.columnLength; c1++) {
       this.matriz[this.rowLength][c1] = this.#mayorFrecuenciaColumna(c1) // <-- El problema esta aca :  Cannot set properties of undefined (setting '0')
-      this.matriz[this.rowLength + 1][c1] = this.frecuenciaColumna(c1, this.matriz[this.rowLength][c1])
+      this.matriz[this.rowLength + 1][c1] = this.frecuenciaColumna(
+        c1,
+        this.matriz[this.rowLength][c1]
+      )
     }
     this.rowLength++
     this.rowLength++
@@ -1196,7 +1303,10 @@ export default class Matriz {
     }
     for (let c1 = 0; c1 < this.columnLength; c1++) {
       this.matriz[this.rowLength][c1] = this.#menorFrecuenciaColumna(c1) // <-- El problema esta aca :  Cannot set properties of undefined (setting '0')
-      this.matriz[this.rowLength + 1][c1] = this.frecuenciaColumna(c1, this.matriz[this.rowLength][c1])
+      this.matriz[this.rowLength + 1][c1] = this.frecuenciaColumna(
+        c1,
+        this.matriz[this.rowLength][c1]
+      )
     }
     this.rowLength++
     this.rowLength++
@@ -1316,8 +1426,12 @@ export default class Matriz {
             n2.cargar(this.matriz[f1][c1])
             if (
               (n1[method]() && !n2[method]()) ||
-              (n1[method]() && n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1]) ||
-              (!n1[method]() && !n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1])
+              (n1[method]() &&
+                n2[method]() &&
+                this.matriz[f2][c2] < this.matriz[f1][c1]) ||
+              (!n1[method]() &&
+                !n2[method]() &&
+                this.matriz[f2][c2] < this.matriz[f1][c1])
             ) {
               this.intercambiar(f2, c2, f1, c1)
             }
@@ -1355,8 +1469,12 @@ export default class Matriz {
             n2.cargar(this.matriz[f1][c1])
             if (
               (n1[method]() && !n2[method]()) ||
-              (n1[method]() && n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1]) ||
-              (!n1[method]() && !n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1])
+              (n1[method]() &&
+                n2[method]() &&
+                this.matriz[f2][c2] < this.matriz[f1][c1]) ||
+              (!n1[method]() &&
+                !n2[method]() &&
+                this.matriz[f2][c2] < this.matriz[f1][c1])
             ) {
               this.intercambiar(f2, c2, f1, c1)
             }
@@ -1393,8 +1511,12 @@ export default class Matriz {
             n2.cargar(this.matriz[f1][c1])
             if (
               (n1[method]() && !n2[method]()) ||
-              (n1[method]() && n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1]) ||
-              (!n1[method]() && !n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1])
+              (n1[method]() &&
+                n2[method]() &&
+                this.matriz[f2][c2] < this.matriz[f1][c1]) ||
+              (!n1[method]() &&
+                !n2[method]() &&
+                this.matriz[f2][c2] < this.matriz[f1][c1])
             ) {
               this.intercambiar(f2, c2, f1, c1)
             }
@@ -1431,8 +1553,12 @@ export default class Matriz {
             n2.cargar(this.matriz[f1][c1])
             if (
               (n1[method]() && !n2[method]()) ||
-              (n1[method]() && n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1]) ||
-              (!n1[method]() && !n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1])
+              (n1[method]() &&
+                n2[method]() &&
+                this.matriz[f2][c2] < this.matriz[f1][c1]) ||
+              (!n1[method]() &&
+                !n2[method]() &&
+                this.matriz[f2][c2] < this.matriz[f1][c1])
             ) {
               this.intercambiar(f2, c2, f1, c1)
             }
@@ -1473,8 +1599,12 @@ export default class Matriz {
               n2.cargar(this.matriz[f1][c1])
               if (
                 (n1[method]() && !n2[method]()) ||
-                (n1[method]() && n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1]) ||
-                (!n1[method]() && !n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1])
+                (n1[method]() &&
+                  n2[method]() &&
+                  this.matriz[f2][c2] < this.matriz[f1][c1]) ||
+                (!n1[method]() &&
+                  !n2[method]() &&
+                  this.matriz[f2][c2] < this.matriz[f1][c1])
               ) {
                 this.intercambiar(f2, c2, f1, c1)
               }
@@ -1492,8 +1622,12 @@ export default class Matriz {
               n2.cargar(this.matriz[f1][c1])
               if (
                 (!n1[method]() && n2[method]()) ||
-                (!n1[method]() && !n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1]) ||
-                (n1[method]() && n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1])
+                (!n1[method]() &&
+                  !n2[method]() &&
+                  this.matriz[f2][c2] < this.matriz[f1][c1]) ||
+                (n1[method]() &&
+                  n2[method]() &&
+                  this.matriz[f2][c2] < this.matriz[f1][c1])
               ) {
                 this.intercambiar(f2, c2, f1, c1)
               }
@@ -1535,8 +1669,12 @@ export default class Matriz {
               n2.cargar(this.matriz[f1][c1])
               if (
                 (n1[method]() && !n2[method]()) ||
-                (n1[method]() && n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1]) ||
-                (!n1[method]() && !n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1])
+                (n1[method]() &&
+                  n2[method]() &&
+                  this.matriz[f2][c2] < this.matriz[f1][c1]) ||
+                (!n1[method]() &&
+                  !n2[method]() &&
+                  this.matriz[f2][c2] < this.matriz[f1][c1])
               ) {
                 this.intercambiar(f2, c2, f1, c1)
               }
@@ -1554,8 +1692,12 @@ export default class Matriz {
               n2.cargar(this.matriz[f1][c1])
               if (
                 (!n1[method]() && n2[method]()) ||
-                (!n1[method]() && !n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1]) ||
-                (n1[method]() && n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1])
+                (!n1[method]() &&
+                  !n2[method]() &&
+                  this.matriz[f2][c2] < this.matriz[f1][c1]) ||
+                (n1[method]() &&
+                  n2[method]() &&
+                  this.matriz[f2][c2] < this.matriz[f1][c1])
               ) {
                 this.intercambiar(f2, c2, f1, c1)
               }
@@ -1597,8 +1739,12 @@ export default class Matriz {
               n2.cargar(this.matriz[f1][c1])
               if (
                 (n1[method]() && !n2[method]()) ||
-                (n1[method]() && n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1]) ||
-                (!n1[method]() && !n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1])
+                (n1[method]() &&
+                  n2[method]() &&
+                  this.matriz[f2][c2] < this.matriz[f1][c1]) ||
+                (!n1[method]() &&
+                  !n2[method]() &&
+                  this.matriz[f2][c2] < this.matriz[f1][c1])
               ) {
                 this.intercambiar(f2, c2, f1, c1)
               }
@@ -1616,8 +1762,12 @@ export default class Matriz {
               n2.cargar(this.matriz[f1][c1])
               if (
                 (!n1[method]() && n2[method]()) ||
-                (!n1[method]() && !n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1]) ||
-                (n1[method]() && n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1])
+                (!n1[method]() &&
+                  !n2[method]() &&
+                  this.matriz[f2][c2] < this.matriz[f1][c1]) ||
+                (n1[method]() &&
+                  n2[method]() &&
+                  this.matriz[f2][c2] < this.matriz[f1][c1])
               ) {
                 this.intercambiar(f2, c2, f1, c1)
               }
@@ -1659,8 +1809,12 @@ export default class Matriz {
               n2.cargar(this.matriz[f1][c1])
               if (
                 (n1[method]() && !n2[method]()) ||
-                (n1[method]() && n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1]) ||
-                (!n1[method]() && !n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1])
+                (n1[method]() &&
+                  n2[method]() &&
+                  this.matriz[f2][c2] < this.matriz[f1][c1]) ||
+                (!n1[method]() &&
+                  !n2[method]() &&
+                  this.matriz[f2][c2] < this.matriz[f1][c1])
               ) {
                 this.intercambiar(f2, c2, f1, c1)
               }
@@ -1678,8 +1832,12 @@ export default class Matriz {
               n2.cargar(this.matriz[f1][c1])
               if (
                 (!n1[method]() && n2[method]()) ||
-                (!n1[method]() && !n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1]) ||
-                (n1[method]() && n2[method]() && this.matriz[f2][c2] < this.matriz[f1][c1])
+                (!n1[method]() &&
+                  !n2[method]() &&
+                  this.matriz[f2][c2] < this.matriz[f1][c1]) ||
+                (n1[method]() &&
+                  n2[method]() &&
+                  this.matriz[f2][c2] < this.matriz[f1][c1])
               ) {
                 this.intercambiar(f2, c2, f1, c1)
               }
@@ -1711,7 +1869,10 @@ export default class Matriz {
   ordenarFilasPorUltimaColumna (): void {
     for (let f1 = 0; f1 < this.rowLength; f1++) {
       for (let p = 0; p < this.rowLength - 1; p++) {
-        if (this.matriz[p][this.columnLength - 1] > this.matriz[p + 1][this.columnLength - 1]) {
+        if (
+          this.matriz[p][this.columnLength - 1] >
+          this.matriz[p + 1][this.columnLength - 1]
+        ) {
           this.intercambiarFilas(p, p + 1)
         }
       }
@@ -1872,9 +2033,11 @@ export default class Matriz {
         this.matriz[f][c] = 1
       } else {
         cargar(m, z - 1)
-        if ((z - 1) % m === 0) { // r2
+        if ((z - 1) % m === 0) {
+          // r2
           f++
-        } else { // r1
+        } else {
+          // r1
           c = (c + 1) % m
           if (f === 0) {
             f = m - 1
@@ -1950,8 +2113,7 @@ export default class Matriz {
       }
     }
 
-    const cargar = (
-      fa: number, fb: number, ca: number, cb: number): void => {
+    const cargar = (fa: number, fb: number, ca: number, cb: number): void => {
       if (fa <= fb && ca <= cb) {
         if (fa === fb && ca === cb) {
           if (!this.matriz[ca - 1]) {
@@ -1973,15 +2135,147 @@ export default class Matriz {
     this.columnLength = numeroDeFilasYColumnas
   }
 
+  /**
+   * Carga matriz Diagonales Secundarias
+   * @param numeroDeFilasYColumnas Es el numero de filas y columnas
+   * @example
+   * cargarDiagonalesSecundarias(5);
+   *
+   *  1  2  3  4  5
+   *  2  3  4  5  6
+   *  3  4  5  6  7
+   *  4  5  6  7  8
+   *  5  6  7  8  9
+   */
   cargarDiagonalesSecundarias (numeroDeFilasYColumnas: number): void {
-    // pending
+    const llenarDiagonales = (
+      ca: number, cb: number, f: number, r: number): void => {
+      const n = cb - ca + 1
+      if (n === 0) {
+        // nada
+      } else if (ca === 0) {
+        if (!this.matriz[f]) {
+          this.matriz[f] = []
+        }
+        this.matriz[f][ca] = r
+        llenarDiagonales(ca + 1, cb, f, r)
+      } else {
+        if (!this.matriz[f]) {
+          this.matriz[f] = []
+        }
+        this.matriz[f][ca] = this.matriz[f][ca - 1] + 1
+        llenarDiagonales(ca + 1, cb, f, r)
+      }
+    }
+
+    const cargar = (fa: number, fb: number): void => {
+      const n = fb - fa + 1
+      if (n === 0) {
+        // nada
+      } else {
+        llenarDiagonales(0, numeroDeFilasYColumnas - 1, fa, r)
+        r++
+        cargar(fa + 1, fb)
+      }
+    }
+    let r = 1
+    cargar(0, numeroDeFilasYColumnas - 1)
+    this.rowLength = numeroDeFilasYColumnas
+    this.columnLength = numeroDeFilasYColumnas
+  }
+
+  /**
+   * Carga matriz DiagonalesUpBottomUp
+   * @param numeroDeFilasYColumnas Es el numero de filas y columnas
+   * @example
+   * cargarDiagonalesSecundariasUpBottomUp(5);
+   *
+   *   1   3   6  10  15
+   *   2   5   9  14  19
+   *   4   8  13  18  22
+   *   7  12  17  21  24
+   *  11  16  20  23  25
+   *
+   * m = numeroDeFilasYColumnas
+   * k = (m + 1) * m
+   */
+  cargarDiagonalesSecundariasUpBottomUp (numeroDeFilasYColumnas: number): void {
+    const cargar = (m: number, k: number): void => {
+      if (k === 1) {
+        f = 0
+        c = 0
+      } else {
+        cargar(m, k - 1)
+        if (c === m - 1) {
+          c = f + 1
+          f = m - 1
+        } else {
+          if (f === 0) {
+            f = c + 1
+            c = 0
+          } else {
+            c++
+            f--
+          }
+        }
+      }
+      if (!this.matriz[f]) {
+        this.matriz[f] = []
+      }
+      this.matriz[f][c] = k
+    }
+    const m = numeroDeFilasYColumnas
+    const k = (m + 1) * m
+    let f: number, c: number
+    cargar(numeroDeFilasYColumnas, k)
+    this.rowLength = numeroDeFilasYColumnas
+    this.columnLength = numeroDeFilasYColumnas
+  }
+
+  /**
+   * Carga matriz DiagonalesUpBottomUp
+   * @param numeroDeFilasYColumnas Es el numero de filas y columnas
+   * @example
+   * cargarDiagonalesPrincipalesTriangularInferiorIzquierda(5);
+   *
+   *  1
+   *  6   2
+   * 10   7   3              ,
+   * 13  11   8  4
+   * 15  14  12  9  5
+   *
+   * m = numeroDeFilasYColumnas
+   * k = (m + 1) * m / 2
+   */
+  cargarDiagonalesPrincipalesTriangularInferiorIzquierda (numeroDeFilasYColumnas: number): void {
+    const cargar = (m: number, k: number): void => {
+      if (k === 1) {
+        f = 0
+        c = 0
+      } else {
+        cargar(m, k - 1)
+        if (f === m - 1) {
+          f = m - c
+          c = 0
+        } else {
+          f++
+          c++
+        }
+      }
+      if (!this.matriz[f]) {
+        this.matriz[f] = []
+      }
+      this.matriz[f][c] = k
+    }
+    const m = numeroDeFilasYColumnas
+    const k = Math.floor((m + 1) * m / 2)
+    let f: number, c: number
+    cargar(numeroDeFilasYColumnas, k)
+    this.rowLength = numeroDeFilasYColumnas
+    this.columnLength = numeroDeFilasYColumnas
   }
 
   cargarDiagonalesPrincipales (numeroDeFilasYColumnas: number): void {
-    // pending
-  }
-
-  cargarVibora (numeroDeFilasYColumnas: number): void {
     // pending
   }
 }
@@ -1989,7 +2283,5 @@ export default class Matriz {
 /**
  * Pending
  * ------
- * cargar diagonales secundarias
  * cargar diagonales principales
- * cargar Vibora
  */

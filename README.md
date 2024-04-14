@@ -86,8 +86,11 @@ npm i utilities-library
 - Cargar Cuadrado Magico
 - Cargar Caracol
 - Cargar Diagonales Pricipales (pending)
-- Cargar Diagonales Secundarias (pending)
-- Cargar Vibora (pending)
+- Cargar Diagonales Secundarias 
+- Cargar Diagonales Secundarias Up - Bottom - Up 
+- Cargar Diagonales Principales Triangular Inferior Izquierda 
+- Cargar Vibora por filas
+- Cargar Vibora por columnas 
   
 ## Ejemplo 1
 
