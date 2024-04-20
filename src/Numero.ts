@@ -5,6 +5,11 @@
 /**
  * Clase que representa un número entero y proporciona métodos para manipularlo.
  */
+
+export type MethodsOfNumero = 'esPar' | 'esPrimo' | 'esCapicua' | 'esCuadradoPerfecto' | 'esFibonacci'
+
+export const methodsOfNumero: MethodsOfNumero[] = ['esPar', 'esPrimo', 'esCapicua', 'esCuadradoPerfecto', 'esFibonacci']
+
 export default class Numero {
   numero = 0
   /**
@@ -25,6 +30,11 @@ export default class Numero {
 
   #checarDireccion (direccion: string): never | void {
     if (direccion !== 'asc' && direccion !== 'desc') throw new Error("La dirección tiene que ser 'asc' o 'desc'")
+  }
+
+  #checarMethodsOfNumero (method: MethodsOfNumero): never | void {
+    const index = methodsOfNumero.indexOf(method)
+    if (index === -1) { throw new Error('El metodo no corresponse a una funcion de la clase Número') }
   }
 
   /**
@@ -138,12 +148,101 @@ export default class Numero {
     return copia1.esCuadradoPerfecto() || copia2.esCuadradoPerfecto()
   }
 
-  eliminarDigitosPares (): void {
-    // pending
+  /**
+   * Retorna la cuenta regresiva de un número
+   * @returns {number} El número de forma regresiva
+   * @example
+   * n1.retornarCuentaRegresiva(5) // 54321
+   */
+  cuentaRegresiva (): number {
+    let numero = this.numero
+    let resultado = 0
+    while (numero > 0) {
+      resultado = resultado * 10 + numero
+      numero = numero - 1
+    }
+    return resultado
   }
 
-  eliminarDigitosImpares (): void {
-    // pending
+  /**
+   * Repite los digitos de un número la cantidad de veces que vale el número
+   * @example
+   * 524 -> 55555224444
+   */
+  repetirDigitos (): void {
+    const repetirDigito = (x: number): number => {
+      let copia = x
+      let resultado = 0
+      while (copia > 0) {
+        resultado = resultado * 10 + x
+        copia = copia - 1
+      }
+      return resultado
+    }
+    let copia = this.numero
+    let resultado = ''
+    while (copia > 0) {
+      const digit = copia % 10
+      resultado = repetirDigito(digit) + resultado
+      copia = Math.floor(copia / 10)
+    }
+    this.numero = Number(resultado)
+  }
+
+  /**
+   * Calcula el factorial de un número
+   * @returns {number} El factorial del número
+   */
+  factorial (): number {
+    if (this.numero < 0) throw new Error('No existe el factorial de números negativos')
+    let resultado = 1
+    if (this.numero === 0 || this.numero === 1) {
+      return resultado
+    }
+    for (let i = 2; i <= this.numero; i++) {
+      resultado = i * resultado
+    }
+    return resultado
+  }
+
+  /**
+   * Elimina los digitos que le indiques de acuerdo a un metodo
+   * @param {MethodsOfNumero} method metodo de la clase número
+   * @param {boolean} is valor booleano
+   */
+  eliminarDigitosMetodos (method: MethodsOfNumero, is: boolean = true): void {
+    this.#checarMethodsOfNumero(method)
+    const n1 = new Numero()
+    let resultado = 0
+    while (this.numero > 0) {
+      const digit = this.numero % 10
+      this.numero = Math.floor(this.numero / 10)
+      n1.cargar(digit)
+      if (is ? n1[method]() : !n1[method]()) {
+        resultado = resultado * 10 + digit
+      }
+    }
+
+    this.numero = Number(resultado.toString().split('').reverse().join(''))
+  }
+
+  encontrarMayorYMenorDigito (): { mayor: number, menor: number } {
+    const resultado = {
+      mayor: this.numero % 10,
+      menor: this.numero % 10
+    }
+    let copia = this.numero
+    while (copia > 0) {
+      const ultimoDigito = copia % 10
+      if (resultado.menor > ultimoDigito) {
+        resultado.menor = ultimoDigito
+      }
+      if (resultado.mayor < ultimoDigito) {
+        resultado.mayor = ultimoDigito
+      }
+      copia = Math.floor(copia / 10)
+    }
+    return resultado
   }
 
   insertarDigitoPorPosicion (pos: number, digit: number): void {
@@ -153,22 +252,9 @@ export default class Numero {
   remplazarDigitoPorPosicion (pos: number, digit: number): void {
     // pending
   }
-
-  // 524 -> 55555224444
-  repetirDigitos (): void {
-    // pending
-  }
-
-  encontrarMayorYMenorDigito (): void {
-    // pending
-  }
-
-  factorial (): number {
-    // pending
-    return 0
-  }
 }
 
-export type MethodsOfNumero = 'esPar' | 'esPrimo' | 'esCapicua' | 'esCuadradoPerfecto' | 'esFibonacci'
-
-export const methodsOfNumero: MethodsOfNumero[] = ['esPar', 'esPrimo', 'esCapicua', 'esCuadradoPerfecto', 'esFibonacci']
+// pending
+// ------------
+//  Insertar digito por posición
+//  Remplazar digito por posición

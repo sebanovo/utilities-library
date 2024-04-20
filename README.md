@@ -140,13 +140,17 @@ m1.intercalar("esPar") // <-- funcion Numero
 - Verificar elementos iguales 
 - Verificar ordenado 
 - Insertar vector2 en 1 respecto a una posición
-- Eliminar elementos 
-- Duplicar elementos
+- Eliminar segmento 
+- Duplicar elemento 
 - Encontrar elemento menos repetido de un segmento
 - Encontrar la frecuencia de distribución de un segmento
 - Segmentar
 - Intercalar
 - Contar números que cumples con la condicion (par | primo | capicua | fibonacci) (pending)
+- Eliminar número
+- Cargar Serie v[1,21,321,4321,54321] ✔️
+- Cargar Digitos x = 12345 , v[1,2,3,4,5] ✔️
+
 
 ## Ejemplo 2
 
@@ -187,6 +191,14 @@ console.log(resultado.retornarVector()); // Resultado: [3, 4]
 - Es capicua
 - Es cuadrado perfecto
 - Es fibonacci
+- Cuenta regresiva
+- Factorial
+- Repetir digitos 
+- Eliminar digitos (par, primo, fibonacci, etc..)
+- Encontrar mayor y menor digito
+// pending
+- Insertar digito por posición
+- Remplazar digito por posición
 
 ## Ejemplo 3
 
@@ -208,7 +220,7 @@ console.log(isPar) // <-- true o false
 - Es letra (static)
 - Es espacio (static)
 - Es digito (static)
-- Rs palindromo
+- Es palindromo
 - Contar caracter
 - Contar Vocales 
 - Contar Letras
@@ -221,17 +233,17 @@ console.log(isPar) // <-- true o false
 - Posicion primer palabra
 - Eliminar primer palabra
 - Eliminar Hasta primer palabra
-- Eliminar Desde primer palabra (dudoso)
 - Contar palabras
 - Palabra mas larga
 - Palabra menos larga
 - Eliminar
-- Insertar (pending)
+- Insertar
+- Remplazar 
 - Eliminar primer letra de cada palabra
 - Eliminar última letra de cada palabra
 - Eliminar primera y última letra de cada palabra
-- Invertir cada palabra (pending)
-- Invertir frase (pending)
+- Invertir cada palabra 
+- Invertir frase 
 
 ## Ejemplo 4 
 ```javascript

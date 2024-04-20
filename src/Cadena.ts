@@ -23,6 +23,10 @@ export default class Cadena {
     return this.cadena
   }
 
+  #checarRango (posicion: number): never | void {
+    if (posicion < 0 || posicion > this.cadena.length) throw new Error('El parametro esta fuera de los límites')
+  }
+
   /**
    * Verifica si un caracter es una Vocal
    * @param {char} char caracter
@@ -72,7 +76,6 @@ export default class Cadena {
    * @returns
    */
   contarCaracter (char: string): number {
-    // pending
     let count = 0
     for (let i = 0; i < this.cadena.length; i++) {
       if (this.cadena[i] === char) {
@@ -237,17 +240,6 @@ export default class Cadena {
   }
 
   /**
-   * Elimina desde el utlimo caracter hasta encontrar la primer palabra
-   * ```js
-   *   x = "hola a todos *123" => "hola a "
-   * ni puta idea de el algoritmo
-   * ```
-   */
-  eliminarDesdePrimerPalabra (): void {
-    // pending
-  }
-
-  /**
    * Cuenta la cantidad de palabras
    * @returns {number}
    */
@@ -378,23 +370,55 @@ export default class Cadena {
    * @param {number} posicion posicion a insertar
    */
   insertar (cadena: string, posicion: number): void {
-    // pending
+    this.#checarRango(posicion)
+    const copy = this.cadena.split('')
+    const length = copy.length
+    for (let i = length - 1; i > -1; i--) {
+      if (i >= posicion) {
+        copy[i + 1] = copy[i]
+      } else {
+        break
+      }
+    }
+    copy[posicion] = cadena
+    this.cadena = copy.join('')
+  }
+
+  /**
+   * Remplaza un caracter por una cadena en una posicion
+   * @param {string} cadena cadena a insertar
+   * @param {number} posicion posicion a insertar
+   */
+  remplazar (cadena: string, posicion: number): void {
+    this.#checarRango(posicion)
+    const copy = this.cadena.split('')
+    const length = copy.length
+    for (let i = 0; i < length; i++) {
+      if (i === posicion) {
+        copy[i] = cadena
+      }
+    }
+    this.cadena = copy.join('')
   }
 
   invertirCadaPalabra (): void {
-
+    const copy = this.cadena.split(' ')
+    const n1 = new Cadena()
+    for (let i = 0; i < copy.length; i++) {
+      n1.cargar(copy[i])
+      n1.invertir()
+      copy[i] = n1.descargar()
+    }
+    this.cadena = copy.join(' ')
   }
 
   invertirFrase (): void {
-    // pending
+    this.cadena = this.cadena.split(' ').reverse().join(' ')
   }
 }
 
 /**
  * Pending
  * --------
- * Eliminar Desde primer palabra
- * insertar
- * Invertir cada palabra
- * invertir frase
+ * Eliminar Desde primer palabra ❌ (ni idea men)
  */

@@ -2274,14 +2274,10 @@ export default class Matriz {
     this.rowLength = numeroDeFilasYColumnas
     this.columnLength = numeroDeFilasYColumnas
   }
-
-  cargarDiagonalesPrincipales (numeroDeFilasYColumnas: number): void {
-    // pending
-  }
 }
 
 /**
  * Pending
  * ------
- * cargar diagonales principales
+ * cargar diagonales principales ❌ (no tengo ejemplo)
  */

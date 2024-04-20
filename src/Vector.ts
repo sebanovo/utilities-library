@@ -41,7 +41,11 @@ export default class Vector {
    * @returns {string} - Cadena que representa el vector.
    */
   descargar (): string {
-    return '{' + this.vector.toString() + '}'
+    let s = ''
+    for (let i = 0; i < this.length; i++) {
+      s = s + this.vector[i] + '|'
+    }
+    return s
   }
 
   /**
@@ -751,41 +755,10 @@ export default class Vector {
    * @param {Vector} v1 - Vector a concatenar.
    */
   concatenar (v1: Vector): void {
-    const n1 = v1.length
-    for (let i = 0; i < n1; i++) {
+    const lenght1 = v1.length
+    for (let i = 0; i < lenght1; i++) {
       this.cargarElementoXElemento(v1.vector[i])
     }
-  }
-
-  /**
-   * Ordena los elementos de un segmento del vector.
-   * @param {number} a - Índice de inicio del segmento.
-   * @param {number} b - Índice de fin del segmento.
-   */
-  ordenarElementosDeUnSegmento (a: number, b: number): void {
-    const vector1 = new Vector()
-    const vector2 = new Vector()
-    const vector3 = new Vector()
-
-    for (let i = 0; i < a; i++) {
-      vector1.cargarElementoXElemento(this.vector[i])
-    }
-
-    for (let i = a; i <= b; i++) {
-      vector2.cargarElementoXElemento(this.vector[i])
-    }
-
-    for (let i = b + 1; i < this.length; i++) {
-      vector3.cargarElementoXElemento(this.vector[i])
-    }
-
-    vector2.ordenamientoBurbuja()
-
-    vector1.concatenar(vector2)
-    vector1.concatenar(vector3)
-
-    this.vector = vector1.vector
-    this.length = vector1.length
   }
 
   /**
@@ -911,12 +884,56 @@ export default class Vector {
    * @param {number} numero numero a eliminar del vector
    */
   eliminarNumero (numero: number): void {
-    // pending
+    const n = this.length
+    for (let i = 0; i < n; i++) {
+      if (this.vector[i] === numero) {
+        this.vector[i] = this.vector[i + 1]
+        this.vector.length--
+        this.length--
+      }
+    }
+  }
+
+  /**
+   * Carga los digitos de un número en el vector
+   * @param numero numero a cargar digitos
+   */
+  cargarDigitos (numero: number): void {
+    this.length = numero.toString().length
+    for (let i = this.length; i > 0; i--) {
+      const digit = numero % 10
+      this.vector[i - 1] = digit
+      numero = Math.floor(numero / 10)
+    }
+  }
+
+  /**
+   * Cargar El vector con la siguiente serie
+   * @param numeroDeElementos Cantidad de elementos
+   * @example
+   * const n1 = new Vector()
+   * n1.cargarSerie1(5)
+   * [1, 21, 321, 4321, 54321]
+   */
+  cargarSerie1 (numeroDeElementos: number): void {
+    const n1 = new Numero()
+    this.length = numeroDeElementos
+    for (let i = 0; i < this.length; i++) {
+      n1.cargar(i + 1)
+      this.vector[i] = n1.cuentaRegresiva()
+    }
   }
 }
 
 /**
  * Pending
  * -------
- * Eliminar Numero
+ */
+/**
+ * TODO:
+ * -- Arreglar estos metodos sin usar vector auxiliar --
+ * eliminarElementosDelVectorIndicandoLasPosiciones
+ * encontrarElementoMenosRepetidoEntreUnSegmento
+ * duplicarElementos
+ * encontrarLaFrecuenciaDeDistribucioNumeroreUnSegmento
  */
