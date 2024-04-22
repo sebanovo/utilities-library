@@ -1,7 +1,9 @@
-node_modules/
+/node_modules/
 
-dist
+/dist/
 
-doc
+/doc/
 
-test
+__tests__/
+
+pnpm-lock.yaml

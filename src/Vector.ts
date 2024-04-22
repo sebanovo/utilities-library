@@ -930,8 +930,8 @@ export default class Vector {
  * -------
  */
 /**
- * TODO:
- * -- Arreglar estos metodos sin usar vector auxiliar --
+ * TODO: Arreglar estos metodos sin usar vector auxiliar
+ * --------------------------------------------------------
  * eliminarElementosDelVectorIndicandoLasPosiciones
  * encontrarElementoMenosRepetidoEntreUnSegmento
  * duplicarElementos

@@ -244,17 +244,9 @@ export default class Numero {
     }
     return resultado
   }
-
-  insertarDigitoPorPosicion (pos: number, digit: number): void {
-    // pending
-  }
-
-  remplazarDigitoPorPosicion (pos: number, digit: number): void {
-    // pending
-  }
 }
 
 // pending
 // ------------
-//  Insertar digito por posición
-//  Remplazar digito por posición
+// insertarDigitoPorPosicion
+// remplazarDigitoPorPosicion

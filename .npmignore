@@ -1,8 +1,8 @@
-src
+/src/
 
-node_modules
+node_modules/
 
-doc
+doc/
 
 .gitignore
 
@@ -14,4 +14,8 @@ jsdoc.json
 
 tsconfig.json
 
-test
+tsconfig.test.json
+
+__tests__
+
+pnpm-lock.yaml
