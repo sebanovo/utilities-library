@@ -73,7 +73,7 @@ export default class Cadena {
   /**
    * Cuenta la cantidad de caracteres en la cadena
    * @param char caracter
-   * @returns
+   * @returns {number} El número de caracteres
    */
   contarCaracter (char: string): number {
     let count = 0

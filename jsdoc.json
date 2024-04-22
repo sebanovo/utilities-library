@@ -24,7 +24,7 @@
     },
     "meta": {
       "title": "Utilities Library",
-      "description": "library for managing vectors, matrices, integers",
+      "description": "library to manage vectors, matrices, numbers and strings",
       "keyword": "Library"
     },
     "linenums": true,
