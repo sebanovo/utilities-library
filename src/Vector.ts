@@ -138,16 +138,16 @@ export default class Vector {
   }
 
   #checarParametros (a: number, b: number): never | void {
-    if (a < 0 || a > this.length - 1 || b < 0 || b > this.length - 1) throw new Error('Parametros fuera de los limites')
+    if (a < 0 || a > this.length - 1 || b < 0 || b > this.length - 1) { throw new Error('Parametros fuera de los limites') }
   }
 
   #checarDireccion (direccion: string): never | void {
-    if (direccion !== 'asc' && direccion !== 'desc') throw new Error("La dirección tiene que ser 'asc' o 'desc'")
+    if (direccion !== 'asc' && direccion !== 'desc') { throw new Error("La dirección tiene que ser 'asc' o 'desc'") }
   }
 
   #checarMethodsOfNumero (method: MethodsOfNumero): never | void {
     const index = methodsOfNumero.indexOf(method)
-    if (index === -1) throw new Error('El metodo no corresponse a una funcion de la clase Número')
+    if (index === -1) { throw new Error('El metodo no corresponse a una funcion de la clase Número') }
   }
 
   /**
@@ -267,7 +267,11 @@ export default class Vector {
    * @param {number} a posicion final
    * @returns {boolean} - `true` si se encuentra el valor, `false` de lo contrario.
    */
-  busquedaBinaria (valorBuscado: number, a: number = 0, b: number = this.length - 1): boolean {
+  busquedaBinaria (
+    valorBuscado: number,
+    a: number = 0,
+    b: number = this.length - 1
+  ): boolean {
     this.#checarParametros(a, b)
     this.ordenamientoBurbuja('asc', a, b)
     let izquierda = a
@@ -350,7 +354,7 @@ export default class Vector {
    * @param {number} b - Posición del segundo elemento.
    */
   intercambiar (a: number, b: number): void {
-    [this.vector[a], this.vector[b]] = [this.vector[b], this.vector[a]]
+    ;[this.vector[a], this.vector[b]] = [this.vector[b], this.vector[a]]
   }
 
   /**
@@ -369,7 +373,11 @@ export default class Vector {
 
     for (let i = a; i <= b; i++) {
       for (let j = a; j < b; j++) {
-        if (direccion === 'asc' ? this.vector[j] > this.vector[j + 1] : this.vector[j] < this.vector[j + 1]) {
+        if (
+          direccion === 'asc'
+            ? this.vector[j] > this.vector[j + 1]
+            : this.vector[j] < this.vector[j + 1]
+        ) {
           this.intercambiar(j, j + 1)
         }
       }
@@ -382,14 +390,22 @@ export default class Vector {
    * @param {number} a posicion inicial
    * @param {number} b posicion final
    */
-  ordenamientoPorSeleccion (direccion: 'asc' | 'desc' = 'asc', a: number = 0, b: number = this.length - 1): void {
+  ordenamientoPorSeleccion (
+    direccion: 'asc' | 'desc' = 'asc',
+    a: number = 0,
+    b: number = this.length - 1
+  ): void {
     this.#checarParametros(a, b)
     this.#checarDireccion(direccion)
 
     for (let i = a; i <= b; i++) {
       let indice = i
       for (let j = i + 1; j <= b; j++) {
-        if (direccion === 'asc' ? this.vector[j] < this.vector[indice] : this.vector[j] > this.vector[indice]) {
+        if (
+          direccion === 'asc'
+            ? this.vector[j] < this.vector[indice]
+            : this.vector[j] > this.vector[indice]
+        ) {
           indice = j
         }
       }
@@ -403,7 +419,11 @@ export default class Vector {
    * @param {number} a posicion inicial
    * @param {number} b posicion final
    */
-  ordenamientoBurbuja (direccion: 'asc' | 'desc' = 'asc', a: number = 0, b: number = this.length - 1): void {
+  ordenamientoBurbuja (
+    direccion: 'asc' | 'desc' = 'asc',
+    a: number = 0,
+    b: number = this.length - 1
+  ): void {
     this.#checarParametros(a, b)
     this.#checarDireccion(direccion)
 
@@ -411,7 +431,11 @@ export default class Vector {
     do {
       intercambio = false
       for (let i = a; i < b; i++) {
-        if (direccion === 'asc' ? this.vector[i] > this.vector[i + 1] : this.vector[i] < this.vector[i + 1]) {
+        if (
+          direccion === 'asc'
+            ? this.vector[i] > this.vector[i + 1]
+            : this.vector[i] < this.vector[i + 1]
+        ) {
           this.intercambiar(i, i + 1)
           intercambio = true
         }
@@ -684,7 +708,11 @@ export default class Vector {
     this.#checarDireccion(direccion)
     this.#checarParametros(a, b)
     for (let i = a; i < b; i++) {
-      if (direccion === 'asc' ? this.vector[i] > this.vector[i + 1] : this.vector[i] < this.vector[i + 1]) {
+      if (
+        direccion === 'asc'
+          ? this.vector[i] > this.vector[i + 1]
+          : this.vector[i] < this.vector[i + 1]
+      ) {
         return false
       }
     }
@@ -936,4 +964,5 @@ export default class Vector {
  * encontrarElementoMenosRepetidoEntreUnSegmento
  * duplicarElementos
  * encontrarLaFrecuenciaDeDistribucioNumeroreUnSegmento
+ * encontrarLaFrecuenciaDeDistribucioNumeroreUnSegmento (corregir el nombre y arreglar)
  */
