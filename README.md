@@ -1,6 +1,8 @@
 # Libreria de Utilidades
 
-Visita la documentación : <https://github.com/SebastianINF/utilities-library>
+Visita el repositorio : <https://github.com/sebanovo/utilities-library>
+
+Visita la documentación: <https://sebanovo.github.io/utilities-library/>
 
 ## Instalación : 
 

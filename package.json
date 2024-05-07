@@ -1,12 +1,12 @@
 {
   "name": "utilities-library",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "main": "./dist/index.js",
   "bin": "./dist/index.js",
   "scripts": {
     "dev": "ts-node ./src/index.ts",
-    "prepare": "tsc",
     "build": "tsc",
+    "prepare": "npm run build && npm run docs",
     "docs": "jsdoc -c jsdoc.json -R README.md",
     "deploy": "gh-pages -d doc"
   },
@@ -29,7 +29,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SebastianINF/utilities-library.git"
+    "url": "git+https://github.com/sebanovo/utilities-library.git"
   },
-  "homepage": "https://sebastianinf.github.io/utilities-library/"
+  "homepage": "https://sebanovo.github.io/utilities-library/"
 }

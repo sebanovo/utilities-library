@@ -2,10 +2,6 @@ import Numero, { type MethodsOfNumero, methodsOfNumero } from './Numero'
 /**
  * @module Vector
  */
-export interface objetoMaxYFrec {
-  maximo: number
-  frecuencia: number
-}
 /**
  * Clase que representa un vector y proporciona diversas operaciones y manipulaciones.
  */
@@ -972,3 +968,7 @@ export default class Vector {
  * encontrarLaFrecuenciaDeDistribucioNumeroreUnSegmento
  * encontrarLaFrecuenciaDeDistribucioNumeroreUnSegmento (corregir el nombre y arreglar)
  */
+export interface objetoMaxYFrec {
+  maximo: number
+  frecuencia: number
+}
