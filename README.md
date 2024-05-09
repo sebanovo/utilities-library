@@ -2,7 +2,8 @@
 
 Visita el repositorio : <https://github.com/sebanovo/utilities-library>
 
-Visita la documentación: <https://sebanovo.github.io/utilities-library/>
+Visita la documentación:
+<https://utilities-library.vercel.app>
 
 ## Instalación : 
 
