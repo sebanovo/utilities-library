@@ -1,5 +1,7 @@
 /src/
 
+public/
+
 node_modules/
 
 doc/

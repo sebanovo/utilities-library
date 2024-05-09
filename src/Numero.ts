@@ -1,26 +1,9 @@
 /**
  * @module Numero
  */
-
 /**
  * Clase que representa un número entero y proporciona métodos para manipularlo.
  */
-
-export type MethodsOfNumero =
-  | 'esPar'
-  | 'esPrimo'
-  | 'esCapicua'
-  | 'esCuadradoPerfecto'
-  | 'esFibonacci'
-
-export const methodsOfNumero: MethodsOfNumero[] = [
-  'esPar',
-  'esPrimo',
-  'esCapicua',
-  'esCuadradoPerfecto',
-  'esFibonacci'
-]
-
 export default class Numero {
   #numero = 0
   /**
@@ -266,6 +249,21 @@ export default class Numero {
     return resultado
   }
 }
+
+export type MethodsOfNumero =
+  | 'esPar'
+  | 'esPrimo'
+  | 'esCapicua'
+  | 'esCuadradoPerfecto'
+  | 'esFibonacci'
+
+export const methodsOfNumero: MethodsOfNumero[] = [
+  'esPar',
+  'esPrimo',
+  'esCapicua',
+  'esCuadradoPerfecto',
+  'esFibonacci'
+]
 
 // pending
 // ------------

@@ -22,7 +22,6 @@
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
     "eslint-plugin-promise": "^6.0.0",
-    "gh-pages": "^6.1.0",
     "jsdoc": "^4.0.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
