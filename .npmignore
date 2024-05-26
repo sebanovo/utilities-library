@@ -14,6 +14,10 @@ jsdoc.json
 
 .eslintignore
 
+.prettierrc.json
+
+.prettierignore
+
 tsconfig.json
 
 tsconfig.test.json
@@ -21,3 +25,5 @@ tsconfig.test.json
 __tests__
 
 pnpm-lock.yaml
+
+.vscode

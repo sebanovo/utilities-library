@@ -1,6 +1,5 @@
-import Matriz from './Matriz'
-import Vector from './Vector'
-import Numero from './Numero'
-import Cadena from './Cadena'
+export { default as Cadena } from './Cadena'
+export { default as Matriz } from './Matriz'
+export { default as Numero } from './Numero'
+export { default as Vector } from './Vector'
 
-export { Matriz, Vector, Numero, Cadena }

@@ -1,4 +1,4 @@
-import Numero, { type MethodsOfNumero, methodsOfNumero } from './Numero'
+import Numero, { methodsOfNumero, type MethodsOfNumero } from './Numero'
 /**
  * @module Vector
  */
@@ -281,7 +281,7 @@ export default class Vector {
     b: number = this.#length - 1
   ): boolean {
     this.#checarParametros(a, b)
-    this.ordenamientoBurbuja('asc', a, b)
+    this.bubbleSort('asc', a, b)
     let izquierda = a
     let derecha = b + 1
 
@@ -393,12 +393,42 @@ export default class Vector {
   }
 
   /**
-   * Realiza el ordenamiento por selección.
+   * Ordena los elementos del vector mediante el algoritmo bubble sort.
    * @param {'asc' | 'desc'} direccion direccion del ordenamiento
    * @param {number} a posicion inicial
    * @param {number} b posicion final
    */
-  ordenamientoPorSeleccion (
+  bubbleSort (
+    direccion: 'asc' | 'desc' = 'asc',
+    a: number = 0,
+    b: number = this.#length - 1
+  ): void {
+    this.#checarParametros(a, b)
+    this.#checarDireccion(direccion)
+
+    let intercambio
+    do {
+      intercambio = false
+      for (let i = a; i < b; i++) {
+        if (
+          direccion === 'asc'
+            ? this.#vector[i] > this.#vector[i + 1]
+            : this.#vector[i] < this.#vector[i + 1]
+        ) {
+          this.intercambiar(i, i + 1)
+          intercambio = true
+        }
+      }
+    } while (intercambio)
+  }
+
+  /**
+   * Ordena los elementos del vector mediante el algoritmo selection sort.
+   * @param {'asc' | 'desc'} direccion direccion del ordenamiento
+   * @param {number} a posicion inicial
+   * @param {number} b posicion final
+   */
+  selectionSort (
     direccion: 'asc' | 'desc' = 'asc',
     a: number = 0,
     b: number = this.#length - 1
@@ -422,12 +452,12 @@ export default class Vector {
   }
 
   /**
-   * Ordena los elementos del vector mediante el algoritmo de burbuja.
+   * Ordena los elementos del vector mediante el algoritmo merge sort.
    * @param {'asc' | 'desc'} direccion direccion del ordenamiento
    * @param {number} a posicion inicial
    * @param {number} b posicion final
    */
-  ordenamientoBurbuja (
+  mergeSort (
     direccion: 'asc' | 'desc' = 'asc',
     a: number = 0,
     b: number = this.#length - 1
@@ -435,20 +465,82 @@ export default class Vector {
     this.#checarParametros(a, b)
     this.#checarDireccion(direccion)
 
-    let intercambio
-    do {
-      intercambio = false
-      for (let i = a; i < b; i++) {
-        if (
-          direccion === 'asc'
-            ? this.#vector[i] > this.#vector[i + 1]
-            : this.#vector[i] < this.#vector[i + 1]
-        ) {
-          this.intercambiar(i, i + 1)
-          intercambio = true
+    const merge = (a: number, b: number, c: number): void => {
+      let i, j, k
+      const n1 = c - a + 1
+      const n2 = b - c
+      const L: number[] = new Array(n1)
+      const R: number[] = new Array(n2)
+      for (i = 0; i < n1; i++) { L[i] = this.#vector[a + i] }
+      for (j = 0; j < n2; j++) { R[j] = this.#vector[c + j + 1] }
+      i = 0; j = 0; k = a
+      while (i < n1 && j < n2) {
+        if (direccion === 'asc' ? L[i] <= R[j] : L[i] >= R[j]) {
+          this.#vector[k] = L[i]
+          i++
+        } else {
+          this.#vector[k] = R[j]
+          j++
         }
+        k++
       }
-    } while (intercambio)
+      while (i < n1) {
+        this.#vector[k] = L[i]
+        i++; k++
+      }
+
+      while (j < n2) {
+        this.#vector[k] = R[j]
+        j++; k++
+      }
+    }
+
+    const sort = (a: number, b: number): void => {
+      const n = b - a + 1
+      if (n > 1) {
+        const c = Math.floor((a + b) / 2)
+        sort(a, c)
+        sort(c + 1, b)
+        merge(a, b, c)
+      }
+    }
+    sort(a, b)
+  }
+
+  /**
+   * Ordena los elementos del vector mediante el algoritmo quick sort.
+   * @param {'asc' | 'desc'} direccion direccion del ordenamiento
+   * @param {number} a posicion inicial
+   * @param {number} b posicion final
+   */
+  quickSort (
+    direccion: 'asc' | 'desc' = 'asc',
+    a: number = 0,
+    b: number = this.#length - 1
+  ): void {
+    this.#checarParametros(a, b)
+    this.#checarDireccion(direccion)
+
+    const partition = (a: number, b: number): number => {
+      let sw = true
+      while (a < b) {
+        if (direccion === 'asc' ? this.#vector[a] > this.#vector[b] : this.#vector[a] < this.#vector[b]) {
+          this.intercambiar(a, b)
+          sw = !sw
+        }
+        sw ? a++ : b--
+      }
+      return a
+    }
+    const sort = (a: number, b: number): void => {
+      const n = b - a + 1
+      if (n > 1) {
+        const c = partition(a, b)
+        sort(a, c - 1)
+        sort(c + 1, b)
+      }
+    }
+    sort(a, b)
   }
 
   /**
@@ -879,7 +971,7 @@ export default class Vector {
       v1.cargarElementoXElemento(this.#vector[i])
     }
 
-    v1.ordenamientoBurbuja()
+    v1.bubbleSort()
 
     for (let i = 0; i < v1.#length; i++) {
       v2.cargarElementoXElemento(v1.#vector[i])

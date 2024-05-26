@@ -1,0 +1,51 @@
+{
+  "root": true,
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "env": {
+    "browser": false,
+    "es6": true,
+    "node": true
+  },
+  "extends": ["standard-with-typescript"],
+  "ignorePatterns": ["node_modules", "dist", "doc"],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "@typescript-eslint/no-unsafe-argument": "off",
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-useless-constructor": "off"
+  },
+  "overrides": [
+    {
+      "files": ["src/**/*.ts"],
+      "rules": {
+        "@typescript-eslint/no-unsafe-argument": "off",
+        "@typescript-eslint/strict-boolean-expressions": "off",
+        "@typescript-eslint/ban-types": "off",
+        "@typescript-eslint/ban-ts-comment": "off",
+        "@typescript-eslint/no-useless-constructor": "off",
+        "no-multiple-empty-lines": "off"
+      },
+      "parserOptions": {
+        "project": "./tsconfig.json"
+      }
+    },
+    {
+      "files": ["__tests__/**/*.test.ts", "__tests__/**/*.ts"],
+      "rules": {
+        "@typescript-eslint/no-unused-vars": "off"
+      },
+      "parserOptions": {
+        "project": "./tsconfig.test.json"
+      }
+    }
+  ]
+}

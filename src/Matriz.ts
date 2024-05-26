@@ -1,4 +1,4 @@
-import Numero, { type MethodsOfNumero, methodsOfNumero } from './Numero'
+import Numero, { methodsOfNumero, type MethodsOfNumero } from './Numero'
 /**
  * @module Matriz
  */
