@@ -366,12 +366,24 @@ export default class Vector {
   }
 
   /**
-   * Realiza el ordenamiento por intercambio
+   * Desordena los elementos del vector
+   * @param a posicion inicial
+   * @param b posicion final
+   */
+  desordenar (a: number, b: number): void {
+    this.#checarParametros(a, b)
+    for (let i = a; i <= b; i++) {
+      this.intercambiar(i, Numero.random(a, b))
+    }
+  }
+
+  /**
+   * Ordena los elementos del vector mediante el algoritmo bogo sort.
    * @param {'asc' | 'desc'} direccion direccion del ordenamiento
    * @param {number} a posicion inicial
    * @param {number} b posicion final
    */
-  ordenamientoPorIntercambio (
+  bogoSort (
     direccion: 'asc' | 'desc' = 'asc',
     a: number = 0,
     b: number = this.#length - 1
@@ -379,16 +391,8 @@ export default class Vector {
     this.#checarParametros(a, b)
     this.#checarDireccion(direccion)
 
-    for (let i = a; i <= b; i++) {
-      for (let j = a; j < b; j++) {
-        if (
-          direccion === 'asc'
-            ? this.#vector[j] > this.#vector[j + 1]
-            : this.#vector[j] < this.#vector[j + 1]
-        ) {
-          this.intercambiar(j, j + 1)
-        }
-      }
+    while (!this.verificarOrdenado(direccion, a, b)) {
+      this.desordenar(a, b)
     }
   }
 
@@ -406,20 +410,37 @@ export default class Vector {
     this.#checarParametros(a, b)
     this.#checarDireccion(direccion)
 
-    let intercambio
-    do {
-      intercambio = false
-      for (let i = a; i < b; i++) {
-        if (
-          direccion === 'asc'
-            ? this.#vector[i] > this.#vector[i + 1]
-            : this.#vector[i] < this.#vector[i + 1]
-        ) {
-          this.intercambiar(i, i + 1)
-          intercambio = true
+    const n = b + 1
+    for (let i = 1; i < n; i++) {
+      for (let j = a; j < n - 1; j++) {
+        if (direccion === 'asc' ? this.#vector[j] > this.#vector[j + 1] : this.#vector[j] < this.#vector[j + 1]) {
+          this.intercambiar(j, j + 1)
         }
       }
-    } while (intercambio)
+    }
+  }
+
+  /**
+   * Ordena los elementos del vector mediante el algoritmo insertion sort.
+   * @param {'asc' | 'desc'} direccion direccion del ordenamiento
+   * @param {number} a posicion inicial
+   * @param {number} b posicion final
+   */
+  insertionSort (
+    direccion: 'asc' | 'desc' = 'asc',
+    a: number = 0,
+    b: number = this.#length - 1
+  ): void {
+    this.#checarParametros(a, b)
+    this.#checarDireccion(direccion)
+
+    for (let i = a + 1; i < b; i++) {
+      let j = i
+      while (j > 0 && direccion === 'asc' ? this.#vector[j - 1] > this.#vector[j] : this.#vector[j - 1] < this.#vector[j]) {
+        this.intercambiar(j, j - 1)
+        j--
+      }
+    }
   }
 
   /**

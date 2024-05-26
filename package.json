@@ -1,6 +1,6 @@
 {
   "name": "utilities-library",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "main": "./dist/index.js",
   "bin": "./dist/index.js",
   "scripts": {
@@ -8,8 +8,8 @@
     "build": "tsc",
     "lint": "eslint --ext .ts,.js . --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint --ext .ts,.js . --fix",
-    "prepare": "npm run build && npm run docs",
-    "docs": "jsdoc -c jsdoc.json -R README.md"
+    "docs": "jsdoc -c jsdoc.json -R README.md",
+    "prepare": "npm run build && npm run docs"
   },
   "keywords": [],
   "author": "Sebastian Cespedes Rodas",

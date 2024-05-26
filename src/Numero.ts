@@ -122,6 +122,16 @@ export default class Numero {
   }
 
   /**
+   * genera un número random entre un intervalo
+   * @param a MIN VALUE
+   * @param b MAX VALUE
+   * @returns number random
+   */
+  static random (MIN_VALUE: number, MAX_VALUE: number): number {
+    return Math.floor(Math.random() * (MAX_VALUE - MIN_VALUE + 1)) + MIN_VALUE
+  }
+
+  /**
    * Verifica si el número es capicua
    * @returns {boolean}
    */

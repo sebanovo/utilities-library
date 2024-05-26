@@ -2052,9 +2052,7 @@ export default class Matriz {
   cargarCuadradoMagico (numeroDeFilasYColumnas: number): void {
     let f: number, c: number
     const cargar = (m: number, z: number): void => {
-      if (m % 2 === 0 || z === 0) {
-        throw new Error('La fila o la columna no debe ser par')
-      } else if (z === 1) {
+      if (z === 1) {
         f = 0
         c = Math.floor(m / 2)
         if (!this.#matriz[f]) {
@@ -2080,6 +2078,9 @@ export default class Matriz {
         }
         this.#matriz[f][c] = z
       }
+    }
+    if (numeroDeFilasYColumnas % 2 && (numeroDeFilasYColumnas ** 2) % 2 === 0) {
+      throw new Error('La fila y la columna tienen que ser impares')
     }
     cargar(numeroDeFilasYColumnas, numeroDeFilasYColumnas * numeroDeFilasYColumnas)
     this.#rowLength = numeroDeFilasYColumnas
