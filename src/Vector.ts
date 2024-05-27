@@ -473,6 +473,38 @@ export default class Vector {
   }
 
   /**
+   * Ordena los elementos del vector mediante el algoritmo shell sort.
+   * @param {'asc' | 'desc'} direccion direccion del ordenamiento
+   * @param {number} a posicion inicial
+   * @param {number} b posicion final
+   */
+  shellSort (
+    direccion: 'asc' | 'desc' = 'asc',
+    a: number = 0,
+    b: number = this.#length - 1
+  ): void {
+    this.#checarParametros(a, b)
+    this.#checarDireccion(direccion)
+
+    let intervalo = Math.floor((b - a + 1) / 2)
+    while (intervalo >= 1) {
+      for (let i = a; i <= b; i++) {
+        if (intervalo + i > b) break
+        if (direccion === 'asc' ? this.#vector[i] > this.#vector[intervalo + i] : this.#vector[i] < this.#vector[intervalo + i]) {
+          this.intercambiar(i, intervalo + i)
+          for (let j = i; j > a; j = j - intervalo) {
+            if (j - intervalo < a) break
+            if (direccion === 'asc' ? this.#vector[j - intervalo] > this.#vector[j] : this.#vector[j - intervalo] < this.#vector[j]) {
+              this.intercambiar(j - intervalo, j)
+            }
+          }
+        }
+      }
+      intervalo = Math.floor(intervalo / 2)
+    }
+  }
+
+  /**
    * Ordena los elementos del vector mediante el algoritmo merge sort.
    * @param {'asc' | 'desc'} direccion direccion del ordenamiento
    * @param {number} a posicion inicial
@@ -562,6 +594,56 @@ export default class Vector {
       }
     }
     sort(a, b)
+  }
+
+  /**
+   * Ordena los elementos del vector mediante el algoritmo counting sort.
+   * @param {'asc' | 'desc'} direccion direccion del ordenamiento
+   * @param {number} a posicion inicial
+   * @param {number} b posicion final
+   */
+  countingSort (
+    direccion: 'asc' | 'desc' = 'asc',
+    a: number = 0,
+    b: number = this.#length - 1
+  ): void {
+    this.#checarParametros(a, b)
+    this.#checarDireccion(direccion)
+
+    let min = this.#vector[a]
+    let max = this.#vector[a]
+
+    for (let i = a + 1; i <= b; i++) {
+      if (this.#vector[i] < min) min = this.#vector[i]
+      if (this.#vector[i] > max) max = this.#vector[i]
+    }
+
+    const count = new Array(max - min + 1).fill(0)
+
+    for (let i = a; i <= b; i++) {
+      count[this.#vector[i] - min]++
+    }
+
+    if (direccion === 'asc') {
+      for (let i = 1; i < count.length; i++) {
+        count[i] += count[i - 1]
+      }
+    } else {
+      for (let i = count.length - 2; i >= 0; i--) {
+        count[i] += count[i + 1]
+      }
+    }
+
+    const output = new Array(b - a + 1)
+    for (let i = b; i >= a; i--) {
+      const index = direccion === 'asc' ? count[this.#vector[i] - min] - 1 : count[this.#vector[i] - min] - 1
+      output[index] = this.#vector[i]
+      count[this.#vector[i] - min]--
+    }
+
+    for (let i = 0; i < output.length; i++) {
+      this.#vector[a + i] = output[i]
+    }
   }
 
   /**

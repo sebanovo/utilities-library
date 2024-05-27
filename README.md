@@ -130,8 +130,14 @@ m1.intercalar("esPar") // <-- funcion Numero
 - Desviación estándar
 - Búsqueda binaria
 - Búsqueda secuencial
-- Ordenamiento Por Intercambio 
-- Ordenamiento Por Selección 
+- Bogo Sort
+- Bubble Sort
+- Selection Sort
+- Insertion Sort
+- Merge Sort
+- Quick Sort
+- Shell Sort 
+- Counting Sort 
 - Unión de conjuntos
 - Intersección de conjuntos
 - Diferencia de conjuntos A-B
