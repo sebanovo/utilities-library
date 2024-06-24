@@ -1939,6 +1939,59 @@ export default class Matriz {
   // #recursividad
 
   /**
+   * Calcula el determinante de la matriz
+   * @returns {number} El determinante de la matriz
+   */
+  determinante (): number {
+    const main = (matrix: number[][]): number => {
+      let det: number
+      const rows = matrix.length
+      const cols = matrix[0].length
+      if (rows === 1) {
+        det = matrix[0][0]
+      } else {
+        det = 0
+        // Expandir por la primera fila (o cualquier fila/ columna)
+        for (let j = 0; j < cols; j++) {
+          // Calcular el cofactor matrix[0][j]
+          const cofactor = matrix[0][j] * cofactorSign(0, j) * main(cofactorMatrix(matrix, 0, j))
+          det += cofactor
+        }
+      }
+      return det
+    }
+
+    // Función para calcular el signo del cofactor
+    const cofactorSign = (row: number, col: number): number => {
+      return Math.pow(-1, row + col)
+    }
+
+    // Función para obtener la matriz de cofactores eliminando la fila y columna específicas
+    const cofactorMatrix = (matrix: number[][], row: number, col: number): number[][] => {
+      const subMatrix: number[][] = []
+      const n = matrix.length
+      for (let i = 0; i < n; i++) {
+        if (i !== row) {
+          const newRow: number[] = []
+          for (let j = 0; j < n; j++) {
+            if (j !== col) {
+              newRow.push(matrix[i][j])
+            }
+          }
+          subMatrix.push(newRow)
+        }
+      }
+      return subMatrix
+    }
+
+    if (this.#rowLength !== this.#columnLength) {
+      throw new Error('La matriz no es cuadrada')
+    }
+
+    return main(structuredClone(this.#matriz))
+  }
+
+  /**
    * Carga la matriz con la matriz de L's invertidas
    * @param numeroDeFilasYColumnas Es el numero de filas y columnas
    * @example
@@ -2312,4 +2365,5 @@ export default class Matriz {
  * Pending
  * ------
  * cargar diagonales principales ❌ (no tengo ejemplo)
+ * obtener el determinante
  */
