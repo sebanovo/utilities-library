@@ -240,6 +240,10 @@ export default class Numero {
     this.#numero = Number(resultado.toString().split('').reverse().join(''))
   }
 
+  /**
+   * Encuentra el mayor y menor digito.
+   * @return {{mayor: number, menor: number}}
+   */
   encontrarMayorYMenorDigito (): { mayor: number, menor: number } {
     const resultado = {
       mayor: this.#numero % 10,
@@ -257,6 +261,57 @@ export default class Numero {
       copia = Math.floor(copia / 10)
     }
     return resultado
+  }
+
+  static readonly #digits = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+  /**
+   * Convierte el decimal a base N
+   * @param {number} numero numero en decimal
+   * @param {number} base base N a convertir
+   * @return {string}
+   */
+  static decimalABaseN (numero: number, base: number): string {
+    if (base < 1 || base > this.#digits.length) throw new Error(`La base tiene que estar entre 1 y ${this.#digits.length}`)
+    else if (base === 1) {
+      let resultado = ''
+      while (numero > 0) {
+        resultado = resultado + base
+        numero--
+      }
+      return resultado
+    } else if (numero === 0) return '0'
+    else {
+      const result: string [] = []
+      while (numero > 0) {
+        result.push(this.#digits[numero % base])
+        numero = Math.floor(numero / base)
+      }
+      return result.reverse().join('')
+    }
+  }
+
+  /**
+   * Convierte el numero en base N a decimal
+   * @param {number} numero numero en decimal
+   * @param {number} base base N a convertir
+   * @return {string}
+   */
+  static baseNADecimal (numero: string, base: number): number {
+    if (base < 1 || base > this.#digits.length) throw new Error(`La base tiene que estar entre 1 y ${this.#digits.length}`)
+    else if (base === 1) {
+      return numero.length
+    } else {
+      numero = numero.toUpperCase()
+      let decimal = 0
+
+      for (let i = 0; i < numero.length; i++) {
+        const digit = numero[i]
+        const digitValue = this.#digits.indexOf(digit)
+        decimal = decimal * base + digitValue
+      }
+      return decimal
+    }
   }
 }
 

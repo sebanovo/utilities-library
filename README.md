@@ -26,6 +26,7 @@ npm i utilities-library
 - Multiplicacion
 - Multiplicacion por un escalar
 - Transposicion
+- determinante
 - Busqueda secuencial
 - Pertenencia
 - Verificar todos aprobados
@@ -205,6 +206,8 @@ console.log(resultado.retornarVector()); // Resultado: [3, 4]
 - Repetir digitos 
 - Eliminar digitos (par, primo, fibonacci, etc..)
 - Encontrar mayor y menor digito
+- Convertir decimal a base N 
+- Convertir base N a decimal
 // pending
 - Insertar digito por posición
 - Remplazar digito por posición

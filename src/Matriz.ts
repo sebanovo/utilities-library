@@ -2365,5 +2365,4 @@ export default class Matriz {
  * Pending
  * ------
  * cargar diagonales principales ❌ (no tengo ejemplo)
- * obtener el determinante
  */
