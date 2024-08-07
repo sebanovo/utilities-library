@@ -139,7 +139,7 @@ t1.intercalar("esPar") // <-- funcion Numero
 - Cargar Vibora por filas
 - Cargar Vibora por columnas 
   
-## Ejemplo 1
+## Ejemplo 2
 
 ```JavaScript
 // Crear una instancia de Matriz
@@ -205,7 +205,7 @@ m1.intercalar("esPar") // <-- funcion Numero
 - Cargar Digitos x = 12345 , v[1,2,3,4,5] ✔️
 
 
-## Ejemplo 2
+## Ejemplo 3
 
 ```javascript
 // Crear una instancia de Vector
@@ -255,7 +255,7 @@ console.log(resultado.retornarVector()); // Resultado: [3, 4]
 - Insertar digito por posición
 - Remplazar digito por posición
 
-## Ejemplo 3
+## Ejemplo 4
 
 ```javascript
 // Instancia de la clase Numero 
@@ -300,7 +300,7 @@ console.log(isPar) // <-- true o false
 - Invertir cada palabra 
 - Invertir frase 
 
-## Ejemplo 4 
+## Ejemplo 5
 ```javascript
 const c1 = new Cadena() 
 c1.cargar("Hola mundo")
