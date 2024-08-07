@@ -1,6 +1,6 @@
 import Numero, { type MethodsOfNumero } from './Numero'
 /**
- * @module Matriz
+ * @module Tensor
  */
 /**
  * Clase Tensor para trabajar con tensores
