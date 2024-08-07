@@ -257,7 +257,7 @@ export default class Matriz {
   verificarMayor (num: number): boolean {
     for (let f1 = 0; f1 < this.#rowLength; f1++) {
       for (let c1 = 0; c1 < this.#columnLength; c1++) {
-        if (this.#matriz[f1][c1] < num) {
+        if (this.#matriz[f1][c1] > num) {
           return false
         }
       }
@@ -273,7 +273,7 @@ export default class Matriz {
   verificarMenor (num: number): boolean {
     for (let f1 = 0; f1 < this.#rowLength; f1++) {
       for (let c1 = 0; c1 < this.#columnLength; c1++) {
-        if (this.#matriz[f1][c1] > num) {
+        if (this.#matriz[f1][c1] < num) {
           return false
         }
       }
@@ -488,7 +488,12 @@ export default class Matriz {
    * @returns {number}
    */
   devolverMayor (): number {
-    let mayor = this.#matriz[1][1]
+    if (this.#rowLength === 0 || this.#columnLength === 0) {
+      throw new Error('La matriz está vacía.')
+    }
+
+    let mayor = this.#matriz[0][0]
+
     for (let f1 = 0; f1 < this.#rowLength; f1++) {
       for (let c1 = 0; c1 < this.#columnLength; c1++) {
         if (mayor < this.#matriz[f1][c1]) {
@@ -504,7 +509,12 @@ export default class Matriz {
    * @returns {number}
    */
   devolverMenor (): number {
-    let menor = this.#matriz[1][1]
+    if (this.#rowLength === 0 || this.#columnLength === 0) {
+      throw new Error('La matriz está vacía.')
+    }
+
+    let menor = this.#matriz[0][0]
+
     for (let f1 = 0; f1 < this.#rowLength; f1++) {
       for (let c1 = 0; c1 < this.#columnLength; c1++) {
         if (menor > this.#matriz[f1][c1]) {
@@ -518,7 +528,7 @@ export default class Matriz {
   /**
    * Busca un elemento y devuelve sus posiciones
    * @param {number} num numero a buscar
-   * @returns {number[]}
+   * @returns {number[] | null[]}
    */
   busquedaSecuencial (num: number): number[] | null[] {
     for (let f1 = 0; f1 < this.#rowLength; f1++) {

@@ -14,7 +14,6 @@
   "templates": {
     "applicationName": "Utilities Library",
     "favicon": "./public/perfil.png",
-    "footer": "<span> HOla mundo<span>",
     "disqus": "",
     "googleAnalytics": "",
     "default": {
@@ -31,7 +30,7 @@
     },
     "meta": {
       "title": "Utilities Library",
-      "description": "library to manage vectors, matrices, numbers and strings",
+      "description": "library to manage tensors, vectors, matrices, numbers and strings",
       "keyword": "Library"
     },
     "linenums": true,

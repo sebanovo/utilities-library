@@ -11,6 +11,49 @@ Visita la documentación:
 npm i utilities-library
 ```
 
+## Clase Tensor
+
+### Metodos de la Clase Tensor
+
+- Cargar
+- Cargar serie aritmetica
+- Cargar serie geometrica
+- Pertenencia
+- Verificar mayor
+- Verificar menor
+- Verificar todos iguales
+- Verificar Ordenado
+- Suma
+- Resta
+- Multiplicación por un ecalar
+- Transposición
+- Intercambiar
+- Devolver mayor
+- Devolver menor
+- Ordenar
+- Segmentar
+- Intercalar
+- Verificar Ordenado
+- Buscar Posicion
+- Frecuencia
+
+## Ejemplo 1
+
+```JavaScript
+// Crear una instancia de Tensor
+const t1 = new Tensor()
+t1.cargar(3,3,3,1,9)
+
+// Ordenar:
+t1.ordenar()
+
+// Segmentar: 
+t1.segmentar("esPar") //<-- funcion Numero 
+
+// Intercalar: 
+t1.intercalar("esPar") // <-- funcion Numero 
+```
+
 ## Clase Matriz
 
 ### Metodos de la Clase Matriz
@@ -23,9 +66,9 @@ npm i utilities-library
 - Cargar serie geometrica
 - Suma
 - Resta
-- Multiplicacion
-- Multiplicacion por un escalar
-- Transposicion
+- Multiplicación
+- Multiplicación por un escalar
+- Transposición
 - determinante
 - Busqueda secuencial
 - Pertenencia
