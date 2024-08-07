@@ -546,7 +546,7 @@ export default class Tensor {
   /**
    * Busca la posición del número
    * @param {number}num número
-   * @returns {number[]|null[]} La posición del número en formato [x, y, z], o [null, null, null] si no se encuentra.
+   * @returns {number[]} La posición del número en formato [x, y, z], o [null, null, null] si no se encuentra.
    */
   buscarPosicion (num: number): number[] | null[] {
     for (let z = 0; z < this.capas; z++) {

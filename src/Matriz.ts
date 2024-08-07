@@ -528,7 +528,7 @@ export default class Matriz {
   /**
    * Busca un elemento y devuelve sus posiciones
    * @param {number} num numero a buscar
-   * @returns {number[]|null[]} La posición del número en formato [x, y], o [null, null] si no se encuentra.
+   * @returns {number[]} La posición del número en formato [x, y], o [null, null] si no se encuentra.
    */
   busquedaSecuencial (num: number): number[] | null[] {
     for (let f1 = 0; f1 < this.#rowLength; f1++) {
