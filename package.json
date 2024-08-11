@@ -1,6 +1,6 @@
 {
   "name": "utilities-library",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "main": "./dist/index.js",
   "bin": "./dist/index.js",
   "scripts": {
@@ -17,6 +17,10 @@
     "string",
     "number"
   ],
+  "engines": {
+    "node": ">=17.0.1"
+  },
+  "engine-strict": true,
   "author": "Sebastian Cespedes Rodas",
   "license": "ISC",
   "description": "tensor - matrix - vector - string - number",

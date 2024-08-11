@@ -22,7 +22,7 @@ npm i utilities-library
 - Verificar mayor
 - Verificar menor
 - Verificar todos iguales
-- Verificar Ordenado
+- Verificar ordenado
 - Suma
 - Resta
 - Multiplicación por un ecalar
@@ -33,8 +33,10 @@ npm i utilities-library
 - Ordenar
 - Segmentar
 - Intercalar
-- Verificar Ordenado
-- Buscar Posicion
+- Verificar ordenado
+- Verificar ordenado razón
+- Verificar todos únicos
+- Buscar posicion
 - Frecuencia
 
 ## Ejemplo 1
@@ -193,6 +195,7 @@ m1.intercalar("esPar") // <-- funcion Numero
 - Verificar elementos iguales 
 - Verificar ordenado 
 - Insertar vector2 en 1 respecto a una posición
+- Pop
 - Eliminar segmento 
 - Duplicar elemento 
 - Encontrar elemento menos repetido de un segmento

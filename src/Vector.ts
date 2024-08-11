@@ -146,7 +146,9 @@ export default class Vector {
   }
 
   #checarParametros (a: number, b: number): never | void {
-    if (a < 0 || a > this.#length - 1 || b < 0 || b > this.#length - 1) { throw new Error('Parametros fuera de los limites') }
+    if (a < 0 || a > this.#length - 1 || b < 0 || b > this.#length - 1) { throw new Error('Parametros fuera de los limites') } else if (a > b) {
+      throw new Error(`a = ${a} tiene que ser menor o igual que (<=) b = ${b}`)
+    }
   }
 
   #checarDireccion (direccion: string): never | void {
@@ -948,37 +950,44 @@ export default class Vector {
   }
 
   /**
+   * Elimina el último elemento del vector
+   */
+  pop (): void {
+    this.#vector.pop()
+    this.#length = this.#vector.length
+  }
+
+  /**
    * Elimina los elementos de un vector indicando dos posiciones (rango).
    * @param {number} a - Índice de inicio del rango.
    * @param {number} b - Índice de fin del rango.
    */
   eliminarElementosDelVectorIndicandoLasPosiciones (a: number, b: number): void {
-    const copia = new Vector()
+    this.#checarParametros(a, b)
+    const n = b - a + 1
 
-    for (let i = 0; i < this.#length; i++) {
-      if (i < a || i > b) {
-        copia.cargarElementoXElemento(this.#vector[i])
-      }
+    for (let i = b + 1; i < this.#length; i++) {
+      this.#vector[i - n] = this.#vector[i]
     }
 
-    this.#vector = copia.#vector
-    this.#length = copia.#length
+    for (let i = 0; i < n; i++) {
+      this.pop()
+    }
   }
 
   /**
    * Duplica los elementos del vector.
    */
   duplicarElementos (): void {
-    const copia = new Vector()
-
-    for (let i = 0; i < this.#length; i++) {
-      for (let j = 0; j < 2; j++) {
-        copia.cargarElementoXElemento(this.#vector[i])
-      }
+    const lengthOriginal = this.#length
+    this.#vector.length = lengthOriginal * 2
+    this.#length = this.#vector.length
+    for (let i = lengthOriginal; i >= 0; i--) {
+      this.#vector[i + i] = this.#vector[i]
     }
-
-    this.#vector = copia.#vector
-    this.#length = copia.#length
+    for (let i = 0; i < this.#length; i += 2) {
+      this.#vector[i + 1] = this.#vector[i]
+    }
   }
 
   /**
@@ -1062,7 +1071,7 @@ export default class Vector {
    * @param {Vector} v2 objeto de la clase vector
    * @param {Vector} v3 objeto de la clase vector
    */
-  encontrarLaFrecuenciaDeDistribucioNumeroreUnSegmento (
+  encontrarLaFrecuenciaDeDistribucionDeUnSegmento (
     a: number,
     b: number,
     v2: Vector,
@@ -1157,11 +1166,9 @@ export default class Vector {
 /**
  * TODO: Arreglar estos metodos sin usar vector auxiliar
  * --------------------------------------------------------
- * eliminarElementosDelVectorIndicandoLasPosiciones
  * encontrarElementoMenosRepetidoEntreUnSegmento
- * duplicarElementos
  * encontrarLaFrecuenciaDeDistribucioNumeroreUnSegmento
- * encontrarLaFrecuenciaDeDistribucioNumeroreUnSegmento (corregir el nombre y arreglar)
+ * encontrarLaFrecuenciaDeDistribucionDeUnSegmento (corregir el nombre y arreglar)
  */
 export interface objetoMaxYFrec {
   maximo: number

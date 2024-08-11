@@ -146,10 +146,10 @@ export default class Matriz {
 
   /**
    * Retorna la matriz
-   * @returns {string}
+   * @returns {number[][]}
    */
   matriz (): number[][] {
-    return this.#matriz
+    return structuredClone(this.#matriz)
   }
 
   #checarMethodsOfNumero (method: MethodsOfNumero): never | void {
@@ -286,6 +286,7 @@ export default class Matriz {
    * @returns {boolean}
    */
   verificarOrdenado (direccion: 'asc' | 'desc' = 'asc'): boolean {
+    this.#checarDireccion(direccion)
     let control = this.#matriz[0][0]
 
     for (let f1 = 0; f1 < this.#rowLength; f1++) {
@@ -560,6 +561,7 @@ export default class Matriz {
 
   /**
    * Ordena la matriz
+   * @param {'asc' | 'desc'} direccion direccion del ordenamiento
    */
   ordenar (direccion: 'asc' | 'desc' = 'asc'): void {
     this.#checarDireccion(direccion)
@@ -600,7 +602,7 @@ export default class Matriz {
       for (let c1 = 0; c1 < this.#columnLength; c1++) {
         for (let f2 = f1; f2 < this.#rowLength; f2++) {
           if (f1 === f2) {
-            inc = c1
+            inc = c1 + 1
           } else {
             inc = 0
           }
@@ -642,7 +644,7 @@ export default class Matriz {
         if (bool) {
           for (let f2 = f1; f2 < this.#rowLength; f2++) {
             if (f1 === f2) {
-              inc = c1
+              inc = c1 + 1
             } else {
               inc = 0
             }
@@ -665,7 +667,7 @@ export default class Matriz {
         } else {
           for (let f2 = f1; f2 < this.#rowLength; f2++) {
             if (f1 === f2) {
-              inc = c1
+              inc = c1 + 1
             } else {
               inc = 0
             }
@@ -1455,7 +1457,7 @@ export default class Matriz {
       for (let c1 = 0; c1 < f1; c1++) {
         for (let f2 = f1; f2 < this.#rowLength; f2++) {
           if (f1 === f2) {
-            inc = c1
+            inc = c1 + 1
           } else {
             inc = 0
           }
@@ -1498,7 +1500,7 @@ export default class Matriz {
       for (let c1 = this.#columnLength - f1; c1 < this.#columnLength; c1++) {
         for (let f2 = f1; f2 < this.#rowLength; f2++) {
           if (f1 === f2) {
-            inc = c1
+            inc = c1 + 1
           } else {
             inc = this.#columnLength - f2
           }
@@ -1540,7 +1542,7 @@ export default class Matriz {
       for (let c1 = 0; c1 < this.#columnLength - f1 - 1; c1++) {
         for (let f2 = f1; f2 < this.#rowLength - 1; f2++) {
           if (f1 === f2) {
-            inc = c1
+            inc = c1 + 1
           } else {
             inc = 0
           }
@@ -1582,7 +1584,7 @@ export default class Matriz {
       for (let c1 = f1 + 1; c1 < this.#columnLength; c1++) {
         for (let f2 = f1; f2 < this.#rowLength - 1; f2++) {
           if (f1 === f2) {
-            inc = c1
+            inc = c1 + 1
           } else {
             inc = f2 + 1
           }
@@ -1628,7 +1630,7 @@ export default class Matriz {
         if (bool) {
           for (let f2 = f1; f2 < this.#rowLength; f2++) {
             if (f1 === f2) {
-              inc = c1
+              inc = c1 + 1
             } else {
               inc = 0
             }
@@ -1651,7 +1653,7 @@ export default class Matriz {
         } else {
           for (let f2 = f1; f2 < this.#rowLength; f2++) {
             if (f1 === f2) {
-              inc = c1
+              inc = c1 + 1
             } else {
               inc = 0
             }
@@ -1698,7 +1700,7 @@ export default class Matriz {
         if (bool) {
           for (let f2 = f1; f2 < this.#rowLength; f2++) {
             if (f1 === f2) {
-              inc = c1
+              inc = c1 + 1
             } else {
               inc = this.#columnLength - f2
             }
@@ -1721,7 +1723,7 @@ export default class Matriz {
         } else {
           for (let f2 = f1; f2 < this.#rowLength; f2++) {
             if (f1 === f2) {
-              inc = c1
+              inc = c1 + 1
             } else {
               inc = this.#columnLength - f2
             }
@@ -1768,7 +1770,7 @@ export default class Matriz {
         if (bool) {
           for (let f2 = f1; f2 < this.#rowLength - 1; f2++) {
             if (f1 === f2) {
-              inc = c1
+              inc = c1 + 1
             } else {
               inc = 0
             }
@@ -1791,7 +1793,7 @@ export default class Matriz {
         } else {
           for (let f2 = f1; f2 < this.#rowLength - 1; f2++) {
             if (f1 === f2) {
-              inc = c1
+              inc = c1 + 1
             } else {
               inc = 0
             }
@@ -1838,7 +1840,7 @@ export default class Matriz {
         if (bool) {
           for (let f2 = f1; f2 < this.#rowLength - 1; f2++) {
             if (f1 === f2) {
-              inc = c1
+              inc = c1 + 1
             } else {
               inc = f2 + 1
             }
@@ -1861,7 +1863,7 @@ export default class Matriz {
         } else {
           for (let f2 = f1; f2 < this.#rowLength - 1; f2++) {
             if (f1 === f2) {
-              inc = c1
+              inc = c1 + 1
             } else {
               inc = f2 + 1
             }

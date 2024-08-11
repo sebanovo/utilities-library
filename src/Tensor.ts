@@ -1,4 +1,4 @@
-import Numero, { type MethodsOfNumero } from './Numero'
+import Numero, { methodsOfNumero, type MethodsOfNumero } from './Numero'
 /**
  * @module Tensor
  */
@@ -158,15 +158,30 @@ export default class Tensor {
     return true
   }
 
-  // /**
-  //  * Verifica si el tensor esta ordenado respecto a una razón
-  //  * @param {number} r la razón
-  //  * @returns {boolean}
-  //  */
-  // verificarOrdenadoRazon (r: number): boolean {
-  //   // pending
-  //   return false
-  // }
+  /**
+ * Verifica si el tensor está ordenado respecto a una razón en todas sus dimensiones
+ * @param {number} r - La razón
+ * @returns {boolean}
+ */
+  verificarOrdenadoRazon (r: number): boolean {
+    for (let z = 0; z < this.capas; z++) {
+      for (let x = 0; x < this.filas; x++) {
+        for (let y = 0; y < this.columnas; y++) {
+          if (y < this.columnas - 1 && this.tensor[z][x][y] + r !== this.tensor[z][x][y + 1]) {
+            return false
+          }
+          if (x < this.filas - 1 && y === this.columnas - 1 && this.tensor[z][x][y] + r !== this.tensor[z][x + 1][0]) {
+            return false
+          }
+          if (z < this.capas - 1 && x === this.filas - 1 && y === this.columnas - 1 && this.tensor[z][x][y] + r !== this.tensor[z + 1][0][0]) {
+            return false
+          }
+        }
+      }
+    }
+
+    return true
+  }
 
   /**
    * Verifica si todos los elementos del tensor son iguales
@@ -186,14 +201,27 @@ export default class Tensor {
     return true
   }
 
-  // /**
-  //  * Verifica si todos los elementos del tensor son diferentes
-  //  * @returns {boolean}
-  //  */
-  // verificarTodosDiferentes (): boolean {
-  //   // pending
-  //   return false
-  // }
+  /**
+   * Verifica si todos los elementos del tensor son unicos osea diferentes
+   * @returns {boolean}
+   */
+  verificarTodosUnicos (): boolean {
+    const elementosUnicos = new Set<number>()
+
+    for (let z = 0; z < this.capas; z++) {
+      for (let x = 0; x < this.filas; x++) {
+        for (let y = 0; y < this.columnas; y++) {
+          const valor = this.tensor[z][x][y]
+          if (elementosUnicos.has(valor)) {
+            return false
+          }
+          elementosUnicos.add(valor)
+        }
+      }
+    }
+
+    return true
+  }
 
   /**
    * Suma dos matrices
@@ -367,9 +395,12 @@ export default class Tensor {
 
   /**
    * Ordena el tensor
+   * @param {'asc' | 'desc'} direccion direccion de ordenamiento
    */
-  ordenar (): void {
+  ordenar (direccion: 'asc' | 'desc' = 'asc'): void {
+    this.#checarDireccion(direccion)
     let inf, inc
+
     for (let z1 = 0; z1 < this.capas; z1++) {
       for (let x1 = 0; x1 < this.filas; x1++) {
         for (let y1 = 0; y1 < this.columnas; y1++) {
@@ -386,7 +417,11 @@ export default class Tensor {
                 inc = 0
               }
               for (let y2 = inc; y2 < this.columnas; y2++) {
-                if (this.tensor[z2][x2][y2] < this.tensor[z1][x1][y1]) {
+                if (
+                  direccion === 'asc'
+                    ? this.tensor[z2][x2][y2] < this.tensor[z1][x1][y1]
+                    : this.tensor[z2][x2][y2] > this.tensor[z1][x1][y1]
+                ) {
                   this.intercambiar(z1, x1, y1, z2, x2, y2)
                 }
               }
@@ -402,6 +437,7 @@ export default class Tensor {
    * @param {MethodsOfNumero} method metodo del objeto Numero
    */
   segmentar (method: MethodsOfNumero): void {
+    this.#checarMethodsOfNumero(method)
     let inf
     let inc
 
@@ -419,7 +455,7 @@ export default class Tensor {
             }
             for (let x2 = inf; x2 < this.filas; x2++) {
               if (z1 === z2 && x1 === x2) {
-                inc = y1
+                inc = y1 + 1
               } else {
                 inc = 0
               }
@@ -449,6 +485,7 @@ export default class Tensor {
    * @param {MethodsOfNumero} method metodo del objeto Numero
    */
   intercalar (method: MethodsOfNumero): void {
+    this.#checarMethodsOfNumero(method)
     let inf
     let inc
     let bool = true
@@ -469,7 +506,7 @@ export default class Tensor {
               }
               for (let x2 = inf; x2 < this.filas; x2++) {
                 if (z1 === z2 && x1 === x2) {
-                  inc = y1
+                  inc = y1 + 1
                 } else {
                   inc = 0
                 }
@@ -498,7 +535,7 @@ export default class Tensor {
               }
               for (let x2 = inf; x2 < this.filas; x2++) {
                 if (z1 === z2 && x1 === x2) {
-                  inc = y1
+                  inc = y1 + 1
                 } else {
                   inc = 0
                 }
@@ -523,16 +560,32 @@ export default class Tensor {
     }
   }
 
+  #checarDireccion (direccion: string): never | void {
+    if (direccion !== 'asc' && direccion !== 'desc') { throw new Error("La dirección tiene que ser 'asc' o 'desc'") }
+  }
+
+  #checarMethodsOfNumero (method: MethodsOfNumero): never | void {
+    const index = methodsOfNumero.indexOf(method)
+    if (index === -1) { throw new Error('El metodo no corresponse a una funcion de la clase Número') }
+  }
+
   /**
    * Verifica que el tensor este ordenado
+   * @param {'asc' | 'desc'} direccion direccion del ordenamiento
    * @returns {boolean}
    */
-  verificarOrdenado (): boolean {
+  verificarOrdenado (direccion: 'asc' | 'desc' = 'asc'): boolean {
+    this.#checarDireccion(direccion)
     let control = this.tensor[0][0][0]
+
     for (let z1 = 0; z1 < this.capas; z1++) {
       for (let x1 = 0; x1 < this.filas; x1++) {
         for (let y1 = 0; y1 < this.columnas; y1++) {
-          if (this.tensor[z1][x1][y1] < control) {
+          if (
+            direccion === 'asc'
+              ? this.tensor[z1][x1][y1] < control
+              : this.tensor[z1][x1][y1] > control
+          ) {
             return false
           }
           control = this.tensor[z1][x1][y1]
@@ -541,7 +594,6 @@ export default class Tensor {
     }
     return true
   }
-
 
   /**
    * Busca la posición del número
@@ -583,6 +635,4 @@ export default class Tensor {
 
 
 // pendiente:
-// verificarOrdenadoRazon
-// verificarTodosDiferentes
 // multiplicación
