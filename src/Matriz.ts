@@ -26,9 +26,7 @@ export default class Matriz {
     this.#columnLength = nc
 
     for (let f1 = 0; f1 < this.#rowLength; f1++) {
-      if (!this.#matriz[f1]) {
-        this.#matriz[f1] = []
-      }
+      this.#matriz[f1] ??= []
       for (let c1 = 0; c1 < this.#columnLength; c1++) {
         this.#matriz[f1][c1] = Math.floor(Math.random() * (b - a + 1) + a)
       }
@@ -70,9 +68,8 @@ export default class Matriz {
     let r = 1
     for (let f1 = 0; f1 < this.#rowLength; f1++) {
       for (let c1 = 0; c1 < this.#columnLength; c1++) {
-        if (!this.#matriz[f1]) {
-          this.#matriz[f1] = []
-        }
+        this.#matriz[f1] ??= []
+
         this.#matriz[f1][c1] = r
         r++
       }
@@ -109,9 +106,8 @@ export default class Matriz {
     let r = 1
     for (let c1 = 0; c1 < this.#columnLength; c1++) {
       for (let f1 = 0; f1 < this.#rowLength; f1++) {
-        if (!this.#matriz[f1]) {
-          this.#matriz[f1] = []
-        }
+        this.#matriz[f1] ??= []
+
         this.#matriz[f1][c1] = r
         r++
       }
@@ -171,8 +167,8 @@ export default class Matriz {
    */
   retornarDimension (): object {
     return {
-      fila: this.#rowLength,
-      columna: this.#columnLength
+      rows: this.#rowLength,
+      columns: this.#columnLength
     }
   }
 
@@ -194,9 +190,7 @@ export default class Matriz {
 
     let n = 1
     for (let f1 = 0; f1 < this.#rowLength; f1++) {
-      if (!this.#matriz[f1]) {
-        this.#matriz[f1] = []
-      }
+      this.#matriz[f1] ??= []
       for (let c1 = 0; c1 < this.#columnLength; c1++) {
         this.#matriz[f1][c1] = a1 + (n - 1) * r
         n++
@@ -223,9 +217,7 @@ export default class Matriz {
     let n = 1
 
     for (let f1 = 0; f1 < this.#rowLength; f1++) {
-      if (!this.#matriz[f1]) {
-        this.#matriz[f1] = []
-      }
+      this.#matriz[f1] ??= []
       for (let c1 = 0; c1 < this.#columnLength; c1++) {
         this.#matriz[f1][c1] = a1 * Math.round(Math.pow(r, n - 1))
         n++
@@ -369,9 +361,7 @@ export default class Matriz {
     this.#columnLength = m1.#columnLength
 
     for (let f1 = 0; f1 < this.#rowLength; f1++) {
-      if (!this.#matriz[f1]) {
-        this.#matriz[f1] = []
-      }
+      this.#matriz[f1] ??= []
       for (let c1 = 0; c1 < this.#columnLength; c1++) {
         this.#matriz[f1][c1] = m1.#matriz[f1][c1] + m2.#matriz[f1][c1]
       }
@@ -392,9 +382,7 @@ export default class Matriz {
     this.#columnLength = m1.#columnLength
 
     for (let f1 = 0; f1 < this.#rowLength; f1++) {
-      if (!this.#matriz[f1]) {
-        this.#matriz[f1] = []
-      }
+      this.#matriz[f1] ??= []
       for (let c1 = 0; c1 < this.#columnLength; c1++) {
         this.#matriz[f1][c1] = m1.#matriz[f1][c1] - m2.#matriz[f1][c1]
       }
@@ -421,9 +409,7 @@ export default class Matriz {
     const n = m1.#columnLength
 
     for (let f1 = 0; f1 < this.#rowLength; f1++) {
-      if (!this.#matriz[f1]) {
-        this.#matriz[f1] = []
-      }
+      this.#matriz[f1] ??= []
       for (let c1 = 0; c1 < this.#columnLength; c1++) {
         suma = 0
         for (let k = 0; k < n; k++) {
@@ -443,9 +429,7 @@ export default class Matriz {
     if (this.#rowLength === 0 || this.#columnLength === 0) return
 
     for (let f1 = 1; f1 < this.#rowLength; f1++) {
-      if (!this.#matriz[f1]) {
-        this.#matriz[f1] = []
-      }
+      this.#matriz[f1] ??= []
       for (let c1 = 1; c1 < this.#columnLength; c1++) {
         this.#matriz[f1][c1] = escalar * this.#matriz[f1][c1]
       }
@@ -458,9 +442,7 @@ export default class Matriz {
   transposicion (): void {
     const m1 = new Matriz()
     for (let f1 = 0; f1 < this.#columnLength; f1++) {
-      if (!m1.#matriz[f1]) {
-        m1.#matriz[f1] = []
-      }
+      m1.#matriz[f1] ??= []
       for (let c1 = 0; c1 < this.#rowLength; c1++) {
         m1.#matriz[f1][c1] = this.#matriz[c1][f1]
       }
@@ -699,12 +681,8 @@ export default class Matriz {
    * @param {Function} method metodo de la clase Numero
    */
   #añadirColumna (method: Function): void {
-    if (!this.#matriz[this.#columnLength]) {
-      this.#matriz[this.#columnLength] = []
-    }
-    if (!this.#matriz[this.#columnLength + 1]) {
-      this.#matriz[this.#columnLength + 1] = []
-    }
+    this.#matriz[this.#columnLength] ??= []
+    this.#matriz[this.#columnLength + 1] ??= []
 
     for (let f1 = 0; f1 < this.#rowLength; f1++) {
       this.#matriz[f1][this.#columnLength] = method(f1)
@@ -963,12 +941,8 @@ export default class Matriz {
 
   // extensiones 2 (Añadir Fila)
   #añadirFila (method: (arg0: number) => number): void {
-    if (!this.#matriz[this.#rowLength]) {
-      this.#matriz[this.#rowLength] = []
-    }
-    if (!this.#matriz[this.#rowLength + 1]) {
-      this.#matriz[this.#rowLength + 1] = []
-    }
+    this.#matriz[this.#rowLength] ??= []
+    this.#matriz[this.#rowLength + 1] ??= []
 
     for (let c1 = 0; c1 < this.#columnLength; c1++) {
       this.#matriz[this.#rowLength][c1] = method(c1)
@@ -1228,13 +1202,9 @@ export default class Matriz {
 
   // parte 1
   añadirColumnaMayorFrecuenciaYFrecuencia (): void {
-    // Asegúrate de que haya espacio suficiente para dos nuevas filas
-    if (!this.#matriz[this.#columnLength]) {
-      this.#matriz[this.#columnLength] = []
-    }
-    if (!this.#matriz[this.#columnLength + 1]) {
-      this.#matriz[this.#columnLength + 1] = []
-    }
+    this.#matriz[this.#columnLength] ??= []
+    this.#matriz[this.#columnLength + 1] ??= []
+
     for (let f1 = 0; f1 < this.#rowLength; f1++) {
       this.#matriz[f1][this.#columnLength] = this.#mayorFrecuenciaFila(f1)
       this.#matriz[f1][this.#columnLength + 1] = this.frecuenciaFila(
@@ -1247,13 +1217,9 @@ export default class Matriz {
   }
 
   añadirColumnaMenorFrecuenciaYFrecuencia (): void {
-    // Asegúrate de que haya espacio suficiente para dos nuevas filas
-    if (!this.#matriz[this.#columnLength]) {
-      this.#matriz[this.#columnLength] = []
-    }
-    if (!this.#matriz[this.#columnLength + 1]) {
-      this.#matriz[this.#columnLength + 1] = []
-    }
+    this.#matriz[this.#columnLength] ??= []
+    this.#matriz[this.#columnLength + 1] ??= []
+
     for (let f1 = 0; f1 < this.#rowLength; f1++) {
       this.#matriz[f1][this.#columnLength] = this.#menorFrecuenciaFila(f1)
       this.#matriz[f1][this.#columnLength + 1] = this.frecuenciaFila(
@@ -1315,15 +1281,11 @@ export default class Matriz {
 
   // parte 2
   añadirFilaMayorFrecuenciaYFrecuencia (): void {
-    // Asegúrate de que haya espacio suficiente para dos nuevas filas
-    if (!this.#matriz[this.#rowLength]) {
-      this.#matriz[this.#rowLength] = []
-    }
-    if (!this.#matriz[this.#rowLength + 1]) {
-      this.#matriz[this.#rowLength + 1] = []
-    }
+    this.#matriz[this.#rowLength] ??= []
+    this.#matriz[this.#rowLength + 1] ??= []
+
     for (let c1 = 0; c1 < this.#columnLength; c1++) {
-      this.#matriz[this.#rowLength][c1] = this.#mayorFrecuenciaColumna(c1) // <-- El problema esta aca :  Cannot set properties of undefined (setting '0')
+      this.#matriz[this.#rowLength][c1] = this.#mayorFrecuenciaColumna(c1)
       this.#matriz[this.#rowLength + 1][c1] = this.frecuenciaColumna(
         c1,
         this.#matriz[this.#rowLength][c1]
@@ -1334,15 +1296,11 @@ export default class Matriz {
   }
 
   añadirFilaMenorFrecuenciaYFrecuencia (): void {
-    // Asegúrate de que haya espacio suficiente para dos nuevas filas
-    if (!this.#matriz[this.#rowLength]) {
-      this.#matriz[this.#rowLength] = []
-    }
-    if (!this.#matriz[this.#rowLength + 1]) {
-      this.#matriz[this.#rowLength + 1] = []
-    }
+    this.#matriz[this.#rowLength] ??= []
+    this.#matriz[this.#rowLength + 1] ??= []
+
     for (let c1 = 0; c1 < this.#columnLength; c1++) {
-      this.#matriz[this.#rowLength][c1] = this.#menorFrecuenciaColumna(c1) // <-- El problema esta aca :  Cannot set properties of undefined (setting '0')
+      this.#matriz[this.#rowLength][c1] = this.#menorFrecuenciaColumna(c1)
       this.#matriz[this.#rowLength + 1][c1] = this.frecuenciaColumna(
         c1,
         this.#matriz[this.#rowLength][c1]
@@ -2020,12 +1978,9 @@ export default class Matriz {
       if (n === 0) {
         // nada
       } else {
-        if (!this.#matriz[f]) {
-          this.#matriz[f] = []
-        }
-        if (!this.#matriz[n - 1]) {
-          this.#matriz[n - 1] = []
-        }
+        this.#matriz[f] ??= []
+        this.#matriz[n - 1] ??= []
+
         this.#matriz[f][n - 1] = f + 1
         this.#matriz[n - 1][f] = f + 1
         llenarL(f, n - 1)
@@ -2063,18 +2018,10 @@ export default class Matriz {
         // nada
       } else {
         llenarAro(fa, fb, a, n - 1, z)
-        if (!this.#matriz[fb]) {
-          this.#matriz[fb] = []
-        }
-        if (!this.#matriz[n + a - 1]) {
-          this.#matriz[n + a - 1] = []
-        }
-        if (!this.#matriz[fa]) {
-          this.#matriz[fa] = []
-        }
-        if (!this.#matriz[n + a - 1]) {
-          this.#matriz[n + a - 1] = []
-        }
+        this.#matriz[fb] ??= []
+        this.#matriz[n + a - 1] ??= []
+        this.#matriz[fa] ??= []
+
         this.#matriz[fb][n + a - 1] = z
         this.#matriz[n + a - 1][fb] = z
         this.#matriz[fa][n + a - 1] = z
@@ -2087,9 +2034,8 @@ export default class Matriz {
       if (m === 0) {
         // nada
       } else if (m === 1) {
-        if (!this.#matriz[fb]) {
-          this.#matriz[fb] = []
-        }
+        this.#matriz[fb] ??= []
+
         this.#matriz[fb][fb] = 1
       } else {
         cargar(fa + 1, fb - 1)
@@ -2120,9 +2066,8 @@ export default class Matriz {
       if (z === 1) {
         f = 0
         c = Math.floor(m / 2)
-        if (!this.#matriz[f]) {
-          this.#matriz[f] = []
-        }
+        this.#matriz[f] ??= []
+
         this.#matriz[f][c] = 1
       } else {
         cargar(m, z - 1)
@@ -2138,9 +2083,7 @@ export default class Matriz {
             f--
           }
         }
-        if (!this.#matriz[f]) {
-          this.#matriz[f] = []
-        }
+        this.#matriz[f] ??= []
         this.#matriz[f][c] = z
       }
     }
@@ -2167,9 +2110,8 @@ export default class Matriz {
   cargarCaracol (numeroDeFilasYColumnas: number): void {
     const arriba = (f: number, ca: number, cb: number): void => {
       if (ca < cb) {
-        if (!this.#matriz[f - 1]) {
-          this.#matriz[f - 1] = []
-        }
+        this.#matriz[f - 1] ??= []
+
         this.#matriz[f - 1][ca - 1] = r
         r++
         arriba(f, ca + 1, cb)
@@ -2178,9 +2120,8 @@ export default class Matriz {
 
     const derecha = (fa: number, fb: number, c: number): void => {
       if (fa < fb) {
-        if (!this.#matriz[fb - 1]) {
-          this.#matriz[fb - 1] = []
-        }
+        this.#matriz[fb - 1] ??= []
+
         this.#matriz[fb - 1][c - 1] = r
         r++
         derecha(fa, fb - 1, c)
@@ -2189,9 +2130,8 @@ export default class Matriz {
 
     const abajo = (f: number, ca: number, cb: number): void => {
       if (ca < cb) {
-        if (!this.#matriz[f - 1]) {
-          this.#matriz[f - 1] = []
-        }
+        this.#matriz[f - 1] ??= []
+
         this.#matriz[f - 1][cb - 1] = r
         r++
         abajo(f, ca, cb - 1)
@@ -2200,9 +2140,8 @@ export default class Matriz {
 
     const izquierda = (fa: number, fb: number, c: number): void => {
       if (fa < fb) {
-        if (!this.#matriz[fa - 1]) {
-          this.#matriz[fa - 1] = []
-        }
+        this.#matriz[fa - 1] ??= []
+
         this.#matriz[fa - 1][c - 1] = r
         r++
         izquierda(fa + 1, fb, c)
@@ -2212,9 +2151,8 @@ export default class Matriz {
     const cargar = (fa: number, fb: number, ca: number, cb: number): void => {
       if (fa <= fb && ca <= cb) {
         if (fa === fb && ca === cb) {
-          if (!this.#matriz[ca - 1]) {
-            this.#matriz[ca - 1] = []
-          }
+          this.#matriz[ca - 1] ??= []
+
           this.#matriz[ca - 1][fa - 1] = r
         } else {
           arriba(fa, ca, cb)
@@ -2249,15 +2187,13 @@ export default class Matriz {
       if (n === 0) {
         // nada
       } else if (ca === 0) {
-        if (!this.#matriz[f]) {
-          this.#matriz[f] = []
-        }
+        this.#matriz[f] ??= []
+
         this.#matriz[f][ca] = r
         llenarDiagonales(ca + 1, cb, f, r)
       } else {
-        if (!this.#matriz[f]) {
-          this.#matriz[f] = []
-        }
+        this.#matriz[f] ??= []
+
         this.#matriz[f][ca] = this.#matriz[f][ca - 1] + 1
         llenarDiagonales(ca + 1, cb, f, r)
       }
@@ -2314,9 +2250,8 @@ export default class Matriz {
           }
         }
       }
-      if (!this.#matriz[f]) {
-        this.#matriz[f] = []
-      }
+      this.#matriz[f] ??= []
+
       this.#matriz[f][c] = k
     }
     const m = numeroDeFilasYColumnas
@@ -2359,9 +2294,7 @@ export default class Matriz {
           c++
         }
       }
-      if (!this.#matriz[f]) {
-        this.#matriz[f] = []
-      }
+      this.#matriz[f] ??= []
       this.#matriz[f][c] = k
     }
     const m = numeroDeFilasYColumnas

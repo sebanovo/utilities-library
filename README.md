@@ -39,6 +39,11 @@ npm i utilities-library
 - Buscar posicion
 - Frecuencia
 
+#### Recursividad 
+
+- Cargar diana
+- Cargar L
+
 ## Ejemplo 1
 
 ```JavaScript
@@ -129,17 +134,18 @@ t1.intercalar("esPar") // <-- funcion Numero
 - Ordenar rangos (pending)
 - Segmentar rangos par y no par (pending)
 
-#### Recursividad 
+#### Recursividad
+
 - Cargar L'
 - Cargar diagonal
-- Cargar Cuadrado Magico
-- Cargar Caracol
-- Cargar Diagonales Pricipales (pending)
-- Cargar Diagonales Secundarias 
-- Cargar Diagonales Secundarias Up - Bottom - Up 
-- Cargar Diagonales Principales Triangular Inferior Izquierda 
-- Cargar Vibora por filas
-- Cargar Vibora por columnas 
+- Cargar Cuadrado magico
+- Cargar caracol
+- Cargar diagonales pricipales (pending)
+- Cargar diagonales secundarias 
+- Cargar diagonales secundarias Up - Bottom - Up 
+- Cargar diagonales principales triangular inferior izquierda 
+- Cargar vibora por filas
+- Cargar vibora por columnas 
   
 ## Ejemplo 2
 
@@ -224,14 +230,14 @@ const miVector = new Vector();
 v1.cargarElementoXElemento(5);
 v1.cargarElementoXElemento(8);
 v1.cargarElementoXElemento(5);
-console.log(v1.retornarVector()); // Resultado: [5, 8]
+console.log(v1.vector()); // Resultado: [5, 8, 5]
 
 // Interseccion de conjuntos
 const vector1 = new Vector([1, 2, 3, 4]);
 const vector2 = new Vector([3, 4, 5, 6]);
 const resultado = new Vector();
 resultado.interseccionDeConjuntos(vector1, vector2);
-console.log(resultado.retornarVector()); // Resultado: [3, 4]
+console.log(resultado.vector()); // Resultado: [3, 4]
 ```
 
 ## Metodos de la Clase Numero 

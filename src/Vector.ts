@@ -28,7 +28,7 @@ export default class Vector {
    * @returns {number[]}
    */
   vector (): number[] {
-    return this.#vector
+    return structuredClone(this.#vector)
   }
 
   length (): number {
@@ -340,14 +340,6 @@ export default class Vector {
    */
   retornarNumero (elemento: number): number {
     return this.#vector[elemento]
-  }
-
-  /**
-   * Retorna el vector completo.
-   * @returns {number[]} - Vector completo.
-   */
-  retornarVector (): number[] {
-    return this.#vector
   }
 
   /**
