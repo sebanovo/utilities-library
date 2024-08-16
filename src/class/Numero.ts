@@ -1,6 +1,4 @@
-/**
- * @module Numero
- */
+import { type MethodsOfNumero, methodsOfNumero } from '../@types/types'
 /**
  * Clase que representa un número entero y proporciona métodos para manipularlo.
  */
@@ -314,21 +312,6 @@ export default class Numero {
     }
   }
 }
-
-export type MethodsOfNumero =
-  | 'esPar'
-  | 'esPrimo'
-  | 'esCapicua'
-  | 'esCuadradoPerfecto'
-  | 'esFibonacci'
-
-export const methodsOfNumero: MethodsOfNumero[] = [
-  'esPar',
-  'esPrimo',
-  'esCapicua',
-  'esCuadradoPerfecto',
-  'esFibonacci'
-]
 
 // pending
 // ------------

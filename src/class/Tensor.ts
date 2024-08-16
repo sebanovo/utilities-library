@@ -1,7 +1,5 @@
-import Numero, { methodsOfNumero, type MethodsOfNumero } from './Numero'
-/**
- * @module Tensor
- */
+import { type MethodsOfNumero, methodsOfNumero, type TensorDimension } from '../@types/types'
+import Numero from './Numero'
 /**
  * Clase Tensor para trabajar con tensores
  */
@@ -719,6 +717,49 @@ export default class Tensor {
     this.#rowLength = this.#columnLength = this.#layers = numeroDeFilasColumnasYCapas
   }
 
+  /**
+   * Carga el tensor Diana
+   * @param numeroDeFilasColumnasYCapas Es el numero de filas, columnas y capas
+   * @example
+   * cargarL(5);
+   * [
+   *  [
+   *    [ 1, 2, 3, 4, 5 ],
+   *    [ 2, 2, 3, 4, 5 ],
+   *    [ 3, 3, 3, 4, 5 ],
+   *    [ 4, 4, 4, 4, 5 ],
+   *    [ 5, 5, 5, 5, 5 ]
+   *  ],
+   *  [
+   *    [ 1, 2, 3, 4, 5 ],
+   *    [ 2, 2, 3, 4, 5 ],
+   *    [ 3, 3, 3, 4, 5 ],
+   *    [ 4, 4, 4, 4, 5 ],
+   *    [ 5, 5, 5, 5, 5 ]
+   *  ],
+   *  [
+   *    [ 1, 2, 3, 4, 5 ],
+   *    [ 2, 2, 3, 4, 5 ],
+   *    [ 3, 3, 3, 4, 5 ],
+   *    [ 4, 4, 4, 4, 5 ],
+   *    [ 5, 5, 5, 5, 5 ]
+   *  ],
+   *  [
+   *    [ 1, 2, 3, 4, 5 ],
+   *    [ 2, 2, 3, 4, 5 ],
+   *    [ 3, 3, 3, 4, 5 ],
+   *    [ 4, 4, 4, 4, 5 ],
+   *    [ 5, 5, 5, 5, 5 ]
+   *  ],
+   *  [
+   *    [ 1, 2, 3, 4, 5 ],
+   *    [ 2, 2, 3, 4, 5 ],
+   *    [ 3, 3, 3, 4, 5 ],
+   *    [ 4, 4, 4, 4, 5 ],
+   *    [ 5, 5, 5, 5, 5 ]
+   *  ]
+   * ]
+   */
   cargarL (numeroDeFilasColumnasYCapas: number): void {
     const llenarL = (f: number, n: number, capa: number): void => {
       if (n === 0) {
@@ -749,6 +790,42 @@ export default class Tensor {
     cargarCapa(numeroDeFilasColumnasYCapas)
     this.#tensor[0][0][0] = 1
     this.#rowLength = this.#columnLength = this.#layers = numeroDeFilasColumnasYCapas
+  }
+
+  /**
+   * Retorna el número de filas
+   * @returns {number}
+   */
+  rowLength (): number {
+    return this.#rowLength
+  }
+
+  /**
+   * Retorna el número de columnas
+   * @returns {number}
+   */
+  columnLength (): number {
+    return this.#columnLength
+  }
+
+  /**
+   * Retorna el número de capas
+   * @returns {number}
+   */
+  layers (): number {
+    return this.#layers
+  }
+
+  /**
+   * Retorna un objeto con la fila, columna y capa
+   * @returns {TensorDimension}
+   */
+  retornarDimension (): TensorDimension {
+    return {
+      rows: this.#rowLength,
+      columns: this.#columnLength,
+      layers: this.#layers
+    }
   }
 }
 

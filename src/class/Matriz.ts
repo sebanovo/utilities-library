@@ -1,7 +1,5 @@
-import Numero, { methodsOfNumero, type MethodsOfNumero } from './Numero'
-/**
- * @module Matriz
- */
+import { type MatrizDimension, methodsOfNumero, type MethodsOfNumero } from '../@types/types'
+import Numero from './Numero'
 /**
  * Clase Matriz para trabajar con matrices
  */
@@ -163,9 +161,9 @@ export default class Matriz {
 
   /**
    * Retorna un objeto con la fila y la columna
-   * @returns {object}
+   * @returns {MatrizDimension}
    */
-  retornarDimension (): object {
+  retornarDimension (): MatrizDimension {
     return {
       rows: this.#rowLength,
       columns: this.#columnLength

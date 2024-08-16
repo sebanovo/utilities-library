@@ -1,6 +1,6 @@
-export { default as Cadena } from './Cadena'
-export { default as Matriz } from './Matriz'
-export { default as Numero } from './Numero'
-export { default as Tensor } from './Tensor'
-export { default as Vector } from './Vector'
+export { default as Cadena } from './class/Cadena'
+export { default as Matriz } from './class/Matriz'
+export { default as Numero } from './class/Numero'
+export { default as Tensor } from './class/Tensor'
+export { default as Vector } from './class/Vector'
 

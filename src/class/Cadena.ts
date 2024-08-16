@@ -1,8 +1,4 @@
 /**
- * @module Cadena
- */
-
-/**
  * Clase que representa un vector y proporciona diversas operaciones y manipulaciones.
  */
 export default class Cadena {

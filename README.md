@@ -18,6 +18,10 @@ npm i utilities-library
 - Cargar
 - Cargar serie aritmetica
 - Cargar serie geometrica
+- Retornar dimensión
+- RowLength
+- ColumnLength
+- Layers
 - Pertenencia
 - Verificar mayor
 - Verificar menor
@@ -68,6 +72,9 @@ t1.intercalar("esPar") // <-- funcion Numero
 - Cargar
 - Descargar
 - Maximo
+- Retornar dimensión
+- RowLength
+- ColumnLength
 - Frecuencia
 - Cargar serie aritmetica
 - Cargar serie geometrica

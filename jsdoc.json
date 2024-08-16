@@ -49,7 +49,7 @@
     }
   },
   "pixi": {
-    "styles": ["path/to/custom/styles.css"],
-    "scripts": ["path/to/custom/script.js"]
+    "styles": [],
+    "scripts": []
   }
 }
