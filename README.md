@@ -1,5 +1,15 @@
 # Libreria de Utilidades
 
+# Table of Contents
+1. [Clase Tensor](#clase-tensor)
+2. [Clase Matriz](#clase-matriz)
+3. [Clase Vector](#clase-vector)
+4. [Clase Numero](#clase-numero)
+5. [Clase Cadena](#clase-cadena)
+6. [Lista Enlazada](#lista-enlazada)
+7. [Contribuciones](#contribuciones)
+8. [Licencia](#licencia)
+
 Visita el repositorio : <https://github.com/sebanovo/utilities-library>
 
 Visita la documentación:
@@ -179,7 +189,8 @@ m1.intercalar("esPar") // <-- funcion Numero
 - Cargar
 - Descargar
 - Cargar serie aritmética
-- Cargar serie Fibonacci
+- Cargar serie geometrica
+- Cargar serie fibonacci
 - Seleccionar por posición
 - Seleccionar 
 - Promedio
@@ -220,7 +231,6 @@ m1.intercalar("esPar") // <-- funcion Numero
 - Cargar Serie v[1,21,321,4321,54321] ✔️
 - Cargar Digitos x = 12345 , v[1,2,3,4,5] ✔️
 
-
 ## Ejemplo 3
 
 ```javascript
@@ -247,7 +257,8 @@ resultado.interseccionDeConjuntos(vector1, vector2);
 console.log(resultado.vector()); // Resultado: [3, 4]
 ```
 
-## Metodos de la Clase Numero 
+## Clase Numero
+### Metodos de la Clase Numero 
 
 - Cargar
 - Descargar
@@ -283,7 +294,9 @@ const isPar = n1.esPar()
 console.log(isPar) // <-- true o false
 ```
 
-## Metodos de la Clase Cadena 
+## Clase cadena
+
+### Metodos de la Clase Cadena 
 
 - Cargar
 - Descargar
@@ -317,6 +330,7 @@ console.log(isPar) // <-- true o false
 - Invertir frase 
 
 ## Ejemplo 5
+
 ```javascript
 const c1 = new Cadena() 
 c1.cargar("Hola mundo")
@@ -324,6 +338,32 @@ const contador = contarVocales()
 
 console.log(contador) // <-- 4
 ```
+
+## Lista Enlazada
+
+### Metodos de la Clase Lista Enlazada
+
+- Cargar
+- Descargar
+- Bubble Sort
+- Segmentar 
+- Intercalar
+- Busqueda secuencial
+- Cargar fibonacci
+- Cargar serie aritmetica
+- Cargar serie geometrica
+
+## Ejemplo 6
+
+```javascript
+const l1 = new ListaEnlazada()
+l1.cargarElementoXElemento(10)
+l1.cargarElementoxElemento(11)
+l1.cargarElementoXElemento(12)
+
+console.log(l1.length()) // <-- 3
+```
+
 
 ## Contribuciones
 

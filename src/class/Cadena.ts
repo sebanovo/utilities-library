@@ -2,13 +2,13 @@
  * Clase que representa un vector y proporciona diversas operaciones y manipulaciones.
  */
 export default class Cadena {
-  #cadena: string = ''
+  #cadena: string = '';
   /**
    *
    * @param {string} cadena - Cadena a cargar
    */
   cargar (cadena: string): void {
-    this.#cadena = cadena
+    this.#cadena = cadena;
   }
 
   /**
@@ -16,7 +16,7 @@ export default class Cadena {
    * @returns {string}
    */
   descargar (): string {
-    return this.#cadena
+    return this.#cadena;
   }
 
   /**
@@ -24,11 +24,11 @@ export default class Cadena {
    * @returns {string}
    */
   cadena (): string {
-    return this.#cadena
+    return this.#cadena;
   }
 
   #checarRango (posicion: number): never | void {
-    if (posicion < 0 || posicion > this.#cadena.length) { throw new Error('El parametro esta fuera de los límites') }
+    if (posicion < 0 || posicion > this.#cadena.length) { throw new Error('El parametro esta fuera de los límites'); }
   }
 
   /**
@@ -37,8 +37,8 @@ export default class Cadena {
    * @returns {boolean}
    */
   static esVocal (char: string): boolean {
-    const vocales = 'aeiouáéíóúäëïöüAEIOUÁÉÍÓÚÄËÏÖÜ' // Todas las vocales
-    return vocales.includes(char)
+    const vocales = 'aeiouáéíóúäëïöüAEIOUÁÉÍÓÚÄËÏÖÜ'; // Todas las vocales
+    return vocales.includes(char);
   }
 
   /**
@@ -48,12 +48,12 @@ export default class Cadena {
    */
   static esLetra (char: string): boolean {
     const letras =
-      'qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNMáéíóúÁÉÍÓÚäëïöüÄËÏÖÜ' // todas las letras
-    return letras.includes(char)
+      'qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNMáéíóúÁÉÍÓÚäëïöüÄËÏÖÜ'; // todas las letras
+    return letras.includes(char);
   }
 
   static esEspacio (char: string): boolean {
-    return char === ' '
+    return char === ' ';
   }
 
   /**
@@ -62,7 +62,7 @@ export default class Cadena {
    * @returns {boolean}
    */
   static esDigito (char: string): boolean {
-    return Boolean(Number(char))
+    return Boolean(Number(char));
   }
 
   /**
@@ -70,8 +70,8 @@ export default class Cadena {
    * @returns { boolean}
    */
   esPalindromo (): boolean {
-    const inv = this.#cadena.split('').reverse().join('')
-    return inv === this.#cadena
+    const inv = this.#cadena.split('').reverse().join('');
+    return inv === this.#cadena;
   }
 
   /**
@@ -80,13 +80,13 @@ export default class Cadena {
    * @returns {number} El número de caracteres
    */
   contarCaracter (char: string): number {
-    let count = 0
+    let count = 0;
     for (let i = 0; i < this.#cadena.length; i++) {
       if (this.#cadena[i] === char) {
-        count++
+        count++;
       }
     }
-    return count
+    return count;
   }
 
   /**
@@ -94,13 +94,13 @@ export default class Cadena {
    * @returns {number}
    */
   contarVocales (): number {
-    let count = 0
+    let count = 0;
     for (let i = 0; i < this.#cadena.length; i++) {
       if (Cadena.esVocal(this.#cadena[i])) {
-        count++
+        count++;
       }
     }
-    return count
+    return count;
   }
 
   /**
@@ -108,20 +108,20 @@ export default class Cadena {
    * @returns {number}
    */
   contarLetras (): number {
-    let count = 0
+    let count = 0;
     for (let i = 0; i < this.#cadena.length; i++) {
       if (Cadena.esLetra(this.#cadena[i])) {
-        count++
+        count++;
       }
     }
-    return count
+    return count;
   }
 
   /**
    * Invierte la cadena
    */
   invertir (): void {
-    this.#cadena = this.#cadena.split('').reverse().join('')
+    this.#cadena = this.#cadena.split('').reverse().join('');
   }
 
   /**
@@ -129,52 +129,52 @@ export default class Cadena {
    * @param char caracter
    */
   eliminarCaracter (char: string): void {
-    let aux = ''
+    let aux = '';
     for (let i = 0; i < this.#cadena.length; i++) {
       if (this.#cadena[i] !== char) {
-        aux = aux + this.#cadena[i]
+        aux = aux + this.#cadena[i];
       }
     }
-    this.#cadena = aux
+    this.#cadena = aux;
   }
 
   /**
    * Elimina las vocales de la cadena
    */
   eliminarVocales (): void {
-    let aux = ''
+    let aux = '';
     for (let i = 0; i < this.#cadena.length; i++) {
       if (!Cadena.esVocal(this.#cadena[i])) {
-        aux = aux + this.#cadena[i]
+        aux = aux + this.#cadena[i];
       }
     }
-    this.#cadena = aux
+    this.#cadena = aux;
   }
 
   /**
    * Elimina las letras de la cadena
    */
   eliminarLetras (): void {
-    let aux = ''
+    let aux = '';
     for (let i = 0; i < this.#cadena.length; i++) {
       if (!Cadena.esLetra(this.#cadena[i])) {
-        aux = aux + this.#cadena[i]
+        aux = aux + this.#cadena[i];
       }
     }
-    this.#cadena = aux
+    this.#cadena = aux;
   }
 
   /**
    * Elimina los números de la cadena
    */
   eliminarNumeros (): void {
-    let aux = ''
+    let aux = '';
     for (let i = 0; i < this.#cadena.length; i++) {
       if (!Cadena.esDigito(this.#cadena[i])) {
-        aux = aux + this.#cadena[i]
+        aux = aux + this.#cadena[i];
       }
     }
-    this.#cadena = aux
+    this.#cadena = aux;
   }
 
   /**
@@ -182,52 +182,52 @@ export default class Cadena {
    * @returns {string}
    */
   primerPalabra (): string {
-    let palabra = ''
+    let palabra = '';
     for (let i = 0; i < this.#cadena.length; i++) {
-      const anterior = this.#cadena[i]
-      const posterior = this.#cadena[i + 1]
+      const anterior = this.#cadena[i];
+      const posterior = this.#cadena[i + 1];
       if (!Cadena.esEspacio(anterior) && !Cadena.esEspacio(posterior)) {
-        palabra = palabra + anterior
+        palabra = palabra + anterior;
       } else if (!Cadena.esEspacio(anterior) && Cadena.esEspacio(posterior)) {
-        palabra = palabra + anterior
-        break
+        palabra = palabra + anterior;
+        break;
       } else if (Cadena.esEspacio(anterior) && !Cadena.esEspacio(posterior)) {
-        palabra = palabra + anterior
+        palabra = palabra + anterior;
       } else if (Cadena.esEspacio(anterior) && Cadena.esEspacio(posterior)) {
         // nada
       }
     }
 
-    return palabra.trimStart()
+    return palabra.trimStart();
   }
 
   posicionPrimerPalabra (): { start: number | -1, end: number | -1 } {
-    const primerPalabra = this.primerPalabra()
-    const posicion = { start: -1, end: -1 }
+    const primerPalabra = this.primerPalabra();
+    const posicion = { start: -1, end: -1 };
     for (let i = 0; i < this.#cadena.length; i++) {
       if (!Cadena.esEspacio(this.#cadena[i])) {
-        posicion.start = i
-        posicion.end = i + primerPalabra.length - 1
-        break
+        posicion.start = i;
+        posicion.end = i + primerPalabra.length - 1;
+        break;
       }
     }
-    return posicion
+    return posicion;
   }
 
   /**
    * Elimina la primer palabra
    */
   eliminarPrimerPalabra (): void {
-    const { start, end } = this.posicionPrimerPalabra()
-    if (start < 0 || end < 0) return
+    const { start, end } = this.posicionPrimerPalabra();
+    if (start < 0 || end < 0) return;
 
-    let aux = ''
+    let aux = '';
     for (let i = 0; i < this.#cadena.length; i++) {
       if (i < start || i > end) {
-        aux = aux + this.#cadena[i]
+        aux = aux + this.#cadena[i];
       }
     }
-    this.#cadena = aux
+    this.#cadena = aux;
   }
 
   /**
@@ -239,8 +239,8 @@ export default class Cadena {
    * ```
    */
   eliminarHastaPrimerPalabra (): void {
-    const { end } = this.posicionPrimerPalabra()
-    this.#cadena = this.#cadena.substring(end + 1, this.#cadena.length)
+    const { end } = this.posicionPrimerPalabra();
+    this.#cadena = this.#cadena.substring(end + 1, this.#cadena.length);
   }
 
   /**
@@ -248,18 +248,18 @@ export default class Cadena {
    * @returns {number}
    */
   contarPalabras (): number {
-    let count = 0
+    let count = 0;
     for (let i = 0; i < this.#cadena.length; i++) {
-      const anterior = this.#cadena[i]
-      const posterior = this.#cadena[i + 1]
+      const anterior = this.#cadena[i];
+      const posterior = this.#cadena[i + 1];
       if (
         !Cadena.esEspacio(anterior) &&
         (Cadena.esEspacio(posterior) || posterior == null)
       ) {
-        count++
+        count++;
       }
     }
-    return count
+    return count;
   }
 
   /**
@@ -267,18 +267,18 @@ export default class Cadena {
    * @returns {string}
    */
   palabraMasLarga (): string {
-    const aux = new Cadena()
-    aux.cargar(this.#cadena)
-    let masLarga = aux.primerPalabra()
-    const totalPalabras = aux.contarPalabras()
+    const aux = new Cadena();
+    aux.cargar(this.#cadena);
+    let masLarga = aux.primerPalabra();
+    const totalPalabras = aux.contarPalabras();
     for (let i = 0; i < totalPalabras; i++) {
-      const primerPalabra = aux.primerPalabra()
+      const primerPalabra = aux.primerPalabra();
       if (masLarga.length < primerPalabra.length) {
-        masLarga = primerPalabra
+        masLarga = primerPalabra;
       }
-      aux.eliminarPrimerPalabra()
+      aux.eliminarPrimerPalabra();
     }
-    return masLarga
+    return masLarga;
   }
 
   /**
@@ -286,69 +286,69 @@ export default class Cadena {
    * @returns {string}
    */
   palabraMenosLarga (): string {
-    const aux = new Cadena()
-    aux.cargar(this.#cadena)
-    let menosLarga = aux.primerPalabra()
-    const totalPalabras = aux.contarPalabras()
+    const aux = new Cadena();
+    aux.cargar(this.#cadena);
+    let menosLarga = aux.primerPalabra();
+    const totalPalabras = aux.contarPalabras();
     for (let i = 0; i < totalPalabras; i++) {
-      const primerPalabra = aux.primerPalabra()
+      const primerPalabra = aux.primerPalabra();
       if (menosLarga.length > primerPalabra.length) {
-        menosLarga = primerPalabra
+        menosLarga = primerPalabra;
       }
-      aux.eliminarPrimerPalabra()
+      aux.eliminarPrimerPalabra();
     }
-    return menosLarga
+    return menosLarga;
   }
 
   /**
    * Elimina la primera letra de cada palabra
    */
   eliminarPrimerLetraDeCadaPalabra (): void {
-    let aux = ''
+    let aux = '';
     for (let i = 0; i < this.#cadena.length; i++) {
-      const anterior = this.#cadena[i]
-      const posterior = this.#cadena[i + 1]
+      const anterior = this.#cadena[i];
+      const posterior = this.#cadena[i + 1];
       if (!Cadena.esEspacio(anterior) && !Cadena.esEspacio(posterior)) {
         if (posterior != null) {
-          aux = aux + posterior
+          aux = aux + posterior;
         }
       } else if (!Cadena.esEspacio(anterior) && Cadena.esEspacio(posterior)) {
-        aux = aux + posterior
+        aux = aux + posterior;
       } else if (Cadena.esEspacio(anterior) && !Cadena.esEspacio(posterior)) {
         // nada
       } else if (Cadena.esEspacio(anterior) && Cadena.esEspacio(posterior)) {
-        aux = aux + posterior
+        aux = aux + posterior;
       }
     }
-    this.#cadena = aux
+    this.#cadena = aux;
   }
 
   /**
    * Elimina la última letra de cada palabra
    */
   eliminarUltimaLetraDeCadaPalabra (): void {
-    let aux = ''
+    let aux = '';
     for (let i = 0; i < this.#cadena.length; i++) {
-      const anterior = this.#cadena[i]
-      const posterior = this.#cadena[i + 1]
+      const anterior = this.#cadena[i];
+      const posterior = this.#cadena[i + 1];
       if (!Cadena.esEspacio(anterior) && !Cadena.esEspacio(posterior)) {
         if (posterior != null) {
-          aux = aux + anterior
+          aux = aux + anterior;
         }
       } else if (!Cadena.esEspacio(anterior) && Cadena.esEspacio(posterior)) {
         // nada
       } else if (Cadena.esEspacio(anterior) && !Cadena.esEspacio(posterior)) {
-        aux = aux + anterior
+        aux = aux + anterior;
       } else if (Cadena.esEspacio(anterior) && Cadena.esEspacio(posterior)) {
-        aux = aux + anterior
+        aux = aux + anterior;
       }
     }
-    this.#cadena = aux
+    this.#cadena = aux;
   }
 
   eliminarPrimeraYUltimaLetraDeCadaPalabra (): void {
-    this.eliminarPrimerLetraDeCadaPalabra()
-    this.eliminarUltimaLetraDeCadaPalabra()
+    this.eliminarPrimerLetraDeCadaPalabra();
+    this.eliminarUltimaLetraDeCadaPalabra();
   }
 
   /**
@@ -357,18 +357,18 @@ export default class Cadena {
    * @param {number} arrastre valor de arrastre
    */
   eliminar (inicio: number = 0, arrastre: number = this.#cadena.length - 1): void {
-    if (inicio < 0 || inicio >= this.#cadena.length) { throw new Error('El inicio tiene que ser mayor a 0') }
-    if (arrastre < 1) throw new Error('El arrastre no tiene que ser mayor que 0')
+    if (inicio < 0 || inicio >= this.#cadena.length) { throw new Error('El inicio tiene que ser mayor a 0'); }
+    if (arrastre < 1) throw new Error('El arrastre no tiene que ser mayor que 0');
     if (inicio + arrastre > this.#cadena.length) {
-      arrastre = this.#cadena.length - 1
+      arrastre = this.#cadena.length - 1;
     }
-    let aux = ''
+    let aux = '';
     for (let i = 0; i < this.#cadena.length; i++) {
       if (i < inicio || i >= inicio + arrastre) {
-        aux = aux + this.#cadena[i]
+        aux = aux + this.#cadena[i];
       }
     }
-    this.#cadena = aux
+    this.#cadena = aux;
   }
 
   /**
@@ -377,18 +377,18 @@ export default class Cadena {
    * @param {number} posicion posicion a insertar
    */
   insertar (cadena: string, posicion: number): void {
-    this.#checarRango(posicion)
-    const copy = this.#cadena.split('')
-    const length = copy.length
+    this.#checarRango(posicion);
+    const copy = this.#cadena.split('');
+    const length = copy.length;
     for (let i = length - 1; i > -1; i--) {
       if (i >= posicion) {
-        copy[i + 1] = copy[i]
+        copy[i + 1] = copy[i];
       } else {
-        break
+        break;
       }
     }
-    copy[posicion] = cadena
-    this.#cadena = copy.join('')
+    copy[posicion] = cadena;
+    this.#cadena = copy.join('');
   }
 
   /**
@@ -397,30 +397,30 @@ export default class Cadena {
    * @param {number} posicion posicion a insertar
    */
   remplazar (cadena: string, posicion: number): void {
-    this.#checarRango(posicion)
-    const copy = this.#cadena.split('')
-    const length = copy.length
+    this.#checarRango(posicion);
+    const copy = this.#cadena.split('');
+    const length = copy.length;
     for (let i = 0; i < length; i++) {
       if (i === posicion) {
-        copy[i] = cadena
+        copy[i] = cadena;
       }
     }
-    this.#cadena = copy.join('')
+    this.#cadena = copy.join('');
   }
 
   invertirCadaPalabra (): void {
-    const copy = this.#cadena.split(' ')
-    const n1 = new Cadena()
+    const copy = this.#cadena.split(' ');
+    const n1 = new Cadena();
     for (let i = 0; i < copy.length; i++) {
-      n1.cargar(copy[i])
-      n1.invertir()
-      copy[i] = n1.descargar()
+      n1.cargar(copy[i]);
+      n1.invertir();
+      copy[i] = n1.descargar();
     }
-    this.#cadena = copy.join(' ')
+    this.#cadena = copy.join(' ');
   }
 
   invertirFrase (): void {
-    this.#cadena = this.#cadena.split(' ').reverse().join(' ')
+    this.#cadena = this.#cadena.split(' ').reverse().join(' ');
   }
 }
 

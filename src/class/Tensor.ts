@@ -1,14 +1,14 @@
-import { type MethodsOfNumero, methodsOfNumero, type TensorDimension } from '../@types/types'
-import Numero from './Numero'
+import { type MethodsOfNumero, methodsOfNumero, type TensorDimension } from '../@types/types';
+import Numero from './Numero';
 /**
  * Clase Tensor para trabajar con tensores
  */
 export default class Tensor {
-  #rowLength = 0
-  #columnLength = 0
-  #layers = 0
+  #rowLength = 0;
+  #columnLength = 0;
+  #layers = 0;
 
-  #tensor: number[][][] = []
+  #tensor: number[][][] = [];
   /**
    * Metodo que carga la matriz con valores randoms de un rango
    * @param {number} filas número de filas
@@ -19,16 +19,16 @@ export default class Tensor {
    * @returns {void}
    */
   cargar (filas: number, columnas: number, capas: number, a: number, b: number): void {
-    this.#rowLength = filas
-    this.#columnLength = columnas
-    this.#layers = capas
+    this.#rowLength = filas;
+    this.#columnLength = columnas;
+    this.#layers = capas;
 
     for (let z = 0; z < this.#layers; z++) {
-      this.#tensor[z] ??= []
+      this.#tensor[z] ??= [];
       for (let x = 0; x < this.#rowLength; x++) {
-        this.#tensor[z][x] ??= []
+        this.#tensor[z][x] ??= [];
         for (let y = 0; y < this.#columnLength; y++) {
-          this.#tensor[z][x][y] = Math.floor(Math.random() * (b - a + 1) + a)
+          this.#tensor[z][x][y] = Math.floor(Math.random() * (b - a + 1) + a);
         }
       }
     }
@@ -39,7 +39,7 @@ export default class Tensor {
    * @returns {number[][][]}
    */
   tensor (): number[][][] {
-    return structuredClone(this.#tensor)
+    return structuredClone(this.#tensor);
   }
 
   /**
@@ -52,19 +52,19 @@ export default class Tensor {
    * @returns {void}
    */
   cargarSerieAritmetica (filas: number, columnas: number, capas: number, a1: number, r: number): void {
-    this.#rowLength = filas
-    this.#columnLength = columnas
-    this.#layers = capas
+    this.#rowLength = filas;
+    this.#columnLength = columnas;
+    this.#layers = capas;
 
-    let n = 1
+    let n = 1;
 
     for (let z = 0; z < this.#layers; z++) {
-      this.#tensor[z] ??= []
+      this.#tensor[z] ??= [];
       for (let x = 0; x < this.#rowLength; x++) {
-        this.#tensor[z][x] ??= []
+        this.#tensor[z][x] ??= [];
         for (let y = 0; y < this.#columnLength; y++) {
-          this.#tensor[z][x][y] = a1 + (n - 1) * r
-          n++
+          this.#tensor[z][x][y] = a1 + (n - 1) * r;
+          n++;
         }
       }
     }
@@ -80,19 +80,19 @@ export default class Tensor {
    * @returns {void}
    */
   cargarSerieGeometrica (filas: number, columnas: number, capas: number, a1: number, r: number): void {
-    this.#rowLength = filas
-    this.#columnLength = columnas
-    this.#layers = capas
+    this.#rowLength = filas;
+    this.#columnLength = columnas;
+    this.#layers = capas;
 
-    let n = 1
+    let n = 1;
 
     for (let z = 0; z < this.#layers; z++) {
-      this.#tensor[z] ??= []
+      this.#tensor[z] ??= [];
       for (let x = 0; x < this.#rowLength; x++) {
-        this.#tensor[z][x] ??= []
+        this.#tensor[z][x] ??= [];
         for (let y = 0; y < this.#columnLength; y++) {
-          this.#tensor[z][x][y] = a1 * Math.round(Math.pow(r, n - 1))
-          n++
+          this.#tensor[z][x][y] = a1 * Math.round(Math.pow(r, n - 1));
+          n++;
         }
       }
     }
@@ -108,12 +108,12 @@ export default class Tensor {
       for (let x = 0; x < this.#rowLength; x++) {
         for (let y = 0; y < this.#columnLength; y++) {
           if (this.#tensor[z][x][y] === num) {
-            return true
+            return true;
           }
         }
       }
     }
-    return false
+    return false;
   }
 
   /**
@@ -126,12 +126,12 @@ export default class Tensor {
       for (let x = 0; x < this.#rowLength; x++) {
         for (let y = 0; y < this.#columnLength; y++) {
           if (this.#tensor[z][x][y] > num) {
-            return false
+            return false;
           }
         }
       }
     }
-    return true
+    return true;
   }
 
   /**
@@ -144,12 +144,12 @@ export default class Tensor {
       for (let x = 0; x < this.#rowLength; x++) {
         for (let y = 0; y < this.#columnLength; y++) {
           if (this.#tensor[z][x][y] < num) {
-            return false
+            return false;
           }
         }
       }
     }
-    return true
+    return true;
   }
 
   /**
@@ -162,19 +162,19 @@ export default class Tensor {
       for (let x = 0; x < this.#rowLength; x++) {
         for (let y = 0; y < this.#columnLength; y++) {
           if (y < this.#columnLength - 1 && this.#tensor[z][x][y] + r !== this.#tensor[z][x][y + 1]) {
-            return false
+            return false;
           }
           if (x < this.#rowLength - 1 && y === this.#columnLength - 1 && this.#tensor[z][x][y] + r !== this.#tensor[z][x + 1][0]) {
-            return false
+            return false;
           }
           if (z < this.#layers - 1 && x === this.#rowLength - 1 && y === this.#columnLength - 1 && this.#tensor[z][x][y] + r !== this.#tensor[z + 1][0][0]) {
-            return false
+            return false;
           }
         }
       }
     }
 
-    return true
+    return true;
   }
 
   /**
@@ -182,17 +182,17 @@ export default class Tensor {
    * @returns {boolean}
    */
   verificarTodosIguales (): boolean {
-    const first = this.#tensor[0][0][0]
+    const first = this.#tensor[0][0][0];
     for (let z = 0; z < this.#layers; z++) {
       for (let x = 0; x < this.#rowLength; x++) {
         for (let y = 0; y < this.#columnLength; y++) {
           if (this.#tensor[z][x][y] !== first) {
-            return false
+            return false;
           }
         }
       }
     }
-    return true
+    return true;
   }
 
   /**
@@ -200,21 +200,21 @@ export default class Tensor {
    * @returns {boolean}
    */
   verificarTodosUnicos (): boolean {
-    const elementosUnicos = new Set<number>()
+    const elementosUnicos = new Set<number>();
 
     for (let z = 0; z < this.#layers; z++) {
       for (let x = 0; x < this.#rowLength; x++) {
         for (let y = 0; y < this.#columnLength; y++) {
-          const valor = this.#tensor[z][x][y]
+          const valor = this.#tensor[z][x][y];
           if (elementosUnicos.has(valor)) {
-            return false
+            return false;
           }
-          elementosUnicos.add(valor)
+          elementosUnicos.add(valor);
         }
       }
     }
 
-    return true
+    return true;
   }
 
   /**
@@ -225,18 +225,18 @@ export default class Tensor {
    */
   suma (t1: Tensor, t2: Tensor): void {
     if (t1.#rowLength !== t2.#rowLength || t1.#columnLength !== t2.#columnLength || t1.#layers !== t2.#layers) {
-      throw new Error('No se pueden sumar tensores de dimensiones diferentes')
+      throw new Error('No se pueden sumar tensores de dimensiones diferentes');
     }
-    this.#rowLength = t1.#rowLength
-    this.#columnLength = t1.#columnLength
-    this.#layers = t1.#layers
+    this.#rowLength = t1.#rowLength;
+    this.#columnLength = t1.#columnLength;
+    this.#layers = t1.#layers;
 
     for (let z = 0; z < this.#layers; z++) {
-      this.#tensor[z] ??= []
+      this.#tensor[z] ??= [];
       for (let x = 0; x < this.#rowLength; x++) {
-        this.#tensor[z][x] ??= []
+        this.#tensor[z][x] ??= [];
         for (let y = 0; y < this.#columnLength; y++) {
-          this.#tensor[z][x][y] = t1.#tensor[z][x][y] + t2.#tensor[z][x][y]
+          this.#tensor[z][x][y] = t1.#tensor[z][x][y] + t2.#tensor[z][x][y];
         }
       }
     }
@@ -250,18 +250,18 @@ export default class Tensor {
    */
   resta (t1: Tensor, t2: Tensor): void {
     if (t1.#rowLength !== t2.#rowLength || t1.#columnLength !== t2.#columnLength || t1.#layers !== t2.#layers) {
-      throw new Error('No se pueden sumar tensores de dimensiones diferentes')
+      throw new Error('No se pueden sumar tensores de dimensiones diferentes');
     }
-    this.#rowLength = t1.#rowLength
-    this.#columnLength = t1.#columnLength
-    this.#layers = t1.#layers
+    this.#rowLength = t1.#rowLength;
+    this.#columnLength = t1.#columnLength;
+    this.#layers = t1.#layers;
 
     for (let z = 0; z < this.#layers; z++) {
-      this.#tensor[z] ??= []
+      this.#tensor[z] ??= [];
       for (let x = 0; x < this.#rowLength; x++) {
-        this.#tensor[z][x] ??= []
+        this.#tensor[z][x] ??= [];
         for (let y = 0; y < this.#columnLength; y++) {
-          this.#tensor[z][x][y] = t1.#tensor[z][x][y] - t2.#tensor[z][x][y]
+          this.#tensor[z][x][y] = t1.#tensor[z][x][y] - t2.#tensor[z][x][y];
         }
       }
     }
@@ -284,11 +284,11 @@ export default class Tensor {
    */
   multiplicacionPorEscalar (escalar: number): void {
     for (let z = 0; z < this.#layers; z++) {
-      this.#tensor[z] ??= []
+      this.#tensor[z] ??= [];
       for (let x = 0; x < this.#rowLength; x++) {
-        this.#tensor[z][x] ??= []
+        this.#tensor[z][x] ??= [];
         for (let y = 0; y < this.#columnLength; y++) {
-          this.#tensor[z][x][y] = escalar * this.#tensor[z][x][y]
+          this.#tensor[z][x][y] = escalar * this.#tensor[z][x][y];
         }
       }
     }
@@ -298,21 +298,21 @@ export default class Tensor {
    * Transpone el tensor
    */
   transposicion (): void {
-    const transposed = new Tensor()
-    transposed.cargar(this.#rowLength, this.#columnLength, this.#layers, 0, 0)
+    const transposed = new Tensor();
+    transposed.cargar(this.#rowLength, this.#columnLength, this.#layers, 0, 0);
 
     for (let z = 0; z < this.#layers; z++) {
       for (let x = 0; x < this.#rowLength; x++) {
         for (let y = 0; y < this.#columnLength; y++) {
-          transposed.#tensor[y][x][z] = this.#tensor[z][x][y]
+          transposed.#tensor[y][x][z] = this.#tensor[z][x][y];
         }
       }
     }
 
-    this.#tensor = structuredClone(transposed.#tensor)
-    this.#rowLength = transposed.#rowLength
-    this.#columnLength = transposed.#columnLength
-    this.#layers = transposed.#layers
+    this.#tensor = structuredClone(transposed.#tensor);
+    this.#rowLength = transposed.#rowLength;
+    this.#columnLength = transposed.#columnLength;
+    this.#layers = transposed.#layers;
   }
 
   /**
@@ -329,7 +329,7 @@ export default class Tensor {
     ;[this.#tensor[z1][x1][y1], this.#tensor[z2][x2][y2]] = [
       this.#tensor[z2][x2][y2],
       this.#tensor[z1][x1][y1]
-    ]
+    ];
   }
 
   /**
@@ -338,21 +338,21 @@ export default class Tensor {
    */
   devolverMayor (): number {
     if (this.#rowLength === 0 || this.#columnLength === 0 || this.#layers === 0) {
-      throw new Error('La matriz está vacía.')
+      throw new Error('La matriz está vacía.');
     }
 
-    let mayor = this.#tensor[0][0][0]
+    let mayor = this.#tensor[0][0][0];
 
     for (let z = 0; z < this.#layers; z++) {
       for (let x = 0; x < this.#rowLength; x++) {
         for (let y = 0; y < this.#columnLength; y++) {
           if (mayor < this.#tensor[z][x][y]) {
-            mayor = this.#tensor[z][x][y]
+            mayor = this.#tensor[z][x][y];
           }
         }
       }
     }
-    return mayor
+    return mayor;
   }
 
   /**
@@ -360,19 +360,19 @@ export default class Tensor {
    * @returns {number}
    */
   devolverMenor (): number {
-    let menor = this.#tensor[0][0][0]
+    let menor = this.#tensor[0][0][0];
 
     for (let z = 0; z < this.#layers; z++) {
       for (let x = 0; x < this.#rowLength; x++) {
         for (let y = 0; y < this.#columnLength; y++) {
           if (menor > this.#tensor[z][x][y]) {
-            menor = this.#tensor[z][x][y]
+            menor = this.#tensor[z][x][y];
           }
         }
       }
     }
 
-    return menor
+    return menor;
   }
 
   /**
@@ -380,23 +380,23 @@ export default class Tensor {
    * @param {'asc' | 'desc'} direccion direccion de ordenamiento
    */
   ordenar (direccion: 'asc' | 'desc' = 'asc'): void {
-    this.#checarDireccion(direccion)
-    let inf, inc
+    this.#checarDireccion(direccion);
+    let inf, inc;
 
     for (let z1 = 0; z1 < this.#layers; z1++) {
       for (let x1 = 0; x1 < this.#rowLength; x1++) {
         for (let y1 = 0; y1 < this.#columnLength; y1++) {
           for (let z2 = z1; z2 < this.#layers; z2++) {
             if (z1 === z2) {
-              inf = x1
+              inf = x1;
             } else {
-              inf = 0
+              inf = 0;
             }
             for (let x2 = inf; x2 < this.#rowLength; x2++) {
               if (z1 === z2 && x1 === x2) {
-                inc = y1
+                inc = y1;
               } else {
-                inc = 0
+                inc = 0;
               }
               for (let y2 = inc; y2 < this.#columnLength; y2++) {
                 if (
@@ -404,7 +404,7 @@ export default class Tensor {
                     ? this.#tensor[z2][x2][y2] < this.#tensor[z1][x1][y1]
                     : this.#tensor[z2][x2][y2] > this.#tensor[z1][x1][y1]
                 ) {
-                  this.intercambiar(z1, x1, y1, z2, x2, y2)
+                  this.intercambiar(z1, x1, y1, z2, x2, y2);
                 }
               }
             }
@@ -419,40 +419,40 @@ export default class Tensor {
    * @param {MethodsOfNumero} method metodo del objeto Numero
    */
   segmentar (method: MethodsOfNumero): void {
-    this.#checarMethodsOfNumero(method)
-    let inf
-    let inc
+    this.#checarMethodsOfNumero(method);
+    let inf;
+    let inc;
 
-    const n1 = new Numero()
-    const n2 = new Numero()
+    const n1 = new Numero();
+    const n2 = new Numero();
 
     for (let z1 = 0; z1 < this.#layers; z1++) {
       for (let x1 = 0; x1 < this.#rowLength; x1++) {
         for (let y1 = 0; y1 < this.#columnLength; y1++) {
           for (let z2 = z1; z2 < this.#layers; z2++) {
             if (z1 === z2) {
-              inf = x1
+              inf = x1;
             } else {
-              inf = 0
+              inf = 0;
             }
             for (let x2 = inf; x2 < this.#rowLength; x2++) {
               if (z1 === z2 && x1 === x2) {
-                inc = y1 + 1
+                inc = y1 + 1;
               } else {
-                inc = 0
+                inc = 0;
               }
               for (let y2 = inc; y2 < this.#columnLength; y2++) {
-                n1.cargar(this.#tensor[z2][x2][y2])
-                n2.cargar(this.#tensor[z1][x1][y1])
-                const b1 = n1[method]()
-                const b2 = n2[method]()
+                n1.cargar(this.#tensor[z2][x2][y2]);
+                n2.cargar(this.#tensor[z1][x1][y1]);
+                const b1 = n1[method]();
+                const b2 = n2[method]();
 
                 if (
                   (b1 && !b2) ||
                   (b1 && b2 && this.#tensor[z2][x2][y2] < this.#tensor[z1][x1][y1]) ||
                   (!b1 && !b2 && this.#tensor[z2][x2][y2] < this.#tensor[z1][x1][y1])
                 ) {
-                  this.intercambiar(z2, x2, y2, z1, x1, y1)
+                  this.intercambiar(z2, x2, y2, z1, x1, y1);
                 }
               }
             }
@@ -467,13 +467,13 @@ export default class Tensor {
    * @param {MethodsOfNumero} method metodo del objeto Numero
    */
   intercalar (method: MethodsOfNumero): void {
-    this.#checarMethodsOfNumero(method)
-    let inf
-    let inc
-    let bool = true
+    this.#checarMethodsOfNumero(method);
+    let inf;
+    let inc;
+    let bool = true;
 
-    const n1 = new Numero()
-    const n2 = new Numero()
+    const n1 = new Numero();
+    const n2 = new Numero();
 
 
     for (let z1 = 0; z1 < this.#layers; z1++) {
@@ -482,28 +482,28 @@ export default class Tensor {
           if (bool) {
             for (let z2 = z1; z2 < this.#layers; z2++) {
               if (z1 === z2) {
-                inf = x1
+                inf = x1;
               } else {
-                inf = 0
+                inf = 0;
               }
               for (let x2 = inf; x2 < this.#rowLength; x2++) {
                 if (z1 === z2 && x1 === x2) {
-                  inc = y1 + 1
+                  inc = y1 + 1;
                 } else {
-                  inc = 0
+                  inc = 0;
                 }
                 for (let y2 = inc; y2 < this.#columnLength; y2++) {
-                  n1.cargar(this.#tensor[z2][x2][y2])
-                  n2.cargar(this.#tensor[z1][x1][y1])
-                  const b1 = n1[method]()
-                  const b2 = n2[method]()
+                  n1.cargar(this.#tensor[z2][x2][y2]);
+                  n2.cargar(this.#tensor[z1][x1][y1]);
+                  const b1 = n1[method]();
+                  const b2 = n2[method]();
 
                   if (
                     (b1 && !b2) ||
                     (b1 && b2 && this.#tensor[z2][x2][y2] < this.#tensor[z1][x1][y1]) ||
                     (!b1 && !b2 && this.#tensor[z2][x2][y2] < this.#tensor[z1][x1][y1])
                   ) {
-                    this.intercambiar(z2, x2, y2, z1, x1, y1)
+                    this.intercambiar(z2, x2, y2, z1, x1, y1);
                   }
                 }
               }
@@ -511,44 +511,44 @@ export default class Tensor {
           } else {
             for (let z2 = z1; z2 < this.#layers; z2++) {
               if (z1 === z2) {
-                inf = x1
+                inf = x1;
               } else {
-                inf = 0
+                inf = 0;
               }
               for (let x2 = inf; x2 < this.#rowLength; x2++) {
                 if (z1 === z2 && x1 === x2) {
-                  inc = y1 + 1
+                  inc = y1 + 1;
                 } else {
-                  inc = 0
+                  inc = 0;
                 }
                 for (let y2 = inc; y2 < this.#columnLength; y2++) {
-                  const b1 = this.#tensor[z2][x2][y2] % 2 === 0
-                  const b2 = this.#tensor[z1][x1][y1] % 2 === 0
+                  const b1 = this.#tensor[z2][x2][y2] % 2 === 0;
+                  const b2 = this.#tensor[z1][x1][y1] % 2 === 0;
 
                   if (
                     (!b1 && b2) ||
                     (!b1 && !b2 && this.#tensor[z2][x2][y2] < this.#tensor[z1][x1][y1]) ||
                     (b1 && b2 && this.#tensor[z2][x2][y2] < this.#tensor[z1][x1][y1])
                   ) {
-                    this.intercambiar(z2, x2, y2, z1, x1, y1)
+                    this.intercambiar(z2, x2, y2, z1, x1, y1);
                   }
                 }
               }
             }
           }
-          bool = !bool
+          bool = !bool;
         }
       }
     }
   }
 
   #checarDireccion (direccion: string): never | void {
-    if (direccion !== 'asc' && direccion !== 'desc') { throw new Error("La dirección tiene que ser 'asc' o 'desc'") }
+    if (direccion !== 'asc' && direccion !== 'desc') { throw new Error("La dirección tiene que ser 'asc' o 'desc'"); }
   }
 
   #checarMethodsOfNumero (method: MethodsOfNumero): never | void {
-    const index = methodsOfNumero.indexOf(method)
-    if (index === -1) { throw new Error('El metodo no corresponse a una funcion de la clase Número') }
+    const index = methodsOfNumero.indexOf(method);
+    if (index === -1) { throw new Error('El metodo no corresponse a una funcion de la clase Número'); }
   }
 
   /**
@@ -557,8 +557,8 @@ export default class Tensor {
    * @returns {boolean}
    */
   verificarOrdenado (direccion: 'asc' | 'desc' = 'asc'): boolean {
-    this.#checarDireccion(direccion)
-    let control = this.#tensor[0][0][0]
+    this.#checarDireccion(direccion);
+    let control = this.#tensor[0][0][0];
 
     for (let z1 = 0; z1 < this.#layers; z1++) {
       for (let x1 = 0; x1 < this.#rowLength; x1++) {
@@ -568,13 +568,13 @@ export default class Tensor {
               ? this.#tensor[z1][x1][y1] < control
               : this.#tensor[z1][x1][y1] > control
           ) {
-            return false
+            return false;
           }
-          control = this.#tensor[z1][x1][y1]
+          control = this.#tensor[z1][x1][y1];
         }
       }
     }
-    return true
+    return true;
   }
 
   /**
@@ -587,12 +587,12 @@ export default class Tensor {
       for (let x = 0; x < this.#rowLength; x++) {
         for (let y = 0; y < this.#columnLength; y++) {
           if (this.#tensor[z][x][y] === num) {
-            return [x, y, z]
+            return [x, y, z];
           }
         }
       }
     }
-    return [null, null, null]
+    return [null, null, null];
   }
 
   /**
@@ -601,17 +601,17 @@ export default class Tensor {
    * @returns {number}
    */
   frecuencia (num: number): number {
-    let frec = 0
+    let frec = 0;
     for (let z = 0; z < this.#layers; z++) {
       for (let x = 0; x < this.#rowLength; x++) {
         for (let y = 0; y < this.#columnLength; y++) {
           if (this.#tensor[z][x][y] === num) {
-            frec++
+            frec++;
           }
         }
       }
     }
-    return frec
+    return frec;
   }
 
   // # recursividad
@@ -665,60 +665,60 @@ export default class Tensor {
       if (n === 0) {
         // nada
       } else {
-        llenarAro(fa, fb, a, n - 1, z)
+        llenarAro(fa, fb, a, n - 1, z);
 
         for (let d = fa; d <= fb; d++) {
-          this.#tensor[fa] ??= []
-          this.#tensor[fa][d] ??= []
+          this.#tensor[fa] ??= [];
+          this.#tensor[fa][d] ??= [];
 
-          this.#tensor[fb] ??= []
-          this.#tensor[fb][d] ??= []
+          this.#tensor[fb] ??= [];
+          this.#tensor[fb][d] ??= [];
 
-          this.#tensor[d] ??= []
-          this.#tensor[d][fa] ??= []
-          this.#tensor[d][fb] ??= []
-          this.#tensor[d][n + a - 1] ??= []
+          this.#tensor[d] ??= [];
+          this.#tensor[d][fa] ??= [];
+          this.#tensor[d][fb] ??= [];
+          this.#tensor[d][n + a - 1] ??= [];
 
-          this.#tensor[n + a - 1] ??= []
-          this.#tensor[n + a - 1][fa] ??= []
-          this.#tensor[n + a - 1][fb] ??= []
+          this.#tensor[n + a - 1] ??= [];
+          this.#tensor[n + a - 1][fa] ??= [];
+          this.#tensor[n + a - 1][fb] ??= [];
 
           // Filas y columnas en cada capa
-          this.#tensor[fa][d][n + a - 1] = z
-          this.#tensor[fb][d][n + a - 1] = z
-          this.#tensor[d][fa][n + a - 1] = z
-          this.#tensor[d][fb][n + a - 1] = z
+          this.#tensor[fa][d][n + a - 1] = z;
+          this.#tensor[fb][d][n + a - 1] = z;
+          this.#tensor[d][fa][n + a - 1] = z;
+          this.#tensor[d][fb][n + a - 1] = z;
 
           // Otras capas para cada fila y columna
-          this.#tensor[d][n + a - 1][fa] = z
-          this.#tensor[d][n + a - 1][fb] = z
-          this.#tensor[n + a - 1][fa][d] = z
-          this.#tensor[n + a - 1][fb][d] = z
+          this.#tensor[d][n + a - 1][fa] = z;
+          this.#tensor[d][n + a - 1][fb] = z;
+          this.#tensor[n + a - 1][fa][d] = z;
+          this.#tensor[n + a - 1][fb][d] = z;
         }
       }
-    }
+    };
 
     const cargar = (fa: number, fb: number): void => {
-      const m = fb - fa + 1
+      const m = fb - fa + 1;
       if (m === 0) {
         // nada
       } else if (m === 1) {
-        this.#tensor[fa] ??= []
-        this.#tensor[fa][fa] ??= []
+        this.#tensor[fa] ??= [];
+        this.#tensor[fa][fa] ??= [];
 
-        this.#tensor[fa][fa][fa] = 1
+        this.#tensor[fa][fa][fa] = 1;
       } else {
-        cargar(fa + 1, fb - 1)
-        llenarAro(fa, fb, fa, m, Math.floor((m + 1) / 2))
+        cargar(fa + 1, fb - 1);
+        llenarAro(fa, fb, fa, m, Math.floor((m + 1) / 2));
       }
-    }
+    };
 
-    cargar(0, numeroDeFilasColumnasYCapas - 1)
-    this.#rowLength = this.#columnLength = this.#layers = numeroDeFilasColumnasYCapas
+    cargar(0, numeroDeFilasColumnasYCapas - 1);
+    this.#rowLength = this.#columnLength = this.#layers = numeroDeFilasColumnasYCapas;
   }
 
   /**
-   * Carga el tensor Diana
+   * Carga el tensor L
    * @param numeroDeFilasColumnasYCapas Es el numero de filas, columnas y capas
    * @example
    * cargarL(5);
@@ -765,31 +765,31 @@ export default class Tensor {
       if (n === 0) {
         // nada
       } else {
-        this.#tensor[capa] ??= []
-        this.#tensor[capa][f] ??= []
-        this.#tensor[capa][n - 1] ??= []
+        this.#tensor[capa] ??= [];
+        this.#tensor[capa][f] ??= [];
+        this.#tensor[capa][n - 1] ??= [];
 
-        this.#tensor[capa][f][n - 1] = f + 1
-        this.#tensor[capa][n - 1][f] = f + 1
+        this.#tensor[capa][f][n - 1] = f + 1;
+        this.#tensor[capa][n - 1][f] = f + 1;
 
-        llenarL(f, n - 1, capa)
+        llenarL(f, n - 1, capa);
       }
-    }
+    };
 
     const cargarCapa = (m: number): void => {
       if (m === 0) {
         // nada
       } else {
-        cargarCapa(m - 1)
+        cargarCapa(m - 1);
         for (let capa = 0; capa < numeroDeFilasColumnasYCapas; capa++) {
-          llenarL(m - 1, m, capa)
+          llenarL(m - 1, m, capa);
         }
       }
-    }
+    };
 
-    cargarCapa(numeroDeFilasColumnasYCapas)
-    this.#tensor[0][0][0] = 1
-    this.#rowLength = this.#columnLength = this.#layers = numeroDeFilasColumnasYCapas
+    cargarCapa(numeroDeFilasColumnasYCapas);
+    this.#tensor[0][0][0] = 1;
+    this.#rowLength = this.#columnLength = this.#layers = numeroDeFilasColumnasYCapas;
   }
 
   /**
@@ -797,7 +797,7 @@ export default class Tensor {
    * @returns {number}
    */
   rowLength (): number {
-    return this.#rowLength
+    return this.#rowLength;
   }
 
   /**
@@ -805,7 +805,7 @@ export default class Tensor {
    * @returns {number}
    */
   columnLength (): number {
-    return this.#columnLength
+    return this.#columnLength;
   }
 
   /**
@@ -813,7 +813,7 @@ export default class Tensor {
    * @returns {number}
    */
   layers (): number {
-    return this.#layers
+    return this.#layers;
   }
 
   /**
@@ -825,7 +825,7 @@ export default class Tensor {
       rows: this.#rowLength,
       columns: this.#columnLength,
       layers: this.#layers
-    }
+    };
   }
 }
 

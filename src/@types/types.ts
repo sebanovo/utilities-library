@@ -3,7 +3,7 @@ export type MethodsOfNumero =
   | 'esPrimo'
   | 'esCapicua'
   | 'esCuadradoPerfecto'
-  | 'esFibonacci'
+  | 'esFibonacci';
 
 export const methodsOfNumero: MethodsOfNumero[] = [
   'esPar',
@@ -11,7 +11,7 @@ export const methodsOfNumero: MethodsOfNumero[] = [
   'esCapicua',
   'esCuadradoPerfecto',
   'esFibonacci'
-]
+];
 
 export interface objetoMaxYFrec {
   maximo: number

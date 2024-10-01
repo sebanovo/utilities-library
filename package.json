@@ -1,6 +1,6 @@
 {
   "name": "utilities-library",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "main": "./dist/index.js",
   "bin": "./dist/index.js",
   "scripts": {
@@ -12,6 +12,7 @@
     "prepare": "npm run build && npm run docs"
   },
   "keywords": [
+    "linked list",
     "tensor",
     "vector",
     "string",
@@ -23,7 +24,7 @@
   "engine-strict": true,
   "author": "Sebastian Cespedes Rodas",
   "license": "ISC",
-  "description": "tensor - matrix - vector - string - number",
+  "description": "linked list - tensor - matrix - vector - string - number",
   "devDependencies": {
     "@pixi/jsdoc-template": "^2.6.0",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
