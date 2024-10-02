@@ -2,20 +2,24 @@ import { type MethodsOfNumero } from '../@types/types';
 import Numero from './Numero';
 
 class Nodo {
-  dato: number;
   sig: Nodo | null;
-
+  ant: Nodo | null;
+  dato;
   constructor (dato: number) {
     this.dato = dato;
     this.sig = null;
+    this.ant = null;
   }
 }
 
 /**
- * Clase que representa una lista enlazada simple y proporciona diversas operaciones y manipulaciones.
+ * Clase que representa una lista enlazada doble y proporciona diversas operaciones y manipulaciones.
  */
-export default class ListaEnlazada {
-  #head: Nodo | null = null;
+export default class ListaDoblementeEnlazada {
+  #head: Nodo | null;
+  constructor () {
+    this.#head = null;
+  }
 
   insertarFinal (dato: number): void {
     if (this.#head === null) {
@@ -29,8 +33,9 @@ export default class ListaEnlazada {
       ant = x;
       x = x.sig;
     }
-
-    ant!.sig = new Nodo(dato);
+    const nodo = new Nodo(dato);
+    nodo.ant = ant!;
+    ant!.sig = nodo;
   }
 
   insertarInicio (dato: number): void {
@@ -40,6 +45,7 @@ export default class ListaEnlazada {
     }
     const x = new Nodo(dato);
     x.sig = this.#head;
+    this.#head.ant = x;
     this.#head = x;
   }
 
@@ -56,6 +62,24 @@ export default class ListaEnlazada {
       x = x.sig!;
     }
     ant!.sig = null;
+    x.ant = null;
+  }
+
+  insertar (dato: number): void {
+    if (this.#head === null) {
+      this.#head = new Nodo(dato);
+      return;
+    }
+
+    let x = this.#head;
+    let ant: Nodo | null;
+    while (x !== null) {
+      ant = x;
+      x = x.sig!;
+    }
+    const nodo = new Nodo(dato);
+    nodo.ant = ant!;
+    ant!.sig = nodo!;
   }
 
   eliminarInicio (): void {
@@ -64,6 +88,7 @@ export default class ListaEnlazada {
       this.#head = null;
       return;
     }
+    this.#head.sig.ant = null;
     this.#head = this.#head.sig;
   }
 
@@ -82,6 +107,16 @@ export default class ListaEnlazada {
     return ant;
   }
 
+  length (): number {
+    let c = 0;
+    let x = this.#head;
+    while (x !== null) {
+      c++;
+      x = x.sig;
+    }
+    return c;
+  }
+
   descargar (): string {
     let s = '';
     let x = this.#head;
@@ -92,14 +127,18 @@ export default class ListaEnlazada {
       }
       x = x.sig;
     }
-    return s;
-  }
 
-  /**
-   * @returns una copia de la lista
-   */
-  lista (): Nodo | null {
-    return structuredClone(this.#head);
+    s += '\r\n';
+    let y = this.#head;
+
+    while (y !== null) {
+      s += y.dato;
+      if (y.sig !== null) {
+        s += '<-';
+      }
+      y = y.sig!;
+    }
+    return s;
   }
 
   /**
@@ -157,6 +196,7 @@ export default class ListaEnlazada {
       this.insertarFinal(valorInicial * Math.round(Math.pow(razon, n - 1)));
     }
   }
+
 
   /**
    * Ordena la lista
@@ -245,19 +285,6 @@ export default class ListaEnlazada {
   }
 
   /**
-   * @returns la longitud de la lista
-   */
-  length (): number {
-    let c = 0;
-    let x = this.#head;
-    while (x !== null) {
-      c++;
-      x = x.sig;
-    }
-    return c;
-  }
-
-  /**
    * @param dato el dato a buscar
    * @returns {boolean}
    */
@@ -274,16 +301,17 @@ export default class ListaEnlazada {
    * Invierte la lista enlazada
    */
   invertir (): void {
-    let ant: Nodo | null = null;
-    let sig: Nodo | null = null;
-    let x = this.#head;
-    while (x !== null) {
-      sig = x.sig!;
-      x.sig = ant!;
-      ant = x;
-      x = sig;
+    let actual = this.#head;
+    let temporal: Nodo | null = null;
+
+    while (actual !== null) {
+      temporal = actual.ant;
+      actual.ant = actual.sig;
+      actual.sig = temporal;
+      actual = actual.ant;
     }
-    this.#head = ant;
+
+    if (temporal !== null) this.#head = temporal.ant;
   }
 
   /**
@@ -298,4 +326,3 @@ export default class ListaEnlazada {
     }
   }
 }
-

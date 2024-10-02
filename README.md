@@ -7,6 +7,7 @@
 4. [Clase Numero](#clase-numero)
 5. [Clase Cadena](#clase-cadena)
 6. [Lista Enlazada](#lista-enlazada)
+6. [Lista Doblemente Enlazada](#lista-doblemente-enlazada)
 7. [Contribuciones](#contribuciones)
 8. [Licencia](#licencia)
 
@@ -278,7 +279,7 @@ console.log(resultado.vector()); // Resultado: [3, 4]
 - Encontrar mayor y menor digito
 - Convertir decimal a base N 
 - Convertir base N a decimal
-// pending
+`pending:`
 - Insertar digito por posición
 - Remplazar digito por posición
 
@@ -344,26 +345,66 @@ console.log(contador) // <-- 4
 ### Metodos de la Clase Lista Enlazada
 
 - Cargar
+- Cargar serie aritmetica
+- Cargar serie geometrica
+- Cargar fibonacci
 - Descargar
-- Bubble Sort
+- Insertar inicio
+- Insertar final 
+- Eliminar inicio
+- Eliminar final 
+- Obtener inicio
+- Obtener final
+- Ordenar
 - Segmentar 
 - Intercalar
 - Busqueda secuencial
-- Cargar fibonacci
-- Cargar serie aritmetica
-- Cargar serie geometrica
+- Invertir
+- ForEach
 
 ## Ejemplo 6
 
 ```javascript
 const l1 = new ListaEnlazada()
-l1.cargarElementoXElemento(10)
-l1.cargarElementoxElemento(11)
-l1.cargarElementoXElemento(12)
+l1.insertarFinal(10)
+l1.insertarFinal(11)
+l1.insertarFinal(12)
 
 console.log(l1.length()) // <-- 3
 ```
 
+## Lista Doblemente Enlazada
+
+### Metodos de la Clase Lista Doblemente Enlazada 
+
+- Cargar
+- Cargar serie aritmetica
+- Cargar serie geometrica
+- Cargar fibonacci
+- Descargar
+- Insertar inicio
+- Insertar final 
+- Eliminar inicio
+- Eliminar final 
+- Obtener inicio
+- Obtener final
+- Ordenar
+- Segmentar 
+- Intercalar
+- Busqueda secuencial
+- Invertir
+- ForEach
+
+## Ejemplo 7
+
+```javascript
+const l1 = new ListaDoblementeEnlazada()
+l1.insertarFinal(10)
+l1.insertarFinal(11)
+l1.insertarFinal(12)
+
+console.log(l1.length()) // <-- 3
+```
 
 ## Contribuciones
 

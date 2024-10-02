@@ -1,6 +1,6 @@
 {
   "name": "utilities-library",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "main": "./dist/index.js",
   "bin": "./dist/index.js",
   "scripts": {
@@ -12,6 +12,8 @@
     "prepare": "npm run build && npm run docs"
   },
   "keywords": [
+    "datastructure",
+    "double linked list",
     "linked list",
     "tensor",
     "vector",
@@ -24,7 +26,7 @@
   "engine-strict": true,
   "author": "Sebastian Cespedes Rodas",
   "license": "ISC",
-  "description": "linked list - tensor - matrix - vector - string - number",
+  "description": "data structure library",
   "devDependencies": {
     "@pixi/jsdoc-template": "^2.6.0",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
