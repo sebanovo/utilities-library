@@ -1,6 +1,6 @@
 {
   "name": "utilities-library",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "main": "./dist/index.js",
   "bin": "./dist/index.js",
   "scripts": {
@@ -13,6 +13,7 @@
   },
   "keywords": [
     "datastructure",
+    "circular linked list",
     "double linked list",
     "linked list",
     "tensor",

@@ -8,8 +8,9 @@
 5. [Clase Cadena](#clase-cadena)
 6. [Lista Enlazada](#lista-enlazada)
 6. [Lista Doblemente Enlazada](#lista-doblemente-enlazada)
-7. [Contribuciones](#contribuciones)
-8. [Licencia](#licencia)
+7. [Lista Circular](#lista-circular)
+8. [Contribuciones](#contribuciones)
+9. [Licencia](#licencia)
 
 Visita el repositorio : <https://github.com/sebanovo/utilities-library>
 
@@ -399,6 +400,39 @@ console.log(l1.length()) // <-- 3
 
 ```javascript
 const l1 = new ListaDoblementeEnlazada()
+l1.insertarFinal(10)
+l1.insertarFinal(11)
+l1.insertarFinal(12)
+
+console.log(l1.length()) // <-- 3
+```
+
+## Lista Circular 
+
+### Metodos de la Clase Lista Circular
+
+- Cargar
+- Cargar serie aritmetica
+- Cargar serie geometrica
+- Cargar fibonacci
+- Descargar
+- Insertar inicio
+- Insertar final 
+- Eliminar inicio
+- Eliminar final 
+- Obtener inicio
+- Obtener final
+- Ordenar
+- Segmentar 
+- Intercalar
+- Busqueda secuencial
+- Invertir
+- ForEach
+
+## Ejemplo 8
+
+```javascript
+const l1 = new ListaCircular()
 l1.insertarFinal(10)
 l1.insertarFinal(11)
 l1.insertarFinal(12)

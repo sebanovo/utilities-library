@@ -1,4 +1,5 @@
 export { default as Cadena } from './class/Cadena';
+export { default as ListaCircular } from './class/ListaCircular';
 export { default as ListaDoblementeEnlazada } from './class/ListaDoblementeEnlazada';
 export { default as ListaEnlazada } from './class/ListaEnlazada';
 export { default as Matriz } from './class/Matriz';

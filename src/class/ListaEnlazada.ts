@@ -51,7 +51,7 @@ export default class ListaEnlazada {
     }
     let x = this.#head;
     let ant: Nodo | null;
-    while (x.sig != null) {
+    while (x.sig !== null) {
       ant = x;
       x = x.sig!;
     }
@@ -217,7 +217,7 @@ export default class ListaEnlazada {
     while (x !== null) {
       y = x.sig;
       if (bool) {
-        while (y != null) {
+        while (y !== null) {
           n1.cargar(y.dato);
           n2.cargar(x.dato);
           if ((n1[method]() && !n2[method]()) ||
@@ -228,7 +228,7 @@ export default class ListaEnlazada {
           y = y.sig;
         }
       } else {
-        while (y != null) {
+        while (y !== null) {
           n1.cargar(y.dato);
           n2.cargar(x.dato);
           if ((!n1[method]() && n2[method]()) ||

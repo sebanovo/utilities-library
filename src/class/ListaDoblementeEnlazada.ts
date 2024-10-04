@@ -57,29 +57,12 @@ export default class ListaDoblementeEnlazada {
     }
     let x = this.#head;
     let ant: Nodo | null;
-    while (x.sig != null) {
+    while (x.sig !== null) {
       ant = x;
       x = x.sig!;
     }
     ant!.sig = null;
     x.ant = null;
-  }
-
-  insertar (dato: number): void {
-    if (this.#head === null) {
-      this.#head = new Nodo(dato);
-      return;
-    }
-
-    let x = this.#head;
-    let ant: Nodo | null;
-    while (x !== null) {
-      ant = x;
-      x = x.sig!;
-    }
-    const nodo = new Nodo(dato);
-    nodo.ant = ant!;
-    ant!.sig = nodo!;
   }
 
   eliminarInicio (): void {
@@ -117,7 +100,7 @@ export default class ListaDoblementeEnlazada {
     return c;
   }
 
-  descargar (): string {
+  descargar1 (): string {
     let s = '';
     let x = this.#head;
     while (x !== null) {
@@ -137,6 +120,30 @@ export default class ListaDoblementeEnlazada {
         s += '<-';
       }
       y = y.sig!;
+    }
+    return s;
+  }
+
+  descargar2 (): string {
+    let s = '';
+    let x = this.obtenerFinal();
+    while (x !== null) {
+      s += x.dato;
+      if (x.ant !== null) {
+        s += '->';
+      }
+      x = x.ant;
+    }
+
+    s += '\r\n';
+    let y = this.obtenerFinal();
+
+    while (y !== null) {
+      s += y.dato;
+      if (y.ant !== null) {
+        s += '<-';
+      }
+      y = y.ant!;
     }
     return s;
   }
@@ -257,7 +264,7 @@ export default class ListaDoblementeEnlazada {
     while (x !== null) {
       y = x.sig;
       if (bool) {
-        while (y != null) {
+        while (y !== null) {
           n1.cargar(y.dato);
           n2.cargar(x.dato);
           if ((n1[method]() && !n2[method]()) ||
@@ -268,7 +275,7 @@ export default class ListaDoblementeEnlazada {
           y = y.sig;
         }
       } else {
-        while (y != null) {
+        while (y !== null) {
           n1.cargar(y.dato);
           n2.cargar(x.dato);
           if ((!n1[method]() && n2[method]()) ||
@@ -324,5 +331,12 @@ export default class ListaDoblementeEnlazada {
       callbackfn(x.dato, x, this.#head);
       x = x.sig;
     }
+  }
+
+  /**
+   * @returns una copia de la lista
+   */
+  lista (): Nodo | null {
+    return structuredClone(this.#head);
   }
 }
