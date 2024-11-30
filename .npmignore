@@ -27,3 +27,5 @@ __tests__
 pnpm-lock.yaml
 
 .vscode
+
+rollup.config.js

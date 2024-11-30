@@ -6,4 +6,6 @@ export { default as Matriz } from './class/Matriz';
 export { default as Numero } from './class/Numero';
 export { default as Tensor } from './class/Tensor';
 export { default as Vector } from './class/Vector';
+export { default as Pila } from './class/Pila';
+export { default as Cola } from './class/Cola';
 
