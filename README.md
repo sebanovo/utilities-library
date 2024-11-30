@@ -23,6 +23,18 @@ Visita la documentación:
 npm i utilities-library
 ```
 
+## importar por cdn : 
+
+```html
+<!-- esm -->
+<script type="module"> 
+  import utils from "https://cdn.jsdelivr.net/npm/utilities-library@3.2.4/+esm"
+</script>
+
+<!-- default -->
+<script src="https://cdn.jsdelivr.net/npm/utilities-library@3.2.4/dist/index.min.js"></script>
+```
+
 ## Clase Tensor
 
 ### Metodos de la Clase Tensor
