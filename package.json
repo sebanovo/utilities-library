@@ -1,13 +1,12 @@
 {
   "name": "utilities-library",
-  "version": "3.2.4",
+  "version": "3.2.5",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.esm.js",
   "jsdelivr": "dist/index.min.js",
   "unpkg": "dist/index.min.js",
   "types": "dist/index.d.ts",
-  
   "scripts": {
     "dev": "ts-node ./src/index.ts",
     "build": "rollup -c",
@@ -44,6 +43,8 @@
     "eslint-plugin-import": "^2.25.2",
     "jsdoc": "^4.0.2",
     "rollup": "^4.28.0",
+    "rollup-plugin-delete": "^2.1.0",
+    "rollup-plugin-dts": "^6.1.1",
     "tslib": "^2.8.1",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"

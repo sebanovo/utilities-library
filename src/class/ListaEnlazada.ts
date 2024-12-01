@@ -1,4 +1,4 @@
-import { type MethodsOfNumero } from '../@types/types';
+import { type MethodsOfNumero } from '../types/types';
 import Numero from './Numero';
 
 class Nodo {

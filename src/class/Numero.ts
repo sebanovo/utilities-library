@@ -1,4 +1,5 @@
-import { type MethodsOfNumero, methodsOfNumero } from '../@types/types';
+import { type MethodsOfNumero } from '../types/types';
+import { methodsOfNumero } from '../types/methodsOfNumero';
 /**
  * Clase que representa un número entero y proporciona métodos para manipularlo.
  */

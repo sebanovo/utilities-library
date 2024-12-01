@@ -1,4 +1,5 @@
-import { type MatrizDimension, methodsOfNumero, type MethodsOfNumero } from '../@types/types';
+import { type MatrizDimension, type MethodsOfNumero } from '../types/types';
+import { methodsOfNumero } from '../types/methodsOfNumero';
 import Numero from './Numero';
 /**
  * Clase Matriz para trabajar con matrices

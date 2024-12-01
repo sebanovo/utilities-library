@@ -1,4 +1,5 @@
-import { methodsOfNumero, type MethodsOfNumero, type objetoMaxYFrec } from '../@types/types';
+import { type MethodsOfNumero, type objetoMaxYFrec } from '../types/types';
+import { methodsOfNumero } from '../types/methodsOfNumero';
 import Numero from './Numero';
 /**
  * Clase que representa un vector y proporciona diversas operaciones y manipulaciones.

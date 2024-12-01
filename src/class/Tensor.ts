@@ -1,4 +1,5 @@
-import { type MethodsOfNumero, methodsOfNumero, type TensorDimension } from '../@types/types';
+import { type MethodsOfNumero, type TensorDimension } from '../types/types';
+import { methodsOfNumero } from '../types/methodsOfNumero';
 import Numero from './Numero';
 /**
  * Clase Tensor para trabajar con tensores
