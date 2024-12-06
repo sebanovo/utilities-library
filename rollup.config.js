@@ -1,7 +1,5 @@
 import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
-import dts from 'rollup-plugin-dts';
-import del from 'rollup-plugin-delete';
 
 export default [
   {
@@ -23,13 +21,5 @@ export default [
       }
     ],
     plugins: [typescript({ tsconfig: './tsconfig.json' })]
-  },
-  {
-    input: './dist/index.d.ts',
-    output: [{ file: 'dist/index.d.ts', format: 'es' }],
-    plugins: [
-      dts(),
-      del({ hook: 'buildEnd', targets: ['./dist/class', './dist/types'] })
-    ]
   }
 ];

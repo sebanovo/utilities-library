@@ -1,6 +1,6 @@
 {
   "name": "utilities-library",
-  "version": "3.2.5",
+  "version": "3.2.6",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.esm.js",
@@ -23,7 +23,9 @@
     "tensor",
     "vector",
     "string",
-    "number"
+    "number",
+    "stack",
+    "queue"
   ],
   "engines": {
     "node": ">=17.0.1"
@@ -43,8 +45,6 @@
     "eslint-plugin-import": "^2.25.2",
     "jsdoc": "^4.0.2",
     "rollup": "^4.28.0",
-    "rollup-plugin-delete": "^2.1.0",
-    "rollup-plugin-dts": "^6.1.1",
     "tslib": "^2.8.1",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"

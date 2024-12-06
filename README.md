@@ -9,8 +9,10 @@
 6. [Lista Enlazada](#lista-enlazada)
 6. [Lista Doblemente Enlazada](#lista-doblemente-enlazada)
 7. [Lista Circular](#lista-circular)
-8. [Contribuciones](#contribuciones)
-9. [Licencia](#licencia)
+8. [Pila](#pila)
+9. [Cola](#cola)
+10. [Contribuciones](#contribuciones)
+11. [Licencia](#licencia)
 
 Visita el repositorio : <https://github.com/sebanovo/utilities-library>
 
@@ -451,6 +453,47 @@ l1.insertarFinal(12)
 
 console.log(l1.length()) // <-- 3
 ```
+
+## Pila 
+
+### Metodos de la Pila
+
+- Push 
+- Pop 
+- Length
+- Descargar
+
+## Ejemplo 9
+
+```javascript
+const l1 = new Pila()
+l1.push(10)
+l1.push(11)
+l1.push(12)
+
+console.log(l1.descargar()) // 10->11->12
+```
+
+## Cola 
+
+### Metodos de la Cola
+
+- Encolar 
+- Desencolar 
+- Length
+- Descargar
+
+## Ejemplo 10
+
+```javascript
+const l1 = new Pila()
+l1.encolar(10)
+l1.encolar(11)
+l1.encolar(12)
+
+console.log(l1.descargar()) // 12->11->10
+```
+
 
 ## Contribuciones
 
