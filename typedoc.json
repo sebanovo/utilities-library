@@ -3,4 +3,5 @@
   "out": "doc",
   "plugin": ["varvara-typedoc-theme"],
   "theme": "varvara",
+  "favicon": "./public/perfil.png"
 }
