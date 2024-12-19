@@ -6,5 +6,6 @@
   "favicon": "./public/perfil.png",
   "githubPages": true,
   "gitRevision": "master",
-  "gitRemote": "origin"
+  "gitRemote": "origin",
+  "sourceLinkTemplate": "https://github.com/sebanovo/utilities-library/blob/{gitRevision}/{path}#L{line}"
 }
