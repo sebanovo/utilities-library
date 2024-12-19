@@ -3,5 +3,8 @@
   "out": "doc",
   "plugin": ["varvara-typedoc-theme"],
   "theme": "varvara",
-  "favicon": "./public/perfil.png"
+  "favicon": "./public/perfil.png",
+  "githubPages": true,
+  "gitRevision": "master",
+  "gitRemote": "origin"
 }
