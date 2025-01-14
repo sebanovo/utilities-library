@@ -2,7 +2,9 @@
   "name": "utilities-library",
   "version": "3.2.9",
   "files": [
-    "dist"
+    "LICENSE",
+    "README.md",
+    "dist/"
   ],
   "type": "commonjs",
   "main": "./dist/index.cjs.js",
