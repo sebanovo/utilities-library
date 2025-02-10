@@ -505,9 +505,9 @@ l1.add(12)
 
 ```javascript
 const t1 = new BinarySearchTree()
-t1.insert(10)
-t1.insert(11)
-t1.insert(12)
+t1.insert({key: 1, value: 0})
+t1.insert({key: 2, value: 1})
+t1.insert({key: 3, value: 2})
 ```
 
 ## AVL Tree
@@ -521,10 +521,10 @@ t1.insert(12)
 ## Ejemplo 12
 
 ```javascript
-const t1 = new AVLTree()
-t1.insert(10)
-t1.insert(11)
-t1.insert(12)
+const t1 = new AVLTree(4)
+t1.insert({key: 1, value: 0})
+t1.insert({key: 2, value: 1})
+t1.insert({key: 3, value: 2})
 ```
 
 ## MWay Tree 
@@ -538,10 +538,10 @@ t1.insert(12)
 ## Ejemplo 13
 
 ```javascript
-const t1 = new MWayTree()
-t1.insert(10)
-t1.insert(11)
-t1.insert(12)
+const t1 = new MWayTree(4)
+t1.insert({key: 1, value: 0})
+t1.insert({key: 2, value: 1})
+t1.insert({key: 3, value: 2})
 ```
 
 ## Contribuciones
