@@ -6,5 +6,9 @@ export { default as Matriz } from './class/Matriz';
 export { default as Numero } from './class/Numero';
 export { default as Tensor } from './class/Tensor';
 export { default as Vector } from './class/Vector';
-export { default as Pila } from './class/Pila';
-export { default as Cola } from './class/Cola';
+export { default as Stack } from './class/stack';
+export { default as Queue } from './class/queue';
+
+export { default as BinarySearchTree } from './class/binarysearchtree/binarysearch.tree';
+export { default as AVLTree } from './class/avltree/avl.tree';
+export { default as MWayTree } from './class/mwaytree/mway.tree';

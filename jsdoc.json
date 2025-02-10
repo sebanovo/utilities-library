@@ -30,7 +30,7 @@
     },
     "meta": {
       "title": "Utilities Library",
-      "description": "library to manage tensors, vectors, matrices, numbers and strings",
+      "description": "library to manage tensor,  matrix, vector, stack, queue, binary search tree, avl, m-way tree, number and string",
       "keyword": "Library"
     },
     "linenums": true,

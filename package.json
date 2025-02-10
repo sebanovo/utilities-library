@@ -27,11 +27,15 @@
     "double linked list",
     "linked list",
     "tensor",
+    "matrix",
     "vector",
     "string",
     "number",
     "stack",
-    "queue"
+    "queue",
+    "binary search tree",
+    "avl",
+    "m-way tree"
   ],
   "engines": {
     "node": ">=17.0.1"
