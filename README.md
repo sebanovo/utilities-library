@@ -7,12 +7,15 @@
 4. [Clase Numero](#clase-numero)
 5. [Clase Cadena](#clase-cadena)
 6. [Lista Enlazada](#lista-enlazada)
-6. [Lista Doblemente Enlazada](#lista-doblemente-enlazada)
-7. [Lista Circular](#lista-circular)
-8. [Pila](#pila)
-9. [Cola](#cola)
-10. [Contribuciones](#contribuciones)
-11. [Licencia](#licencia)
+7. [Lista Doblemente Enlazada](#lista-doblemente-enlazada)
+8. [Lista Circular](#lista-circular)
+9. [Queue](#queue)
+10. [Stack](#stack)
+11. [Binary Search Tree](#binary-search-tree)
+12. [AVL Tree](#avl-tree)
+13. [M-Way Tree](#m-way-tree)
+14. [Contribuciones](#contribuciones)
+15. [Licencia](#licencia)
 
 Visita el repositorio : <https://github.com/sebanovo/utilities-library>
 
@@ -454,7 +457,7 @@ l1.insertarFinal(12)
 console.log(l1.length()) // <-- 3
 ```
 
-## Pila 
+## Stack 
 
 ### Metodos de la Pila
 
@@ -466,15 +469,13 @@ console.log(l1.length()) // <-- 3
 ## Ejemplo 9
 
 ```javascript
-const l1 = new Pila()
+const l1 = new Stack()
 l1.push(10)
 l1.push(11)
 l1.push(12)
-
-console.log(l1.descargar()) // 10->11->12
 ```
 
-## Cola 
+## Queue 
 
 ### Metodos de la Cola
 
@@ -486,14 +487,62 @@ console.log(l1.descargar()) // 10->11->12
 ## Ejemplo 10
 
 ```javascript
-const l1 = new Pila()
-l1.encolar(10)
-l1.encolar(11)
-l1.encolar(12)
-
-console.log(l1.descargar()) // 12->11->10
+const l1 = new Queue()
+l1.add(10)
+l1.add(11)
+l1.add(12)
 ```
 
+## Binary Search Tree
+
+### Metodos
+
+- insert 
+- delete 
+- to string 
+
+## Ejemplo 11
+
+```javascript
+const t1 = new BinarySearchTree()
+t1.insert(10)
+t1.insert(11)
+t1.insert(12)
+```
+
+## AVL Tree
+
+### Metodos
+
+- insert 
+- delete 
+- to string 
+
+## Ejemplo 12
+
+```javascript
+const t1 = new AVLTree()
+t1.insert(10)
+t1.insert(11)
+t1.insert(12)
+```
+
+## MWay Tree 
+
+### Metodos
+
+- insert 
+- delete 
+- to string 
+
+## Ejemplo 13
+
+```javascript
+const t1 = new MWayTree()
+t1.insert(10)
+t1.insert(11)
+t1.insert(12)
+```
 
 ## Contribuciones
 
