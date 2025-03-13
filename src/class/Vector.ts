@@ -301,7 +301,7 @@ export default class Vector {
     this.#checarParametros(a, b);
     this.bubbleSort('asc', a, b);
     let izquierda = a;
-    let derecha = b + 1;
+    let derecha = b;
 
     while (izquierda <= derecha) {
       const medio = izquierda + Math.floor((derecha - izquierda) / 2);
