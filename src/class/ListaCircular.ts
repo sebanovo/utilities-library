@@ -1,9 +1,9 @@
 import { type MethodsOfNumero } from '../types/types';
 import Numero from './Numero';
 
-class Nodo {
-  sig: Nodo | null;
-  ant: Nodo | null;
+export class NodoListaCircular {
+  sig: NodoListaCircular | null;
+  ant: NodoListaCircular | null;
   dato: number;
   constructor (dato: number) {
     this.dato = dato;
@@ -16,22 +16,22 @@ class Nodo {
  * Clase que representa una lista circular de enlace doble y proporciona diversas operaciones y manipulaciones.
  */
 export default class ListaCircular {
-  #head: Nodo | null = null;
+  #head: NodoListaCircular | null = null;
   insertarFinal (dato: number): void {
     if (this.#head === null) {
-      this.#head = new Nodo(dato);
+      this.#head = new NodoListaCircular(dato);
       this.#head.sig = this.#head;
       this.#head.ant = this.#head;
       return;
     } else if (this.#head.sig === this.#head && this.#head.ant === this.#head) {
-      const nodo = new Nodo(dato);
+      const nodo = new NodoListaCircular(dato);
       nodo.sig = this.#head;
       nodo.ant = this.#head;
       this.#head.sig = nodo;
       this.#head.ant = nodo;
       return;
     }
-    const nodo = new Nodo(dato);
+    const nodo = new NodoListaCircular(dato);
     const ant = this.#head.ant;
     ant!.sig = nodo;
     nodo.ant = ant;
@@ -41,12 +41,12 @@ export default class ListaCircular {
 
   insertarInicio (dato: number): void {
     if (this.#head === null) {
-      this.#head = new Nodo(dato);
+      this.#head = new NodoListaCircular(dato);
       this.#head.sig = this.#head;
       this.#head.ant = this.#head;
       return;
     } else if (this.#head.sig === this.#head && this.#head.ant === this.#head) {
-      const nodo = new Nodo(dato);
+      const nodo = new NodoListaCircular(dato);
       nodo.sig = this.#head;
       nodo.ant = this.#head;
       this.#head.sig = nodo;
@@ -54,7 +54,7 @@ export default class ListaCircular {
       return;
     }
 
-    const x = new Nodo(dato);
+    const x = new NodoListaCircular(dato);
     x.sig = this.#head;
     x.ant = this.#head.ant;
     this.#head.ant!.sig = x;
@@ -165,11 +165,11 @@ export default class ListaCircular {
     this.#head = sig;
   }
 
-  obtenerInicio (): Nodo | null {
+  obtenerInicio (): NodoListaCircular | null {
     return this.#head;
   }
 
-  obtenerFinal (): Nodo | null {
+  obtenerFinal (): NodoListaCircular | null {
     return this.#head?.ant ?? null;
   }
 
@@ -247,7 +247,7 @@ export default class ListaCircular {
   ordenar (): void {
     if (!this.#head) return;
     let x = this.#head;
-    let y: Nodo | null = null;
+    let y: NodoListaCircular | null = null;
 
     while (x !== this.#head.ant) {
       y = x.sig;
@@ -271,7 +271,7 @@ export default class ListaCircular {
     const n2 = new Numero();
 
     let x = this.#head;
-    let y: Nodo | null = null;
+    let y: NodoListaCircular | null = null;
 
     while (x !== this.#head.ant) {
       y = x.sig;
@@ -301,7 +301,7 @@ export default class ListaCircular {
     let bool = true;
 
     let x = this.#head;
-    let y: Nodo | null = null;
+    let y: NodoListaCircular | null = null;
 
     while (x !== this.#head.ant) {
       y = x.sig;
@@ -354,7 +354,7 @@ export default class ListaCircular {
     if (!this.#head || (this.#head.sig === this.#head && this.#head.ant === this.#head)) return;
 
     let x = this.#head;
-    let ant: Nodo | null = null;
+    let ant: NodoListaCircular | null = null;
 
     do {
       ant = x.ant;
@@ -370,7 +370,7 @@ export default class ListaCircular {
    * Funcion que se ejecuta para cada nodo
    * @param callbackfn callback
    */
-  forEach (callbackfn: (value: number, nodo: Nodo | null, list: Nodo | null) => void): void {
+  forEach (callbackfn: (value: number, nodo: NodoListaCircular | null, list: NodoListaCircular | null) => void): void {
     if (!this.#head) return;
     let x = this.#head;
     do {
@@ -382,7 +382,7 @@ export default class ListaCircular {
   /**
    * @returns una copia de la lista
    */
-  lista (): Nodo | null {
+  lista (): NodoListaCircular | null {
     return structuredClone(this.#head);
   }
 }

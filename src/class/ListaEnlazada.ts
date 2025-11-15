@@ -1,9 +1,9 @@
 import { type MethodsOfNumero } from '../types/types';
 import Numero from './Numero';
 
-class Nodo {
+export class NodoListaEnlazada {
   dato: number;
-  sig: Nodo | null;
+  sig: NodoListaEnlazada | null;
 
   constructor (dato: number) {
     this.dato = dato;
@@ -15,30 +15,30 @@ class Nodo {
  * Clase que representa una lista enlazada simple y proporciona diversas operaciones y manipulaciones.
  */
 export default class ListaEnlazada {
-  #head: Nodo | null = null;
+  #head: NodoListaEnlazada | null = null;
 
   insertarFinal (dato: number): void {
     if (this.#head === null) {
-      this.#head = new Nodo(dato);
+      this.#head = new NodoListaEnlazada(dato);
       return;
     }
 
-    let x: Nodo | null = this.#head;
-    let ant: Nodo | null;
+    let x: NodoListaEnlazada | null = this.#head;
+    let ant: NodoListaEnlazada | null;
     while (x !== null) {
       ant = x;
       x = x.sig;
     }
 
-    ant!.sig = new Nodo(dato);
+    ant!.sig = new NodoListaEnlazada(dato);
   }
 
   insertarInicio (dato: number): void {
     if (this.#head === null) {
-      this.#head = new Nodo(dato);
+      this.#head = new NodoListaEnlazada(dato);
       return;
     }
-    const x = new Nodo(dato);
+    const x = new NodoListaEnlazada(dato);
     x.sig = this.#head;
     this.#head = x;
   }
@@ -50,7 +50,7 @@ export default class ListaEnlazada {
       return;
     }
     let x = this.#head;
-    let ant: Nodo | null;
+    let ant: NodoListaEnlazada | null;
     while (x.sig !== null) {
       ant = x;
       x = x.sig!;
@@ -67,14 +67,14 @@ export default class ListaEnlazada {
     this.#head = this.#head.sig;
   }
 
-  obtenerInicio (): Nodo | null {
+  obtenerInicio (): NodoListaEnlazada | null {
     return this.#head;
   }
 
-  obtenerFinal (): Nodo | null {
+  obtenerFinal (): NodoListaEnlazada | null {
     if (this.#head?.sig == null) return this.#head;
     let x = this.#head;
-    let ant: Nodo | null = null;
+    let ant: NodoListaEnlazada | null = null;
     while (x !== null) {
       ant = x;
       x = x.sig!;
@@ -98,7 +98,7 @@ export default class ListaEnlazada {
   /**
    * @returns una copia de la lista
    */
-  lista (): Nodo | null {
+  lista (): NodoListaEnlazada | null {
     return structuredClone(this.#head);
   }
 
@@ -274,8 +274,8 @@ export default class ListaEnlazada {
    * Invierte la lista enlazada
    */
   invertir (): void {
-    let ant: Nodo | null = null;
-    let sig: Nodo | null = null;
+    let ant: NodoListaEnlazada | null = null;
+    let sig: NodoListaEnlazada | null = null;
     let x = this.#head;
     while (x !== null) {
       sig = x.sig!;
@@ -290,7 +290,7 @@ export default class ListaEnlazada {
    * Funcion que se ejecuta para cada nodo
    * @param callbackfn callback
    */
-  forEach (callbackfn: (value: number, nodo: Nodo | null, list: Nodo | null) => void): void {
+  forEach (callbackfn: (value: number, nodo: NodoListaEnlazada | null, list: NodoListaEnlazada | null) => void): void {
     let x = this.#head;
     while (x !== null) {
       callbackfn(x.dato, x, this.#head);

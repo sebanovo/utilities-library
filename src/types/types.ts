@@ -11,6 +11,9 @@ export interface objetoMaxYFrec {
 
 }
 
+/*
+Dimensiones de una matriz
+*/
 export interface MatrizDimension {
   rows: number
   columns: number

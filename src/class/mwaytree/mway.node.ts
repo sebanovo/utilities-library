@@ -1,6 +1,10 @@
 import { type Data } from '../binarysearchtree/binarysearch.node';
 
 export const DEFAULT_GRADE = 2;
+
+/**
+ * Clase que representa el nodo de un arbol m-way.
+ */
 export default class MWayNode<T> {
   private listData: Array<Data<T> | null>;
   private listChilds: Array<MWayNode<T> | null>;

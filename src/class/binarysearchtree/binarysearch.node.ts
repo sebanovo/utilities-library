@@ -3,6 +3,9 @@ export interface Data<T> {
   value: T
 }
 
+/**
+ * Clase que representa el nodo de un arbol binario.
+ */
 export default class BinaryTreeNode<T> {
   private right: BinaryTreeNode<T> | null = null;
   private left: BinaryTreeNode<T> | null = null;

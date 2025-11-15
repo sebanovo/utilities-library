@@ -122,8 +122,8 @@ export default class Numero {
 
   /**
    * genera un número random entre un intervalo
-   * @param a MIN VALUE
-   * @param b MAX VALUE
+   * @param MIN_VALUE MIN VALUE
+   * @param MAX_VALUE MAX VALUE
    * @returns number random
    */
   static random (MIN_VALUE: number, MAX_VALUE: number): number {

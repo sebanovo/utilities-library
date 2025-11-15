@@ -1,9 +1,9 @@
 import { type MethodsOfNumero } from '../types/types';
 import Numero from './Numero';
 
-class Nodo {
-  sig: Nodo | null;
-  ant: Nodo | null;
+export class NodoListaDoblementeEnlazada {
+  sig: NodoListaDoblementeEnlazada | null;
+  ant: NodoListaDoblementeEnlazada | null;
   dato;
   constructor (dato: number) {
     this.dato = dato;
@@ -16,34 +16,34 @@ class Nodo {
  * Clase que representa una lista enlazada doble y proporciona diversas operaciones y manipulaciones.
  */
 export default class ListaDoblementeEnlazada {
-  #head: Nodo | null;
+  #head: NodoListaDoblementeEnlazada | null;
   constructor () {
     this.#head = null;
   }
 
   insertarFinal (dato: number): void {
     if (this.#head === null) {
-      this.#head = new Nodo(dato);
+      this.#head = new NodoListaDoblementeEnlazada(dato);
       return;
     }
 
-    let x: Nodo | null = this.#head;
-    let ant: Nodo | null;
+    let x: NodoListaDoblementeEnlazada | null = this.#head;
+    let ant: NodoListaDoblementeEnlazada | null;
     while (x !== null) {
       ant = x;
       x = x.sig;
     }
-    const nodo = new Nodo(dato);
+    const nodo = new NodoListaDoblementeEnlazada(dato);
     nodo.ant = ant!;
     ant!.sig = nodo;
   }
 
   insertarInicio (dato: number): void {
     if (this.#head === null) {
-      this.#head = new Nodo(dato);
+      this.#head = new NodoListaDoblementeEnlazada(dato);
       return;
     }
-    const x = new Nodo(dato);
+    const x = new NodoListaDoblementeEnlazada(dato);
     x.sig = this.#head;
     this.#head.ant = x;
     this.#head = x;
@@ -56,7 +56,7 @@ export default class ListaDoblementeEnlazada {
       return;
     }
     let x = this.#head;
-    let ant: Nodo | null;
+    let ant: NodoListaDoblementeEnlazada | null;
     while (x.sig !== null) {
       ant = x;
       x = x.sig!;
@@ -75,14 +75,14 @@ export default class ListaDoblementeEnlazada {
     this.#head = this.#head.sig;
   }
 
-  obtenerInicio (): Nodo | null {
+  obtenerInicio (): NodoListaDoblementeEnlazada | null {
     return this.#head;
   }
 
-  obtenerFinal (): Nodo | null {
+  obtenerFinal (): NodoListaDoblementeEnlazada | null {
     if (this.#head?.sig == null) return this.#head;
     let x = this.#head;
-    let ant: Nodo | null = null;
+    let ant: NodoListaDoblementeEnlazada | null = null;
     while (x !== null) {
       ant = x;
       x = x.sig!;
@@ -309,7 +309,7 @@ export default class ListaDoblementeEnlazada {
    */
   invertir (): void {
     let actual = this.#head;
-    let temporal: Nodo | null = null;
+    let temporal: NodoListaDoblementeEnlazada | null = null;
 
     while (actual !== null) {
       temporal = actual.ant;
@@ -325,7 +325,7 @@ export default class ListaDoblementeEnlazada {
    * Funcion que se ejecuta para cada nodo
    * @param callbackfn callback
    */
-  forEach (callbackfn: (value: number, nodo: Nodo | null, list: Nodo | null) => void): void {
+  forEach (callbackfn: (value: number, nodo: NodoListaDoblementeEnlazada | null, list: NodoListaDoblementeEnlazada | null) => void): void {
     let x = this.#head;
     while (x !== null) {
       callbackfn(x.dato, x, this.#head);
@@ -336,7 +336,7 @@ export default class ListaDoblementeEnlazada {
   /**
    * @returns una copia de la lista
    */
-  lista (): Nodo | null {
+  lista (): NodoListaDoblementeEnlazada | null {
     return structuredClone(this.#head);
   }
 }
