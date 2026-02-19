@@ -1,11 +1,11 @@
-import { type MethodsOfNumero } from '../types/types';
+import type { MethodsOfNumero } from '../types/types';
 import Numero from './Numero';
 
 export class NodoListaEnlazada {
   dato: number;
   sig: NodoListaEnlazada | null;
 
-  constructor (dato: number) {
+  constructor(dato: number) {
     this.dato = dato;
     this.sig = null;
   }
@@ -17,7 +17,7 @@ export class NodoListaEnlazada {
 export default class ListaEnlazada {
   #head: NodoListaEnlazada | null = null;
 
-  insertarFinal (dato: number): void {
+  insertarFinal(dato: number): void {
     if (this.#head === null) {
       this.#head = new NodoListaEnlazada(dato);
       return;
@@ -33,7 +33,7 @@ export default class ListaEnlazada {
     ant!.sig = new NodoListaEnlazada(dato);
   }
 
-  insertarInicio (dato: number): void {
+  insertarInicio(dato: number): void {
     if (this.#head === null) {
       this.#head = new NodoListaEnlazada(dato);
       return;
@@ -43,7 +43,7 @@ export default class ListaEnlazada {
     this.#head = x;
   }
 
-  eliminarFinal (): void {
+  eliminarFinal(): void {
     if (this.#head === null) return;
     if (this.#head.sig === null) {
       this.#head = null;
@@ -58,7 +58,7 @@ export default class ListaEnlazada {
     ant!.sig = null;
   }
 
-  eliminarInicio (): void {
+  eliminarInicio(): void {
     if (this.#head === null) return;
     if (this.#head.sig === null) {
       this.#head = null;
@@ -67,11 +67,11 @@ export default class ListaEnlazada {
     this.#head = this.#head.sig;
   }
 
-  obtenerInicio (): NodoListaEnlazada | null {
+  obtenerInicio(): NodoListaEnlazada | null {
     return this.#head;
   }
 
-  obtenerFinal (): NodoListaEnlazada | null {
+  obtenerFinal(): NodoListaEnlazada | null {
     if (this.#head?.sig == null) return this.#head;
     let x = this.#head;
     let ant: NodoListaEnlazada | null = null;
@@ -82,7 +82,7 @@ export default class ListaEnlazada {
     return ant;
   }
 
-  descargar (): string {
+  descargar(): string {
     let s = '';
     let x = this.#head;
     while (x !== null) {
@@ -98,7 +98,7 @@ export default class ListaEnlazada {
   /**
    * @returns una copia de la lista
    */
-  lista (): NodoListaEnlazada | null {
+  lista(): NodoListaEnlazada | null {
     return structuredClone(this.#head);
   }
 
@@ -107,7 +107,7 @@ export default class ListaEnlazada {
    * @param {number} n - Número de elementos a cargar.
    * @returns {void}
    */
-  cargarFibonacci (n: number): void {
+  cargarFibonacci(n: number): void {
     if (n <= 0) return;
     this.insertarFinal(0);
     if (n === 1) return;
@@ -130,11 +130,7 @@ export default class ListaEnlazada {
    * @param {number} razon - Razón de la serie.
    * @returns {void}
    */
-  cargarSerieAritmetica (
-    numeroDeElementos: number,
-    valorInicial: number,
-    razon: number
-  ): void {
+  cargarSerieAritmetica(numeroDeElementos: number, valorInicial: number, razon: number): void {
     if (numeroDeElementos <= 0) return;
 
     for (let i = 0; i < numeroDeElementos; i++) {
@@ -149,26 +145,26 @@ export default class ListaEnlazada {
    * @param {number} razon - Razón de la serie.
    * @returns {void}
    */
-  cargarSerieGeometrica (numeroDeElementos: number, valorInicial: number, razon: number): void {
+  cargarSerieGeometrica(numeroDeElementos: number, valorInicial: number, razon: number): void {
     if (numeroDeElementos <= 0) return;
 
     let n = 1;
     for (let i = 0; i < numeroDeElementos; i++, n++) {
-      this.insertarFinal(valorInicial * Math.round(Math.pow(razon, n - 1)));
+      this.insertarFinal(valorInicial * Math.round(razon ** (n - 1)));
     }
   }
 
   /**
    * Ordena la lista
    */
-  ordenar (): void {
+  ordenar(): void {
     let x = this.#head;
     let y = null;
     while (x !== null) {
       y = x.sig;
       while (y !== null) {
         if (x.dato > y.dato) {
-          ;[x.dato, y.dato] = [y.dato, x.dato];
+          [x.dato, y.dato] = [y.dato, x.dato];
         }
         y = y.sig;
       }
@@ -180,7 +176,7 @@ export default class ListaEnlazada {
    * Segmenta la lista
    * @param {MethodsOfNumero} method  Metodo de la clase Número
    */
-  segmentar (method: MethodsOfNumero): void {
+  segmentar(method: MethodsOfNumero): void {
     const n1 = new Numero();
     const n2 = new Numero();
 
@@ -191,10 +187,12 @@ export default class ListaEnlazada {
       while (y !== null) {
         n1.cargar(y.dato);
         n2.cargar(x.dato);
-        if ((n1[method]() && !n2[method]()) ||
+        if (
+          (n1[method]() && !n2[method]()) ||
           (n1[method]() && n2[method]() && y.dato < x.dato) ||
-          (!n1[method]() && !n2[method]() && y.dato < x.dato)) {
-          ;[x.dato, y.dato] = [y.dato, x.dato];
+          (!n1[method]() && !n2[method]() && y.dato < x.dato)
+        ) {
+          [x.dato, y.dato] = [y.dato, x.dato];
         }
         y = y.sig;
       }
@@ -206,7 +204,7 @@ export default class ListaEnlazada {
    * Intercala la lista
    * @param {MethodsOfNumero} method  Metodo de la clase Número
    */
-  intercalar (method: MethodsOfNumero): void {
+  intercalar(method: MethodsOfNumero): void {
     const n1 = new Numero();
     const n2 = new Numero();
 
@@ -220,10 +218,12 @@ export default class ListaEnlazada {
         while (y !== null) {
           n1.cargar(y.dato);
           n2.cargar(x.dato);
-          if ((n1[method]() && !n2[method]()) ||
+          if (
+            (n1[method]() && !n2[method]()) ||
             (n1[method]() && n2[method]() && y.dato < x.dato) ||
-            (!n1[method]() && !n2[method]() && y.dato < x.dato)) {
-            ;[x.dato, y.dato] = [y.dato, x.dato];
+            (!n1[method]() && !n2[method]() && y.dato < x.dato)
+          ) {
+            [x.dato, y.dato] = [y.dato, x.dato];
           }
           y = y.sig;
         }
@@ -231,10 +231,12 @@ export default class ListaEnlazada {
         while (y !== null) {
           n1.cargar(y.dato);
           n2.cargar(x.dato);
-          if ((!n1[method]() && n2[method]()) ||
+          if (
+            (!n1[method]() && n2[method]()) ||
             (!n1[method]() && !n2[method]() && y.dato < x.dato) ||
-            (n1[method]() && n2[method]() && y.dato < x.dato)) {
-            ;[x.dato, y.dato] = [y.dato, x.dato];
+            (n1[method]() && n2[method]() && y.dato < x.dato)
+          ) {
+            [x.dato, y.dato] = [y.dato, x.dato];
           }
           y = y.sig;
         }
@@ -247,7 +249,7 @@ export default class ListaEnlazada {
   /**
    * @returns la longitud de la lista
    */
-  length (): number {
+  length(): number {
     let c = 0;
     let x = this.#head;
     while (x !== null) {
@@ -261,7 +263,7 @@ export default class ListaEnlazada {
    * @param dato el dato a buscar
    * @returns {boolean}
    */
-  busquedaSecuencial (dato: number): boolean {
+  busquedaSecuencial(dato: number): boolean {
     let x = this.#head;
     while (x !== null) {
       if (x.dato === dato) return true;
@@ -273,7 +275,7 @@ export default class ListaEnlazada {
   /**
    * Invierte la lista enlazada
    */
-  invertir (): void {
+  invertir(): void {
     let ant: NodoListaEnlazada | null = null;
     let sig: NodoListaEnlazada | null = null;
     let x = this.#head;
@@ -290,7 +292,13 @@ export default class ListaEnlazada {
    * Funcion que se ejecuta para cada nodo
    * @param callbackfn callback
    */
-  forEach (callbackfn: (value: number, nodo: NodoListaEnlazada | null, list: NodoListaEnlazada | null) => void): void {
+  forEach(
+    callbackfn: (
+      value: number,
+      nodo: NodoListaEnlazada | null,
+      list: NodoListaEnlazada | null
+    ) => void
+  ): void {
     let x = this.#head;
     while (x !== null) {
       callbackfn(x.dato, x, this.#head);
@@ -298,4 +306,3 @@ export default class ListaEnlazada {
     }
   }
 }
-

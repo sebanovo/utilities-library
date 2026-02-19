@@ -2,12 +2,12 @@
  * Clase que representa un vector y proporciona diversas operaciones y manipulaciones.
  */
 export default class Cadena {
-  #cadena: string = '';
+  #cadena = '';
   /**
    *
    * @param {string} cadena - Cadena a cargar
    */
-  cargar (cadena: string): void {
+  cargar(cadena: string): void {
     this.#cadena = cadena;
   }
 
@@ -15,7 +15,7 @@ export default class Cadena {
    * Retorna la cadena
    * @returns {string}
    */
-  descargar (): string {
+  descargar(): string {
     return this.#cadena;
   }
 
@@ -23,12 +23,14 @@ export default class Cadena {
    * Retorna la cadena
    * @returns {string}
    */
-  cadena (): string {
+  cadena(): string {
     return this.#cadena;
   }
 
-  #checarRango (posicion: number): never | void {
-    if (posicion < 0 || posicion > this.#cadena.length) { throw new Error('El parametro esta fuera de los límites'); }
+  #checarRango(posicion: number): never | void {
+    if (posicion < 0 || posicion > this.#cadena.length) {
+      throw new Error('El parametro esta fuera de los límites');
+    }
   }
 
   /**
@@ -36,7 +38,7 @@ export default class Cadena {
    * @param {char} char caracter
    * @returns {boolean}
    */
-  static esVocal (char: string): boolean {
+  static esVocal(char: string): boolean {
     const vocales = 'aeiouáéíóúäëïöüAEIOUÁÉÍÓÚÄËÏÖÜ'; // Todas las vocales
     return vocales.includes(char);
   }
@@ -46,13 +48,12 @@ export default class Cadena {
    * @param {char} char caracter
    * @returns {boolean}
    */
-  static esLetra (char: string): boolean {
-    const letras =
-      'qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNMáéíóúÁÉÍÓÚäëïöüÄËÏÖÜ'; // todas las letras
+  static esLetra(char: string): boolean {
+    const letras = 'qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNMáéíóúÁÉÍÓÚäëïöüÄËÏÖÜ'; // todas las letras
     return letras.includes(char);
   }
 
-  static esEspacio (char: string): boolean {
+  static esEspacio(char: string): boolean {
     return char === ' ';
   }
 
@@ -61,7 +62,7 @@ export default class Cadena {
    * @param {char} char caracter
    * @returns {boolean}
    */
-  static esDigito (char: string): boolean {
+  static esDigito(char: string): boolean {
     return Boolean(Number(char));
   }
 
@@ -69,7 +70,7 @@ export default class Cadena {
    * Verifica si una cadena es palindromo
    * @returns { boolean}
    */
-  esPalindromo (): boolean {
+  esPalindromo(): boolean {
     const inv = this.#cadena.split('').reverse().join('');
     return inv === this.#cadena;
   }
@@ -79,7 +80,7 @@ export default class Cadena {
    * @param char caracter
    * @returns {number} El número de caracteres
    */
-  contarCaracter (char: string): number {
+  contarCaracter(char: string): number {
     let count = 0;
     for (let i = 0; i < this.#cadena.length; i++) {
       if (this.#cadena[i] === char) {
@@ -93,7 +94,7 @@ export default class Cadena {
    * Cuenta la cantidad de vocales en la cadena
    * @returns {number}
    */
-  contarVocales (): number {
+  contarVocales(): number {
     let count = 0;
     for (let i = 0; i < this.#cadena.length; i++) {
       if (Cadena.esVocal(this.#cadena[i])) {
@@ -107,7 +108,7 @@ export default class Cadena {
    * Cuenta la cantidad de letras en la cadena
    * @returns {number}
    */
-  contarLetras (): number {
+  contarLetras(): number {
     let count = 0;
     for (let i = 0; i < this.#cadena.length; i++) {
       if (Cadena.esLetra(this.#cadena[i])) {
@@ -120,7 +121,7 @@ export default class Cadena {
   /**
    * Invierte la cadena
    */
-  invertir (): void {
+  invertir(): void {
     this.#cadena = this.#cadena.split('').reverse().join('');
   }
 
@@ -128,11 +129,11 @@ export default class Cadena {
    * Elimina los caracteres de la cadena
    * @param char caracter
    */
-  eliminarCaracter (char: string): void {
+  eliminarCaracter(char: string): void {
     let aux = '';
     for (let i = 0; i < this.#cadena.length; i++) {
       if (this.#cadena[i] !== char) {
-        aux = aux + this.#cadena[i];
+        aux += this.#cadena[i];
       }
     }
     this.#cadena = aux;
@@ -141,11 +142,11 @@ export default class Cadena {
   /**
    * Elimina las vocales de la cadena
    */
-  eliminarVocales (): void {
+  eliminarVocales(): void {
     let aux = '';
     for (let i = 0; i < this.#cadena.length; i++) {
       if (!Cadena.esVocal(this.#cadena[i])) {
-        aux = aux + this.#cadena[i];
+        aux += this.#cadena[i];
       }
     }
     this.#cadena = aux;
@@ -154,11 +155,11 @@ export default class Cadena {
   /**
    * Elimina las letras de la cadena
    */
-  eliminarLetras (): void {
+  eliminarLetras(): void {
     let aux = '';
     for (let i = 0; i < this.#cadena.length; i++) {
       if (!Cadena.esLetra(this.#cadena[i])) {
-        aux = aux + this.#cadena[i];
+        aux += this.#cadena[i];
       }
     }
     this.#cadena = aux;
@@ -167,11 +168,11 @@ export default class Cadena {
   /**
    * Elimina los números de la cadena
    */
-  eliminarNumeros (): void {
+  eliminarNumeros(): void {
     let aux = '';
     for (let i = 0; i < this.#cadena.length; i++) {
       if (!Cadena.esDigito(this.#cadena[i])) {
-        aux = aux + this.#cadena[i];
+        aux += this.#cadena[i];
       }
     }
     this.#cadena = aux;
@@ -181,18 +182,18 @@ export default class Cadena {
    * Retorna la primer palabra
    * @returns {string}
    */
-  primerPalabra (): string {
+  primerPalabra(): string {
     let palabra = '';
     for (let i = 0; i < this.#cadena.length; i++) {
       const anterior = this.#cadena[i];
       const posterior = this.#cadena[i + 1];
       if (!Cadena.esEspacio(anterior) && !Cadena.esEspacio(posterior)) {
-        palabra = palabra + anterior;
+        palabra += anterior;
       } else if (!Cadena.esEspacio(anterior) && Cadena.esEspacio(posterior)) {
-        palabra = palabra + anterior;
+        palabra += anterior;
         break;
       } else if (Cadena.esEspacio(anterior) && !Cadena.esEspacio(posterior)) {
-        palabra = palabra + anterior;
+        palabra += anterior;
       } else if (Cadena.esEspacio(anterior) && Cadena.esEspacio(posterior)) {
         // nada
       }
@@ -201,7 +202,7 @@ export default class Cadena {
     return palabra.trimStart();
   }
 
-  posicionPrimerPalabra (): { start: number | -1, end: number | -1 } {
+  posicionPrimerPalabra(): { start: number | -1; end: number | -1 } {
     const primerPalabra = this.primerPalabra();
     const posicion = { start: -1, end: -1 };
     for (let i = 0; i < this.#cadena.length; i++) {
@@ -217,14 +218,14 @@ export default class Cadena {
   /**
    * Elimina la primer palabra
    */
-  eliminarPrimerPalabra (): void {
+  eliminarPrimerPalabra(): void {
     const { start, end } = this.posicionPrimerPalabra();
     if (start < 0 || end < 0) return;
 
     let aux = '';
     for (let i = 0; i < this.#cadena.length; i++) {
       if (i < start || i > end) {
-        aux = aux + this.#cadena[i];
+        aux += this.#cadena[i];
       }
     }
     this.#cadena = aux;
@@ -238,7 +239,7 @@ export default class Cadena {
    *  x = "123hola a todos" => " a todos"
    * ```
    */
-  eliminarHastaPrimerPalabra (): void {
+  eliminarHastaPrimerPalabra(): void {
     const { end } = this.posicionPrimerPalabra();
     this.#cadena = this.#cadena.substring(end + 1, this.#cadena.length);
   }
@@ -247,15 +248,12 @@ export default class Cadena {
    * Cuenta la cantidad de palabras
    * @returns {number}
    */
-  contarPalabras (): number {
+  contarPalabras(): number {
     let count = 0;
     for (let i = 0; i < this.#cadena.length; i++) {
       const anterior = this.#cadena[i];
       const posterior = this.#cadena[i + 1];
-      if (
-        !Cadena.esEspacio(anterior) &&
-        (Cadena.esEspacio(posterior) || posterior == null)
-      ) {
+      if (!Cadena.esEspacio(anterior) && (Cadena.esEspacio(posterior) || posterior == null)) {
         count++;
       }
     }
@@ -266,7 +264,7 @@ export default class Cadena {
    * Retorna la palabra más larga
    * @returns {string}
    */
-  palabraMasLarga (): string {
+  palabraMasLarga(): string {
     const aux = new Cadena();
     aux.cargar(this.#cadena);
     let masLarga = aux.primerPalabra();
@@ -285,7 +283,7 @@ export default class Cadena {
    * Retorna la palabra menos larga
    * @returns {string}
    */
-  palabraMenosLarga (): string {
+  palabraMenosLarga(): string {
     const aux = new Cadena();
     aux.cargar(this.#cadena);
     let menosLarga = aux.primerPalabra();
@@ -303,21 +301,21 @@ export default class Cadena {
   /**
    * Elimina la primera letra de cada palabra
    */
-  eliminarPrimerLetraDeCadaPalabra (): void {
+  eliminarPrimerLetraDeCadaPalabra(): void {
     let aux = '';
     for (let i = 0; i < this.#cadena.length; i++) {
       const anterior = this.#cadena[i];
       const posterior = this.#cadena[i + 1];
       if (!Cadena.esEspacio(anterior) && !Cadena.esEspacio(posterior)) {
         if (posterior != null) {
-          aux = aux + posterior;
+          aux += posterior;
         }
       } else if (!Cadena.esEspacio(anterior) && Cadena.esEspacio(posterior)) {
-        aux = aux + posterior;
+        aux += posterior;
       } else if (Cadena.esEspacio(anterior) && !Cadena.esEspacio(posterior)) {
         // nada
       } else if (Cadena.esEspacio(anterior) && Cadena.esEspacio(posterior)) {
-        aux = aux + posterior;
+        aux += posterior;
       }
     }
     this.#cadena = aux;
@@ -326,27 +324,27 @@ export default class Cadena {
   /**
    * Elimina la última letra de cada palabra
    */
-  eliminarUltimaLetraDeCadaPalabra (): void {
+  eliminarUltimaLetraDeCadaPalabra(): void {
     let aux = '';
     for (let i = 0; i < this.#cadena.length; i++) {
       const anterior = this.#cadena[i];
       const posterior = this.#cadena[i + 1];
       if (!Cadena.esEspacio(anterior) && !Cadena.esEspacio(posterior)) {
         if (posterior != null) {
-          aux = aux + anterior;
+          aux += anterior;
         }
       } else if (!Cadena.esEspacio(anterior) && Cadena.esEspacio(posterior)) {
         // nada
       } else if (Cadena.esEspacio(anterior) && !Cadena.esEspacio(posterior)) {
-        aux = aux + anterior;
+        aux += anterior;
       } else if (Cadena.esEspacio(anterior) && Cadena.esEspacio(posterior)) {
-        aux = aux + anterior;
+        aux += anterior;
       }
     }
     this.#cadena = aux;
   }
 
-  eliminarPrimeraYUltimaLetraDeCadaPalabra (): void {
+  eliminarPrimeraYUltimaLetraDeCadaPalabra(): void {
     this.eliminarPrimerLetraDeCadaPalabra();
     this.eliminarUltimaLetraDeCadaPalabra();
   }
@@ -356,8 +354,10 @@ export default class Cadena {
    * @param {number} inicio valor inicial
    * @param {number} arrastre valor de arrastre
    */
-  eliminar (inicio: number = 0, arrastre: number = this.#cadena.length - 1): void {
-    if (inicio < 0 || inicio >= this.#cadena.length) { throw new Error('El inicio tiene que ser mayor a 0'); }
+  eliminar(inicio = 0, arrastre: number = this.#cadena.length - 1): void {
+    if (inicio < 0 || inicio >= this.#cadena.length) {
+      throw new Error('El inicio tiene que ser mayor a 0');
+    }
     if (arrastre < 1) throw new Error('El arrastre no tiene que ser mayor que 0');
     if (inicio + arrastre > this.#cadena.length) {
       arrastre = this.#cadena.length - 1;
@@ -365,7 +365,7 @@ export default class Cadena {
     let aux = '';
     for (let i = 0; i < this.#cadena.length; i++) {
       if (i < inicio || i >= inicio + arrastre) {
-        aux = aux + this.#cadena[i];
+        aux += this.#cadena[i];
       }
     }
     this.#cadena = aux;
@@ -376,10 +376,10 @@ export default class Cadena {
    * @param {string} cadena cadena a insertar
    * @param {number} posicion posicion a insertar
    */
-  insertar (cadena: string, posicion: number): void {
+  insertar(cadena: string, posicion: number): void {
     this.#checarRango(posicion);
     const copy = this.#cadena.split('');
-    const length = copy.length;
+    const { length } = copy;
     for (let i = length - 1; i > -1; i--) {
       if (i >= posicion) {
         copy[i + 1] = copy[i];
@@ -396,10 +396,10 @@ export default class Cadena {
    * @param {string} cadena cadena a insertar
    * @param {number} posicion posicion a insertar
    */
-  remplazar (cadena: string, posicion: number): void {
+  remplazar(cadena: string, posicion: number): void {
     this.#checarRango(posicion);
     const copy = this.#cadena.split('');
-    const length = copy.length;
+    const { length } = copy;
     for (let i = 0; i < length; i++) {
       if (i === posicion) {
         copy[i] = cadena;
@@ -408,7 +408,7 @@ export default class Cadena {
     this.#cadena = copy.join('');
   }
 
-  invertirCadaPalabra (): void {
+  invertirCadaPalabra(): void {
     const copy = this.#cadena.split(' ');
     const n1 = new Cadena();
     for (let i = 0; i < copy.length; i++) {
@@ -419,7 +419,7 @@ export default class Cadena {
     this.#cadena = copy.join(' ');
   }
 
-  invertirFrase (): void {
+  invertirFrase(): void {
     this.#cadena = this.#cadena.split(' ').reverse().join(' ');
   }
 }

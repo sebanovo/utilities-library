@@ -1,4 +1,4 @@
-import { type Data } from '../binarysearchtree/binarysearch.node';
+import type { Data } from '../binarysearchtree/binarysearch.node';
 
 export const DEFAULT_GRADE = 2;
 
@@ -10,7 +10,7 @@ export default class MWayNode<T> {
   private listChilds: Array<MWayNode<T> | null>;
   private readonly degree: number;
 
-  constructor (degree: number = DEFAULT_GRADE) {
+  constructor(degree: number = DEFAULT_GRADE) {
     this.degree = degree;
     if (this.degree < 2) {
       throw new Error('El grado debe ser mayor o igual importgraa 2');
@@ -20,27 +20,27 @@ export default class MWayNode<T> {
     this.listChilds = new Array(degree).fill(null);
   }
 
-  getGrade () {
+  getGrade() {
     return this.degree;
   }
 
-  getData (position: number) {
+  getData(position: number) {
     return this.listData[position];
   }
 
-  setData (position: number, newData: Data<T> | null) {
+  setData(position: number, newData: Data<T> | null) {
     this.listData[position] = newData;
   }
 
-  getChild (position: number) {
+  getChild(position: number) {
     return this.listChilds[position];
   }
 
-  setChild (positon: number, newNodo: MWayNode<T> | null) {
+  setChild(positon: number, newNodo: MWayNode<T> | null) {
     this.listChilds[positon] = newNodo;
   }
 
-  isLeaf () {
+  isLeaf() {
     for (let i = 0; i < this.listChilds.length; i++) {
       if (this.listChilds[i] !== null) {
         return false;
@@ -50,12 +50,12 @@ export default class MWayNode<T> {
   }
 
   // tiene todos sus hijos
-  isFullNode () {
+  isFullNode() {
     return this.countChildren() === this.listChilds.length;
   }
 
   // Cuenta la cantidad de hijos
-  countChildren () {
+  countChildren() {
     let c = 0;
     for (let i = 0; i < this.listChilds.length; i++) {
       if (this.listChilds[i] !== null) {
@@ -66,12 +66,12 @@ export default class MWayNode<T> {
   }
 
   // cuenta los hijos nulos
-  countEmptyData () {
+  countEmptyData() {
     return this.listData.length - this.countData();
   }
 
   // Cuenta la cantidad de datos
-  countData () {
+  countData() {
     let c = 0;
     for (let i = 0; i < this.listData.length; i++) {
       if (this.listData[i] !== null) {
@@ -82,34 +82,32 @@ export default class MWayNode<T> {
   }
 
   // cuenta los hijos nulos
-  countEmptyChildren () {
+  countEmptyChildren() {
     return this.listChilds.length - this.countChildren();
   }
 
   // verifica si es hijo vacio
-  isEmptyChild (position: number): boolean {
+  isEmptyChild(position: number): boolean {
     return this.listChilds[position] === null;
   }
 
-  findKeyIndex (key: T): number {
-    return this.listData.findIndex(
-      (data) => data !== null && data.value === key
-    );
+  findKeyIndex(key: T): number {
+    return this.listData.findIndex((data) => data !== null && data.value === key);
   }
 
-  getDataArray () {
+  getDataArray() {
     return this.listData;
   }
 
-  setDataArray (arrayData: typeof this.listData) {
+  setDataArray(arrayData: typeof this.listData) {
     this.listData = arrayData;
   }
 
-  getChildrenArray () {
+  getChildrenArray() {
     return this.listChilds;
   }
 
-  setChildrenArray (arrayChildren: Array<MWayNode<T> | null>) {
+  setChildrenArray(arrayChildren: Array<MWayNode<T> | null>) {
     this.listChilds = arrayChildren;
   }
 }

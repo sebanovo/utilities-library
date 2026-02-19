@@ -1,4 +1,4 @@
-/src/
+src/
 
 public/
 
@@ -12,6 +12,8 @@ jsdoc.json
 
 .eslintrc.json
 
+eslint.config.js
+
 .eslintignore
 
 .prettierrc.json
@@ -22,7 +24,7 @@ tsconfig.json
 
 tsconfig.test.json
 
-__tests__
+tests
 
 pnpm-lock.yaml
 

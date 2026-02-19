@@ -8,24 +8,24 @@ import BinaryTreeNode, { type Data } from './binarysearch.node';
 export default class BinarySearchTree<T> {
   protected root: BinaryTreeNode<T> | null;
 
-  constructor () {
+  constructor() {
     this.root = null;
   }
 
-  getRoot () {
+  getRoot() {
     return this.root;
   }
 
-  setRoot (newRoot: BinaryTreeNode<T> | null) {
+  setRoot(newRoot: BinaryTreeNode<T> | null) {
     this.root = newRoot;
   }
 
-  isEmpty (): boolean {
+  isEmpty(): boolean {
     return this.root === null;
   }
 
   // Cuenta la cantidad de datos
-  cardinality (root: BinaryTreeNode<T> | null): number {
+  cardinality(root: BinaryTreeNode<T> | null): number {
     let c: number;
     if (root === null) {
       c = 0;
@@ -39,7 +39,7 @@ export default class BinarySearchTree<T> {
   }
 
   // Cuenta la cantidad de nodos del arbol
-  sizeR (root: BinaryTreeNode<T> | null): number {
+  sizeR(root: BinaryTreeNode<T> | null): number {
     let c: number;
     if (root === null) {
       c = 0;
@@ -51,7 +51,7 @@ export default class BinarySearchTree<T> {
     return c;
   }
 
-  size (root: BinaryTreeNode<T> | null): number {
+  size(root: BinaryTreeNode<T> | null): number {
     if (root === null) return 0;
     let x = root;
     let count = 0;
@@ -70,7 +70,7 @@ export default class BinarySearchTree<T> {
     return count;
   }
 
-  heightR (root: BinaryTreeNode<T> | null) {
+  heightR(root: BinaryTreeNode<T> | null) {
     let h: number;
     if (root === null) {
       h = 0;
@@ -82,7 +82,7 @@ export default class BinarySearchTree<T> {
     return h;
   }
 
-  height (root: BinaryTreeNode<T> | null) {
+  height(root: BinaryTreeNode<T> | null) {
     if (root === null) return 0;
     let x = root;
     const queue = new Queue<BinaryTreeNode<T>>();
@@ -105,7 +105,7 @@ export default class BinarySearchTree<T> {
   }
 
   // Regresa el nodo minimo
-  min (root: BinaryTreeNode<T> | null) {
+  min(root: BinaryTreeNode<T> | null) {
     if (root === null) return null;
     let x = root;
     let ant = x;
@@ -118,7 +118,7 @@ export default class BinarySearchTree<T> {
     return ant;
   }
 
-  minR (root: BinaryTreeNode<T> | null): BinaryTreeNode<T> | null {
+  minR(root: BinaryTreeNode<T> | null): BinaryTreeNode<T> | null {
     if (root === null) {
       return null;
     } else if (root.getLeft() === null) {
@@ -129,7 +129,7 @@ export default class BinarySearchTree<T> {
   }
 
   // Regresa el nodo maximo
-  max (root: BinaryTreeNode<T> | null) {
+  max(root: BinaryTreeNode<T> | null) {
     if (root === null) return null;
     let x = root;
     let ant = x;
@@ -142,7 +142,7 @@ export default class BinarySearchTree<T> {
     return ant;
   }
 
-  maxR (root: BinaryTreeNode<T> | null): BinaryTreeNode<T> | null {
+  maxR(root: BinaryTreeNode<T> | null): BinaryTreeNode<T> | null {
     if (root === null) {
       return null;
     } else if (root.getRight() === null) {
@@ -152,11 +152,11 @@ export default class BinarySearchTree<T> {
     }
   }
 
-  hasKey (key: number) {
+  hasKey(key: number) {
     return this.findKey(key) !== null;
   }
 
-  findKey (key: number) {
+  findKey(key: number) {
     let x = this.root;
 
     while (x !== null) {
@@ -171,24 +171,22 @@ export default class BinarySearchTree<T> {
     return null;
   }
 
-  findKeyR (keyToSearch: number) {
+  findKeyR(keyToSearch: number) {
     const fn = (root: BinaryTreeNode<T> | null, key: number) => {
       if (root === null) {
         return null;
+      } else if (root?.getData().key === key) {
+        return root.getData().value;
+      } else if (key < root.getData().key) {
+        return fn(root.getLeft(), key);
       } else {
-        if (root?.getData().key === key) {
-          return root.getData().value;
-        } else if (key < root.getData().key) {
-          return fn(root.getLeft(), key);
-        } else {
-          return fn(root.getRight(), key);
-        }
+        return fn(root.getRight(), key);
       }
     };
     return fn(this.root, keyToSearch);
   }
 
-  levelOrderR () {
+  levelOrderR() {
     if (this.root === null) return [];
     const levels: Array<Array<Data<T>>> = [];
     const fn = (root: BinaryTreeNode<T> | null, level: number) => {
@@ -208,7 +206,7 @@ export default class BinarySearchTree<T> {
     return levels.flat(1);
   }
 
-  levelOrder () {
+  levelOrder() {
     if (this.root === null) return [];
 
     let x = this.root;
@@ -231,7 +229,7 @@ export default class BinarySearchTree<T> {
     return list;
   }
 
-  preOrderR () {
+  preOrderR() {
     const list: Array<Data<T>> = [];
     const rec = (node: BinaryTreeNode<T> | null) => {
       if (node !== null) {
@@ -244,7 +242,7 @@ export default class BinarySearchTree<T> {
     return list;
   }
 
-  preOrder () {
+  preOrder() {
     if (this.root === null) return [];
 
     let x = this.root;
@@ -267,7 +265,7 @@ export default class BinarySearchTree<T> {
     return list;
   }
 
-  inOrderR () {
+  inOrderR() {
     const list: Array<Data<T>> = [];
     const rec = (node: BinaryTreeNode<T> | null) => {
       if (node !== null) {
@@ -280,7 +278,7 @@ export default class BinarySearchTree<T> {
     return list;
   }
 
-  inOrder () {
+  inOrder() {
     if (this.root === null) return [];
     const list: Array<Data<T>> = [];
     const stack = new Stack<BinaryTreeNode<T>>();
@@ -300,7 +298,7 @@ export default class BinarySearchTree<T> {
     return list;
   }
 
-  postOrderR () {
+  postOrderR() {
     const list: Array<Data<T>> = [];
     const rec = (node: BinaryTreeNode<T> | null) => {
       if (node !== null) {
@@ -313,7 +311,7 @@ export default class BinarySearchTree<T> {
     return list;
   }
 
-  postOrder () {
+  postOrder() {
     if (this.root === null) return [];
 
     let x = this.root;
@@ -350,26 +348,15 @@ export default class BinarySearchTree<T> {
     return list;
   }
 
-  rebuildPreOrderInOrder (
-    paramPreOrderList: Array<Data<T>>,
-    paramInOrderList: Array<Data<T>>
-  ) {
+  rebuildPreOrderInOrder(paramPreOrderList: Array<Data<T>>, paramInOrderList: Array<Data<T>>) {
     const rebuild = (preOrderList: Array<Data<T>>, inOrderList: Array<Data<T>>) => {
       if (preOrderList.length === 0 && inOrderList.length === 0) return null;
       const currentData = preOrderList[0];
       const root = new BinaryTreeNode(currentData);
-      const mid = inOrderList.findIndex(
-        (value) => value.key === root.getData().key
-      );
+      const mid = inOrderList.findIndex((value) => value.key === root.getData().key);
 
-      const nodeLeft = rebuild(
-        preOrderList.slice(1, mid + 1),
-        inOrderList.slice(0, mid)
-      );
-      const nodeRight = rebuild(
-        preOrderList.slice(mid + 1),
-        inOrderList.slice(mid + 1)
-      );
+      const nodeLeft = rebuild(preOrderList.slice(1, mid + 1), inOrderList.slice(0, mid));
+      const nodeRight = rebuild(preOrderList.slice(mid + 1), inOrderList.slice(mid + 1));
 
       root.setLeft(nodeLeft);
       root.setRight(nodeRight);
@@ -378,23 +365,15 @@ export default class BinarySearchTree<T> {
     this.root = rebuild(paramPreOrderList, paramInOrderList);
   }
 
-  rebuildPostOrderInOrder (
-    paramPostOrderList: Array<Data<T>>,
-    paramInOrderList: Array<Data<T>>
-  ) {
+  rebuildPostOrderInOrder(paramPostOrderList: Array<Data<T>>, paramInOrderList: Array<Data<T>>) {
     const rebuild = (postOrderList: Array<Data<T>>, inOrderList: Array<Data<T>>) => {
       if (postOrderList.length === 0 && inOrderList.length === 0) return null;
 
       const currentData = postOrderList[postOrderList.length - 1];
       const root = new BinaryTreeNode(currentData);
-      const mid = inOrderList.findIndex(
-        (value) => value.key === root.getData().key
-      );
+      const mid = inOrderList.findIndex((value) => value.key === root.getData().key);
 
-      const nodeLeft = rebuild(
-        postOrderList.slice(0, mid),
-        inOrderList.slice(0, mid)
-      );
+      const nodeLeft = rebuild(postOrderList.slice(0, mid), inOrderList.slice(0, mid));
       const nodeRight = rebuild(
         postOrderList.slice(mid, postOrderList.length - 1),
         inOrderList.slice(mid + 1)
@@ -408,7 +387,7 @@ export default class BinarySearchTree<T> {
   }
 
   // cuenta la cantidad de hijos izquierdos
-  countLeftChildren () {
+  countLeftChildren() {
     const fn = (node: BinaryTreeNode<T> | null): number => {
       let c: number;
       if (node === null) {
@@ -428,7 +407,7 @@ export default class BinarySearchTree<T> {
   }
 
   // cuenta la cantidad de hijos derechos
-  countRightChildren () {
+  countRightChildren() {
     const fn = (node: BinaryTreeNode<T> | null): number => {
       let c: number;
       if (node === null) {
@@ -448,11 +427,8 @@ export default class BinarySearchTree<T> {
   }
 
   // Verifica si todos los nodos del nivel (n) tienen 2 hijos
-  allNodesHaveTwoChildrenInLevel (targetLevel: number): boolean {
-    const fn = (
-      node: BinaryTreeNode<T> | null,
-      currentTarget: number
-    ): boolean => {
+  allNodesHaveTwoChildrenInLevel(targetLevel: number): boolean {
+    const fn = (node: BinaryTreeNode<T> | null, currentTarget: number): boolean => {
       let b: boolean;
       if (node === null) {
         b = false;
@@ -469,11 +445,8 @@ export default class BinarySearchTree<T> {
   }
 
   // Cuenta la cantidad de nodos del nivel (n)
-  countNodesInLevel (targetLevel: number) {
-    const fn = (
-      node: BinaryTreeNode<T> | null,
-      currentTarget: number
-    ): number => {
+  countNodesInLevel(targetLevel: number) {
+    const fn = (node: BinaryTreeNode<T> | null, currentTarget: number): number => {
       let c: number;
       if (node === null) {
         c = 0;
@@ -489,7 +462,7 @@ export default class BinarySearchTree<T> {
     return fn(this.root, 0);
   }
 
-  insert (data: Data<T>) {
+  insert(data: Data<T>) {
     if (!data.key) throw new Error('La key no puede ser nulo');
     if (this.root === null) {
       this.root = new BinaryTreeNode<T>(data);
@@ -519,7 +492,7 @@ export default class BinarySearchTree<T> {
     return this;
   }
 
-  insertR (data: Data<T>) {
+  insertR(data: Data<T>) {
     if (!data.key) throw new Error('La key no puede ser nulo');
     if (this.root === null) {
       this.root = new BinaryTreeNode<T>(data);
@@ -545,31 +518,26 @@ export default class BinarySearchTree<T> {
   }
 
   // Elimina un nodo del arbol
-  delete (keyToDelete: number) {
-    const fn = (
-      node: BinaryTreeNode<T> | null,
-      key: number
-    ): BinaryTreeNode<T> | null => {
+  delete(keyToDelete: number) {
+    const fn = (node: BinaryTreeNode<T> | null, key: number): BinaryTreeNode<T> | null => {
       if (node === null) {
         return null;
+      } else if (key < node.getData().key) {
+        node.setLeft(fn(node.getLeft(), key));
+      } else if (key > node.getData().key) {
+        node.setRight(fn(node.getRight(), key));
       } else {
-        if (key < node.getData().key) {
-          node.setLeft(fn(node.getLeft(), key));
-        } else if (key > node.getData().key) {
-          node.setRight(fn(node.getRight(), key));
-        } else {
-          // case 1
-          if (node.isLeaf()) return null;
-          // case 2
-          if (node.getLeft() === null) return node.getRight();
-          if (node.getRight() === null) return node.getLeft();
-          // case 3
-          const successor = this.min(node.getRight());
-          // const predecessor = this.max(node!.getLeft());
-          node.setData(successor!.getData());
-          node.setRight(fn(node.getRight(), successor!.getData().key));
-          // node.setLeft(fn(node.getLeft(), predecessor!.getData().key));
-        }
+        // case 1
+        if (node.isLeaf()) return null;
+        // case 2
+        if (node.getLeft() === null) return node.getRight();
+        if (node.getRight() === null) return node.getLeft();
+        // case 3
+        const successor = this.min(node.getRight());
+        // const predecessor = this.max(node!.getLeft());
+        node.setData(successor!.getData());
+        node.setRight(fn(node.getRight(), successor!.getData().key));
+        // node.setLeft(fn(node.getLeft(), predecessor!.getData().key));
       }
       return node;
     };
@@ -577,19 +545,14 @@ export default class BinarySearchTree<T> {
     return this;
   }
 
-  toString (): string {
+  toString(): string {
     if (this.root === null) return 'El árbol está vacio';
-    const fn = (
-      node: BinaryTreeNode<T> | null,
-      prefix: string,
-      isLeft: boolean
-    ): string => {
+    const fn = (node: BinaryTreeNode<T> | null, prefix: string, isLeft: boolean): string => {
       if (node === null) {
-        return prefix + (isLeft ? '|--(L) ' : '└──(R) ') + 'null\n';
+        return `${prefix + (isLeft ? '|--(L) ' : '└──(R) ')}null\n`;
       }
 
-      let result =
-        prefix + (isLeft ? '|--(L) ' : '└─-(R) ') + `${node.getData().key}\n`;
+      let result = `${prefix + (isLeft ? '|--(L) ' : '└─-(R) ')}${node.getData().key}\n`;
 
       const newPrefix = prefix + (isLeft ? '|  ' : '   ');
 
@@ -598,12 +561,10 @@ export default class BinarySearchTree<T> {
       return result;
     };
 
-    return (
-      '└──(#) ' +
-      this.root.getData().key +
-      '\n' +
-      fn(this.root.getLeft(), '   ', true) +
-      fn(this.root.getRight(), '   ', false)
-    );
+    return `└──(#) ${this.root.getData().key}\n${fn(
+      this.root.getLeft(),
+      '   ',
+      true
+    )}${fn(this.root.getRight(), '   ', false)}`;
   }
 }

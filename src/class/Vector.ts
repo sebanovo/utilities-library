@@ -1,4 +1,4 @@
-import { type MethodsOfNumero, type objetoMaxYFrec } from '../types/types';
+import type { MethodsOfNumero, objetoMaxYFrec } from '../types/types';
 import { methodsOfNumero } from '../types/methodsOfNumero';
 import Numero from './Numero';
 /**
@@ -14,7 +14,7 @@ export default class Vector {
    * @param {number} valorInicial - Valor mínimo del rango.
    * @param {number} valorFinal - Valor máximo del rango.
    */
-  cargar (numeroDeElementos: number, valorInicial: number, valorFinal: number): void {
+  cargar(numeroDeElementos: number, valorInicial: number, valorFinal: number): void {
     this.#length = numeroDeElementos;
     for (let i = 0; i < this.#length; i++) {
       const numeroAleatorio = Math.floor(Math.random() * valorFinal) + valorInicial;
@@ -26,11 +26,11 @@ export default class Vector {
    * El Vector
    * @returns {number[]}
    */
-  vector (): number[] {
+  vector(): number[] {
     return structuredClone(this.#vector);
   }
 
-  length (): number {
+  length(): number {
     return this.#length;
   }
 
@@ -38,7 +38,7 @@ export default class Vector {
    * Carga un elemento en el vector.
    * @param {number} numero - Elemento a cargar.
    */
-  cargarElementoXElemento (numero: number): void {
+  cargarElementoXElemento(numero: number): void {
     this.#vector[this.#length] = numero;
     this.#length++;
   }
@@ -47,10 +47,10 @@ export default class Vector {
    * Descarga el vector en formato de cadena.
    * @returns {string} - Cadena que representa el vector.
    */
-  descargar (): string {
+  descargar(): string {
     let s = '';
     for (let i = 0; i < this.#length; i++) {
-      s = s + this.#vector[i] + '|';
+      s = `${s + this.#vector[i]}|`;
     }
     return s;
   }
@@ -61,11 +61,7 @@ export default class Vector {
    * @param {number} valorInicial - Primer término de la serie.
    * @param {number} razon - Razón de la serie.
    */
-  cargarSerieAritmetica (
-    numeroDeElementos: number,
-    valorInicial: number,
-    razon: number
-  ): void {
+  cargarSerieAritmetica(numeroDeElementos: number, valorInicial: number, razon: number): void {
     this.#length = numeroDeElementos;
     for (let i = 0; i < this.#length; i++) {
       this.#vector[i] = valorInicial + i * razon;
@@ -79,12 +75,12 @@ export default class Vector {
    * @param {number} razon - Razón de la serie.
    * @returns {void}
    */
-  cargarSerieGeometrica (numeroDeElementos: number, valorInicial: number, razon: number): void {
+  cargarSerieGeometrica(numeroDeElementos: number, valorInicial: number, razon: number): void {
     this.#length = numeroDeElementos;
     let n = 1;
 
     for (let i = 0; i < this.#length; i++, n++) {
-      this.#vector[i] = valorInicial * Math.round(Math.pow(razon, n - 1));
+      this.#vector[i] = valorInicial * Math.round(razon ** (n - 1));
     }
   }
 
@@ -92,7 +88,7 @@ export default class Vector {
    * Carga el vector con una serie de Fibonacci.
    * @param {number} numeroDeElementos - Número de elementos a cargar.
    */
-  cargarSerieFibonacci (numeroDeElementos: number): void {
+  cargarSerieFibonacci(numeroDeElementos: number): void {
     if (numeroDeElementos <= 0) return;
     else if (numeroDeElementos === 1) {
       this.#vector[0] = 0;
@@ -113,7 +109,7 @@ export default class Vector {
    * @param {number} intervalo - Intervalo de selección.
    * @param {Vector} v2 - Vector donde se cargarán los elementos seleccionados.
    */
-  seleccionarPorPosicion (intervalo: number, v2: Vector): void {
+  seleccionarPorPosicion(intervalo: number, v2: Vector): void {
     const numeroDePosiciones = this.#length / intervalo;
     for (let i = 0; i < numeroDePosiciones; i++) {
       v2.cargarElementoXElemento(this.#vector[i * intervalo]);
@@ -134,7 +130,7 @@ export default class Vector {
    * @param {MethodsOfNumero} method Metodo de la clase Número
    * @param {Boolean} yesOrNo  Valor Booleano
    */
-  seleccionar (v2: Vector, method: MethodsOfNumero, yesOrNo: boolean = true): void {
+  seleccionar(v2: Vector, method: MethodsOfNumero, yesOrNo = true): void {
     this.#checarMethodsOfNumero(method);
 
     const n1 = new Numero();
@@ -150,7 +146,7 @@ export default class Vector {
    * Selecciona los números mayores que la media más la desviación estándar y los carga en otro vector.
    * @param {Vector} v2 - Vector donde se cargarán los números seleccionados.
    */
-  seleccionarBuenos (v2: Vector): void {
+  seleccionarBuenos(v2: Vector): void {
     const media = this.promedio();
     const estandar = this.desviacionEstandar();
     const rango = media + estandar;
@@ -162,19 +158,25 @@ export default class Vector {
     }
   }
 
-  #checarParametros (a: number, b: number): never | void {
-    if (a < 0 || a > this.#length - 1 || b < 0 || b > this.#length - 1) { throw new Error('Parametros fuera de los limites'); } else if (a > b) {
+  #checarParametros(a: number, b: number): never | void {
+    if (a < 0 || a > this.#length - 1 || b < 0 || b > this.#length - 1) {
+      throw new Error('Parametros fuera de los limites');
+    } else if (a > b) {
       throw new Error(`a = ${a} tiene que ser menor o igual que (<=) b = ${b}`);
     }
   }
 
-  #checarDireccion (direccion: string): never | void {
-    if (direccion !== 'asc' && direccion !== 'desc') { throw new Error("La dirección tiene que ser 'asc' o 'desc'"); }
+  #checarDireccion(direccion: string): never | void {
+    if (direccion !== 'asc' && direccion !== 'desc') {
+      throw new Error("La dirección tiene que ser 'asc' o 'desc'");
+    }
   }
 
-  #checarMethodsOfNumero (method: MethodsOfNumero): never | void {
+  #checarMethodsOfNumero(method: MethodsOfNumero): never | void {
     const index = methodsOfNumero.indexOf(method);
-    if (index === -1) { throw new Error('El metodo no corresponse a una funcion de la clase Número'); }
+    if (index === -1) {
+      throw new Error('El metodo no corresponse a una funcion de la clase Número');
+    }
   }
 
   /**
@@ -183,11 +185,11 @@ export default class Vector {
    * @param b posicion final
    * @returns la suma
    */
-  sumar (a = 0, b = this.#length - 1): number {
+  sumar(a = 0, b = this.#length - 1): number {
     this.#checarParametros(a, b);
     let suma = 0;
     for (let i = a; i <= b; i++) {
-      suma = suma + this.#vector[i];
+      suma += this.#vector[i];
     }
     return suma;
   }
@@ -198,7 +200,7 @@ export default class Vector {
    * @param {number} b posicion final
    * @returns {number} - Valor máximo en el vector.
    */
-  maximo (a: number = 0, b: number = this.#length - 1): number {
+  maximo(a = 0, b: number = this.#length - 1): number {
     this.#checarParametros(a, b);
     let dr = this.#vector[a];
     for (let i = a; i <= b; i++) {
@@ -216,7 +218,7 @@ export default class Vector {
    * @param {number} b posicion final
    * @returns {number} - Frecuencia del elemento en el vector.
    */
-  frecuencia (elemento: number, a: number = 0, b: number = this.#length - 1): number {
+  frecuencia(elemento: number, a = 0, b: number = this.#length - 1): number {
     this.#checarParametros(a, b);
     let c = 0;
     for (let i = a; i <= b; i++) {
@@ -233,11 +235,7 @@ export default class Vector {
    * @property {number} objetoMaxYFrec.maximo - Valor máximo en el vector.
    * @property {number} objetoMaxYFrec.frecuencia - Frecuencia del valor máximo.
    */
-  maximoYfrecuencia (
-    objetoMaxYFrec: objetoMaxYFrec,
-    a: number = 0,
-    b: number = this.#length - 1
-  ): void {
+  maximoYfrecuencia(objetoMaxYFrec: objetoMaxYFrec, a = 0, b: number = this.#length - 1): void {
     this.#checarParametros(a, b);
     objetoMaxYFrec.maximo = this.maximo(a, b);
     objetoMaxYFrec.frecuencia = this.frecuencia(objetoMaxYFrec.maximo, a, b);
@@ -249,7 +247,7 @@ export default class Vector {
    * @param {number} a posicion final
    * @returns {number} - Promedio de los elementos en el vector.
    */
-  promedio (a: number = 0, b: number = this.#length - 1): number {
+  promedio(a = 0, b: number = this.#length - 1): number {
     this.#checarParametros(a, b);
     return this.sumar(a, b) / b + 1;
   }
@@ -260,7 +258,7 @@ export default class Vector {
    * @param {number} a posicion final
    * @returns {number} - Desviación media de los elementos en el vector.
    */
-  desviacionMedia (a: number = 0, b: number = this.#length - 1): number {
+  desviacionMedia(a = 0, b: number = this.#length - 1): number {
     this.#checarParametros(a, b);
     const media = this.promedio();
     let suma = 0;
@@ -276,12 +274,12 @@ export default class Vector {
    * @param {number} a posicion final
    * @returns {number} - Desviación estándar de los elementos en el vector.
    */
-  desviacionEstandar (a: number = 0, b: number = this.#length - 1): number {
+  desviacionEstandar(a = 0, b: number = this.#length - 1): number {
     this.#checarParametros(a, b);
     const media = this.promedio();
     let suma = 0;
     for (let i = 0; i < this.#length; i++) {
-      suma += Math.pow(this.#vector[i] - media, 2);
+      suma += (this.#vector[i] - media) ** 2;
     }
     return Math.sqrt(suma / this.#length);
   }
@@ -293,11 +291,7 @@ export default class Vector {
    * @param {number} a posicion final
    * @returns {boolean} - `true` si se encuentra el valor, `false` de lo contrario.
    */
-  busquedaBinaria (
-    valorBuscado: number,
-    a: number = 0,
-    b: number = this.#length - 1
-  ): boolean {
+  busquedaBinaria(valorBuscado: number, a = 0, b: number = this.#length - 1): boolean {
     this.#checarParametros(a, b);
     this.bubbleSort('asc', a, b);
     let izquierda = a;
@@ -325,11 +319,7 @@ export default class Vector {
    * @param {number} a posicion final
    * @returns {boolean} - `true` si se encuentra el valor, `false` de lo contrario.
    */
-  busquedaSecuencial (
-    valorBuscado: number,
-    a: number = 0,
-    b: number = this.#length - 1
-  ): boolean {
+  busquedaSecuencial(valorBuscado: number, a = 0, b: number = this.#length - 1): boolean {
     this.#checarParametros(a, b);
 
     for (let i = a; i <= b; i++) {
@@ -345,7 +335,7 @@ export default class Vector {
    * Retorna la dimensión del vector (número de elementos).
    * @returns {number} - Número de elementos en el vector.
    */
-  retornarDimension (): number {
+  retornarDimension(): number {
     return this.#length;
   }
 
@@ -354,14 +344,14 @@ export default class Vector {
    * @param {number} elemento - Posición del elemento a retornar.
    * @returns {number} - Elemento en la posición especificada.
    */
-  retornarNumero (elemento: number): number {
+  retornarNumero(elemento: number): number {
     return this.#vector[elemento];
   }
 
   /**
    * Elimina los elementos duplicados del vector.
    */
-  eliminarDuplicados (): void {
+  eliminarDuplicados(): void {
     this.#vector = Array.from(new Set(this.#vector));
     this.#length = this.#vector.length;
   }
@@ -371,8 +361,8 @@ export default class Vector {
    * @param {number} a - Posición del primer elemento.
    * @param {number} b - Posición del segundo elemento.
    */
-  intercambiar (a: number, b: number): void {
-    ;[this.#vector[a], this.#vector[b]] = [this.#vector[b], this.#vector[a]];
+  intercambiar(a: number, b: number): void {
+    [this.#vector[a], this.#vector[b]] = [this.#vector[b], this.#vector[a]];
   }
 
   /**
@@ -380,7 +370,7 @@ export default class Vector {
    * @param a posicion inicial
    * @param b posicion final
    */
-  desordenar (a: number, b: number): void {
+  desordenar(a: number, b: number): void {
     this.#checarParametros(a, b);
     for (let i = a; i <= b; i++) {
       this.intercambiar(i, Numero.random(a, b));
@@ -393,11 +383,7 @@ export default class Vector {
    * @param {number} a posicion inicial
    * @param {number} b posicion final
    */
-  bogoSort (
-    direccion: 'asc' | 'desc' = 'asc',
-    a: number = 0,
-    b: number = this.#length - 1
-  ): void {
+  bogoSort(direccion: 'asc' | 'desc' = 'asc', a = 0, b: number = this.#length - 1): void {
     this.#checarParametros(a, b);
     this.#checarDireccion(direccion);
 
@@ -412,18 +398,18 @@ export default class Vector {
    * @param {number} a posicion inicial
    * @param {number} b posicion final
    */
-  bubbleSort (
-    direccion: 'asc' | 'desc' = 'asc',
-    a: number = 0,
-    b: number = this.#length - 1
-  ): void {
+  bubbleSort(direccion: 'asc' | 'desc' = 'asc', a = 0, b: number = this.#length - 1): void {
     this.#checarParametros(a, b);
     this.#checarDireccion(direccion);
 
     const n = b + 1;
     for (let i = 1; i < n; i++) {
       for (let j = a; j < n - 1; j++) {
-        if (direccion === 'asc' ? this.#vector[j] > this.#vector[j + 1] : this.#vector[j] < this.#vector[j + 1]) {
+        if (
+          direccion === 'asc'
+            ? this.#vector[j] > this.#vector[j + 1]
+            : this.#vector[j] < this.#vector[j + 1]
+        ) {
           this.intercambiar(j, j + 1);
         }
       }
@@ -436,17 +422,17 @@ export default class Vector {
    * @param {number} a posicion inicial
    * @param {number} b posicion final
    */
-  insertionSort (
-    direccion: 'asc' | 'desc' = 'asc',
-    a: number = 0,
-    b: number = this.#length - 1
-  ): void {
+  insertionSort(direccion: 'asc' | 'desc' = 'asc', a = 0, b: number = this.#length - 1): void {
     this.#checarParametros(a, b);
     this.#checarDireccion(direccion);
 
     for (let i = a + 1; i < b; i++) {
       let j = i;
-      while (j > 0 && direccion === 'asc' ? this.#vector[j - 1] > this.#vector[j] : this.#vector[j - 1] < this.#vector[j]) {
+      while (
+        j > 0 && direccion === 'asc'
+          ? this.#vector[j - 1] > this.#vector[j]
+          : this.#vector[j - 1] < this.#vector[j]
+      ) {
         this.intercambiar(j, j - 1);
         j--;
       }
@@ -459,11 +445,7 @@ export default class Vector {
    * @param {number} a posicion inicial
    * @param {number} b posicion final
    */
-  selectionSort (
-    direccion: 'asc' | 'desc' = 'asc',
-    a: number = 0,
-    b: number = this.#length - 1
-  ): void {
+  selectionSort(direccion: 'asc' | 'desc' = 'asc', a = 0, b: number = this.#length - 1): void {
     this.#checarParametros(a, b);
     this.#checarDireccion(direccion);
 
@@ -488,11 +470,7 @@ export default class Vector {
    * @param {number} a posicion inicial
    * @param {number} b posicion final
    */
-  shellSort (
-    direccion: 'asc' | 'desc' = 'asc',
-    a: number = 0,
-    b: number = this.#length - 1
-  ): void {
+  shellSort(direccion: 'asc' | 'desc' = 'asc', a = 0, b: number = this.#length - 1): void {
     this.#checarParametros(a, b);
     this.#checarDireccion(direccion);
 
@@ -500,11 +478,19 @@ export default class Vector {
     while (intervalo >= 1) {
       for (let i = a; i <= b; i++) {
         if (intervalo + i > b) break;
-        if (direccion === 'asc' ? this.#vector[i] > this.#vector[intervalo + i] : this.#vector[i] < this.#vector[intervalo + i]) {
+        if (
+          direccion === 'asc'
+            ? this.#vector[i] > this.#vector[intervalo + i]
+            : this.#vector[i] < this.#vector[intervalo + i]
+        ) {
           this.intercambiar(i, intervalo + i);
-          for (let j = i; j > a; j = j - intervalo) {
+          for (let j = i; j > a; j -= intervalo) {
             if (j - intervalo < a) break;
-            if (direccion === 'asc' ? this.#vector[j - intervalo] > this.#vector[j] : this.#vector[j - intervalo] < this.#vector[j]) {
+            if (
+              direccion === 'asc'
+                ? this.#vector[j - intervalo] > this.#vector[j]
+                : this.#vector[j - intervalo] < this.#vector[j]
+            ) {
               this.intercambiar(j - intervalo, j);
             }
           }
@@ -520,11 +506,7 @@ export default class Vector {
    * @param {number} a posicion inicial
    * @param {number} b posicion final
    */
-  mergeSort (
-    direccion: 'asc' | 'desc' = 'asc',
-    a: number = 0,
-    b: number = this.#length - 1
-  ): void {
+  mergeSort(direccion: 'asc' | 'desc' = 'asc', a = 0, b: number = this.#length - 1): void {
     this.#checarParametros(a, b);
     this.#checarDireccion(direccion);
 
@@ -534,9 +516,15 @@ export default class Vector {
       const n2 = b - c;
       const L: number[] = new Array(n1);
       const R: number[] = new Array(n2);
-      for (i = 0; i < n1; i++) { L[i] = this.#vector[a + i]; }
-      for (j = 0; j < n2; j++) { R[j] = this.#vector[c + j + 1]; }
-      i = 0; j = 0; k = a;
+      for (i = 0; i < n1; i++) {
+        L[i] = this.#vector[a + i];
+      }
+      for (j = 0; j < n2; j++) {
+        R[j] = this.#vector[c + j + 1];
+      }
+      i = 0;
+      j = 0;
+      k = a;
       while (i < n1 && j < n2) {
         if (direccion === 'asc' ? L[i] <= R[j] : L[i] >= R[j]) {
           this.#vector[k] = L[i];
@@ -549,12 +537,14 @@ export default class Vector {
       }
       while (i < n1) {
         this.#vector[k] = L[i];
-        i++; k++;
+        i++;
+        k++;
       }
 
       while (j < n2) {
         this.#vector[k] = R[j];
-        j++; k++;
+        j++;
+        k++;
       }
     };
 
@@ -576,18 +566,18 @@ export default class Vector {
    * @param {number} a posicion inicial
    * @param {number} b posicion final
    */
-  quickSort (
-    direccion: 'asc' | 'desc' = 'asc',
-    a: number = 0,
-    b: number = this.#length - 1
-  ): void {
+  quickSort(direccion: 'asc' | 'desc' = 'asc', a = 0, b: number = this.#length - 1): void {
     this.#checarParametros(a, b);
     this.#checarDireccion(direccion);
 
     const partition = (a: number, b: number): number => {
       let sw = true;
       while (a < b) {
-        if (direccion === 'asc' ? this.#vector[a] > this.#vector[b] : this.#vector[a] < this.#vector[b]) {
+        if (
+          direccion === 'asc'
+            ? this.#vector[a] > this.#vector[b]
+            : this.#vector[a] < this.#vector[b]
+        ) {
           this.intercambiar(a, b);
           sw = !sw;
         }
@@ -612,11 +602,7 @@ export default class Vector {
    * @param {number} a posicion inicial
    * @param {number} b posicion final
    */
-  countingSort (
-    direccion: 'asc' | 'desc' = 'asc',
-    a: number = 0,
-    b: number = this.#length - 1
-  ): void {
+  countingSort(direccion: 'asc' | 'desc' = 'asc', a = 0, b: number = this.#length - 1): void {
     this.#checarParametros(a, b);
     this.#checarDireccion(direccion);
 
@@ -646,7 +632,8 @@ export default class Vector {
 
     const output = new Array(b - a + 1);
     for (let i = b; i >= a; i--) {
-      const index = direccion === 'asc' ? count[this.#vector[i] - min] - 1 : count[this.#vector[i] - min] - 1;
+      const index =
+        direccion === 'asc' ? count[this.#vector[i] - min] - 1 : count[this.#vector[i] - min] - 1;
       output[index] = this.#vector[i];
       count[this.#vector[i] - min]--;
     }
@@ -663,7 +650,7 @@ export default class Vector {
    * @param {number} b posicion final
    * @returns {boolean} - `true` si el número pertenece al vector, `false` de lo contrario.
    */
-  pertenencia (numero: number, a: number = 0, b: number = this.#length - 1): boolean {
+  pertenencia(numero: number, a = 0, b: number = this.#length - 1): boolean {
     this.#checarParametros(a, b);
     let pertenece = false;
     for (let i = a; i <= b; i++) {
@@ -681,7 +668,7 @@ export default class Vector {
    * @param {Vector} v2 - Segundo conjunto.
    * @return {void} carga el vector actual la interseccion
    */
-  interseccionDeConjuntos (v1: Vector, v2: Vector): void {
+  interseccionDeConjuntos(v1: Vector, v2: Vector): void {
     const longitudV1 = v1.#length;
     const longitudV2 = v2.#length;
     const vector1 = v1.#vector;
@@ -703,7 +690,7 @@ export default class Vector {
    * @param {Vector} v1 - Primer conjunto.
    * @param {Vector} v2 - Segundo conjunto.
    */
-  unionDeConjuntos (v1: Vector, v2: Vector): void {
+  unionDeConjuntos(v1: Vector, v2: Vector): void {
     const longitudV1 = v1.#length;
     const longitudV2 = v2.#length;
     const vector1 = v1.#vector;
@@ -725,7 +712,7 @@ export default class Vector {
    * @param {Vector} v1 - Conjunto A.
    * @param {Vector} v2 - Conjunto B.
    */
-  diferenciaDeConjuntosAB (v1: Vector, v2: Vector): void {
+  diferenciaDeConjuntosAB(v1: Vector, v2: Vector): void {
     const longitudV1 = v1.#length;
     const vector1 = v1.#vector;
 
@@ -743,7 +730,7 @@ export default class Vector {
    * @param {Vector} v1 - Conjunto A.
    * @param {Vector} v2 - Conjunto B.
    */
-  diferenciaDeConjuntosBA (v1: Vector, v2: Vector): void {
+  diferenciaDeConjuntosBA(v1: Vector, v2: Vector): void {
     const longitudV2 = v2.#length;
     const vector2 = v2.#vector;
 
@@ -762,7 +749,7 @@ export default class Vector {
    * @param {number} a posicion inicial
    * @param {number} b posicion final
    */
-  segmentar (method: MethodsOfNumero, a: number = 0, b: number = this.#length - 1): void {
+  segmentar(method: MethodsOfNumero, a = 0, b: number = this.#length - 1): void {
     this.#checarMethodsOfNumero(method);
     this.#checarParametros(a, b);
 
@@ -783,15 +770,13 @@ export default class Vector {
     }
   }
 
-
-
   /**
    * Intercala los números pares e impares del vector.
    * @param {MethodsOfNumero} method  Metodo de la clase Número
    * @param {number} a posicion inicial
    * @param {number} b posicion final
    */
-  intercalar (method: MethodsOfNumero, a: number = 0, b: number = this.#length - 1): void {
+  intercalar(method: MethodsOfNumero, a = 0, b: number = this.#length - 1): void {
     this.#checarMethodsOfNumero(method);
     this.#checarParametros(a, b);
 
@@ -836,7 +821,7 @@ export default class Vector {
    * @param {number} a posicion inicial
    * @param {number} b posicion final
    */
-  invertir (a: number = 0, b: number = this.#length - 1): void {
+  invertir(a = 0, b: number = this.#length - 1): void {
     this.#checarParametros(a, b);
     let inicio = a;
     let fin = b;
@@ -851,7 +836,7 @@ export default class Vector {
    * Cuenta los submúltiplos en el vector.
    * @returns {number} - Número de submúltiplos.
    */
-  contarSubmultiplos (): number {
+  contarSubmultiplos(): number {
     let contador = 0;
 
     for (let i = 0; i < this.#length; i++) {
@@ -867,7 +852,7 @@ export default class Vector {
    * @param {number} indice - Índice para determinar las posiciones a considerar.
    * @returns {number} - Elemento mayor.
    */
-  buscarElementoMayor (indice: number): number {
+  buscarElementoMayor(indice: number): number {
     let mayor = -Infinity;
     for (let i = 0; i < this.#length; i++) {
       if (i % indice === 0 && mayor < this.#vector[i]) {
@@ -882,7 +867,7 @@ export default class Vector {
    * @param {number} indice - Índice para determinar las posiciones a considerar.
    * @returns {number} - Media de los elementos.
    */
-  buscarMedia (indice: number): number {
+  buscarMedia(indice: number): number {
     let suma = 0;
     let contador = 0;
     for (let i = 0; i < this.#length; i++) {
@@ -900,7 +885,7 @@ export default class Vector {
    * @param {number} b posicion final
    * @returns {boolean} - Indica si todos los elementos son iguales.
    */
-  verificarElementosIguales (a: number = 0, b: number = this.#length - 1): boolean {
+  verificarElementosIguales(a = 0, b: number = this.#length - 1): boolean {
     this.#checarParametros(a, b);
 
     const inicial = this.#vector[a];
@@ -919,7 +904,7 @@ export default class Vector {
    * @param {number} b - posicion final
    * @returns {boolean} - Indica si el segmento está ordenado.
    */
-  verificarOrdenado (direccion: 'asc' | 'desc' = 'asc', a: number, b: number): boolean {
+  verificarOrdenado(direccion: 'asc' | 'desc' = 'asc', a: number, b: number): boolean {
     this.#checarDireccion(direccion);
     this.#checarParametros(a, b);
     for (let i = a; i < b; i++) {
@@ -940,7 +925,7 @@ export default class Vector {
    * @param {Vector} v2 - Vector que contiene los elementos a insertar.
    * @param {number} posicion - Posición en la que se insertará el vector.
    */
-  insertarVectorPorPosicion (v1: Vector, v2: Vector, posicion: number): void {
+  insertarVectorPorPosicion(v1: Vector, v2: Vector, posicion: number): void {
     const n1 = v1.#length;
     const n2 = v2.#length;
     const vector1 = v1.#vector;
@@ -962,7 +947,7 @@ export default class Vector {
   /**
    * Elimina el último elemento del vector
    */
-  pop (): void {
+  pop(): void {
     this.#vector.pop();
     this.#length = this.#vector.length;
   }
@@ -972,7 +957,7 @@ export default class Vector {
    * @param {number} a - Índice de inicio del rango.
    * @param {number} b - Índice de fin del rango.
    */
-  eliminarElementosDelVectorIndicandoLasPosiciones (a: number, b: number): void {
+  eliminarElementosDelVectorIndicandoLasPosiciones(a: number, b: number): void {
     this.#checarParametros(a, b);
     const n = b - a + 1;
 
@@ -988,7 +973,7 @@ export default class Vector {
   /**
    * Duplica los elementos del vector.
    */
-  duplicarElementos (): void {
+  duplicarElementos(): void {
     const lengthOriginal = this.#length;
     this.#vector.length = lengthOriginal * 2;
     this.#length = this.#vector.length;
@@ -1004,7 +989,7 @@ export default class Vector {
    * Concatena dos vectores al final del vector actual.
    * @param {Vector} v1 - Vector a concatenar.
    */
-  concatenar (v1: Vector): void {
+  concatenar(v1: Vector): void {
     const lenght1 = v1.#length;
     for (let i = 0; i < lenght1; i++) {
       this.cargarElementoXElemento(v1.#vector[i]);
@@ -1015,7 +1000,7 @@ export default class Vector {
    * Busca el elemento menos repetido en el vector.
    * @returns {number} - Elemento menos repetido.
    */
-  buscarElementoMenosRepetido (): number {
+  buscarElementoMenosRepetido(): number {
     let leastFrequentNumber = 0;
     let minCount = this.#length + 1;
 
@@ -1051,7 +1036,7 @@ export default class Vector {
    * @param {number} b - Índice de fin del segmento.
    * @returns {number} - Elemento menos repetido en el segmento.
    */
-  encontrarElementoMenosRepetidoEntreUnSegmento (a: number, b: number): number {
+  encontrarElementoMenosRepetidoEntreUnSegmento(a: number, b: number): number {
     const vector1 = new Vector();
 
     for (let i = a; i <= b; i++) {
@@ -1068,7 +1053,7 @@ export default class Vector {
    * @param {Vector} v3 - Vector donde se carga la frecuencia.
    * @param {Vector} v2 - Vector con los elementos cuya frecuencia se va a calcular.
    */
-  cargarFrecuencia (v3: Vector, v2: Vector): void {
+  cargarFrecuencia(v3: Vector, v2: Vector): void {
     for (let i = 0; i < v2.#length; i++) {
       v3.cargarElementoXElemento(this.frecuencia(v2.#vector[i]));
     }
@@ -1081,7 +1066,7 @@ export default class Vector {
    * @param {Vector} v2 objeto de la clase vector
    * @param {Vector} v3 objeto de la clase vector
    */
-  encontrarLaFrecuenciaDeDistribucionDeUnSegmento (
+  encontrarLaFrecuenciaDeDistribucionDeUnSegmento(
     a: number,
     b: number,
     v2: Vector,
@@ -1111,7 +1096,7 @@ export default class Vector {
    * @param {number } b posicion final
    * @returns {number} - Número de elementos no capicúas en el vector.
    */
-  contar (method: MethodsOfNumero, a: number = 0, b: number = this.#length - 1): number {
+  contar(method: MethodsOfNumero, a = 0, b: number = this.#length - 1): number {
     this.#checarMethodsOfNumero(method);
     this.#checarParametros(a, b);
 
@@ -1133,8 +1118,8 @@ export default class Vector {
    * Elimina un número del vector
    * @param {number} numero numero a eliminar del vector
    */
-  eliminarNumero (numero: number): void {
-    this.#vector = this.#vector.filter(number => number !== numero);
+  eliminarNumero(numero: number): void {
+    this.#vector = this.#vector.filter((number) => number !== numero);
     this.#length = this.#vector.length;
   }
 
@@ -1142,7 +1127,7 @@ export default class Vector {
    * Carga los digitos de un número en el vector
    * @param numero numero a cargar digitos
    */
-  cargarDigitos (numero: number): void {
+  cargarDigitos(numero: number): void {
     this.#length = numero.toString().length;
     for (let i = this.#length; i > 0; i--) {
       const digit = numero % 10;
@@ -1159,7 +1144,7 @@ export default class Vector {
    * n1.cargarSerie1(5)
    * [1, 21, 321, 4321, 54321]
    */
-  cargarSerie1 (numeroDeElementos: number): void {
+  cargarSerie1(numeroDeElementos: number): void {
     const n1 = new Numero();
     this.#length = numeroDeElementos;
     for (let i = 0; i < this.#length; i++) {
@@ -1180,4 +1165,3 @@ export default class Vector {
  * encontrarLaFrecuenciaDeDistribucioNumeroreUnSegmento
  * encontrarLaFrecuenciaDeDistribucionDeUnSegmento (corregir el nombre y arreglar)
  */
-

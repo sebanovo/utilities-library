@@ -1,4 +1,12 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["**/__tests__/**/*.test.ts","**/__tests__/**/*.ts" ]
+  "compilerOptions": {
+    "rootDir": "./tests",
+    "noEmit": true,              /* No generar JS, solo type-check */
+    "declaration": false,        /* No generar .d.ts */
+    "outDir": "./dist/tests",    /* Opcional, si quieres compilar tests */
+    "esModuleInterop": true,
+    "isolatedModules": true
+  },
+  "include": ["tests/**/*.ts"]
 }

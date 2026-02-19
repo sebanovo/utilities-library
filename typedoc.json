@@ -2,7 +2,7 @@
   "entryPoints": ["./src/index.ts"],
   "out": "doc",
   "plugin": ["varvara-typedoc-theme"],
-  "theme": "varvara",
+  "theme": "varvara-css",
   "favicon": "./public/perfil.png",
   "githubPages": true,
   "gitRevision": "master",

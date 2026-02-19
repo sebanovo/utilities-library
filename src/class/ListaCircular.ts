@@ -1,11 +1,11 @@
-import { type MethodsOfNumero } from '../types/types';
+import type { MethodsOfNumero } from '../types/types';
 import Numero from './Numero';
 
 export class NodoListaCircular {
   sig: NodoListaCircular | null;
   ant: NodoListaCircular | null;
   dato: number;
-  constructor (dato: number) {
+  constructor(dato: number) {
     this.dato = dato;
     this.sig = null;
     this.ant = null;
@@ -17,7 +17,7 @@ export class NodoListaCircular {
  */
 export default class ListaCircular {
   #head: NodoListaCircular | null = null;
-  insertarFinal (dato: number): void {
+  insertarFinal(dato: number): void {
     if (this.#head === null) {
       this.#head = new NodoListaCircular(dato);
       this.#head.sig = this.#head;
@@ -32,14 +32,14 @@ export default class ListaCircular {
       return;
     }
     const nodo = new NodoListaCircular(dato);
-    const ant = this.#head.ant;
+    const { ant } = this.#head;
     ant!.sig = nodo;
     nodo.ant = ant;
     nodo.sig = this.#head;
     this.#head.ant = nodo;
   }
 
-  insertarInicio (dato: number): void {
+  insertarInicio(dato: number): void {
     if (this.#head === null) {
       this.#head = new NodoListaCircular(dato);
       this.#head.sig = this.#head;
@@ -62,12 +62,12 @@ export default class ListaCircular {
     this.#head = x;
   }
 
-  descargar1 (): string {
+  descargar1(): string {
     if (this.#head === null) return '';
     else if (this.#head.sig === this.#head && this.#head.ant === this.#head) {
       const s1 = String(this.#head.dato);
       const s2 = String(this.#head.dato);
-      return s1 + '\r\n' + s2;
+      return `${s1}\r\n${s2}`;
     }
     let s1 = '';
     let x = this.#head.sig;
@@ -75,11 +75,13 @@ export default class ListaCircular {
     while (x !== this.#head) {
       ant1 = x;
       s1 += ant1?.dato;
-      if (ant1?.sig !== this.#head) { s1 += '->'; }
+      if (ant1?.sig !== this.#head) {
+        s1 += '->';
+      }
       x = x!.sig;
     }
 
-    s1 = String(this.#head.dato) + '->' + s1;
+    s1 = `${String(this.#head.dato)}->${s1}`;
 
     let s2 = '';
 
@@ -88,21 +90,23 @@ export default class ListaCircular {
     while (y !== this.#head) {
       ant2 = y;
       s2 += ant2?.dato;
-      if (ant2?.sig !== this.#head) { s2 += '<-'; }
+      if (ant2?.sig !== this.#head) {
+        s2 += '<-';
+      }
       y = y!.sig!;
     }
 
-    s2 = String(this.#head.dato) + '<-' + s2;
+    s2 = `${String(this.#head.dato)}<-${s2}`;
 
-    return s1 + '\r\n' + s2;
+    return `${s1}\r\n${s2}`;
   }
 
-  descargar2 (): string {
+  descargar2(): string {
     if (this.#head === null) return '';
     else if (this.#head.sig === this.#head && this.#head.ant === this.#head) {
       const s1 = String(this.#head.dato);
       const s2 = String(this.#head.dato);
-      return s1 + '\r\n' + s2;
+      return `${s1}\r\n${s2}`;
     }
     let s1 = '';
     let x = this.#head.ant;
@@ -110,10 +114,12 @@ export default class ListaCircular {
     while (x !== this.#head) {
       ant1 = x;
       s1 += ant1?.dato;
-      if (ant1?.ant !== this.#head) { s1 += '->'; }
+      if (ant1?.ant !== this.#head) {
+        s1 += '->';
+      }
       x = x!.ant;
     }
-    s1 += '->' + String(this.#head.dato);
+    s1 += `->${String(this.#head.dato)}`;
 
     let s2 = '';
 
@@ -122,16 +128,18 @@ export default class ListaCircular {
     while (y !== this.#head) {
       ant2 = y;
       s2 += ant2?.dato;
-      if (ant2?.ant !== this.#head) { s2 += '<-'; }
+      if (ant2?.ant !== this.#head) {
+        s2 += '<-';
+      }
       y = y!.ant!;
     }
 
-    s2 += '<-' + String(this.#head.dato);
+    s2 += `<-${String(this.#head.dato)}`;
 
-    return s1 + '\r\n' + s2;
+    return `${s1}\r\n${s2}`;
   }
 
-  eliminarFinal (): void {
+  eliminarFinal(): void {
     if (this.#head === null) return;
     if (this.#head.sig === this.#head) {
       this.#head.sig = null;
@@ -148,7 +156,7 @@ export default class ListaCircular {
     this.#head.ant = antFinal;
   }
 
-  eliminarInicio (): void {
+  eliminarInicio(): void {
     if (this.#head === null) return;
     if (this.#head.sig === this.#head) {
       this.#head.sig = null;
@@ -156,8 +164,8 @@ export default class ListaCircular {
       this.#head = null;
       return;
     }
-    const sig = this.#head.sig;
-    const ant = this.#head.ant;
+    const { sig } = this.#head;
+    const { ant } = this.#head;
     ant!.sig = sig;
     sig!.ant = ant;
     this.#head.sig = null;
@@ -165,15 +173,15 @@ export default class ListaCircular {
     this.#head = sig;
   }
 
-  obtenerInicio (): NodoListaCircular | null {
+  obtenerInicio(): NodoListaCircular | null {
     return this.#head;
   }
 
-  obtenerFinal (): NodoListaCircular | null {
+  obtenerFinal(): NodoListaCircular | null {
     return this.#head?.ant ?? null;
   }
 
-  length (): number {
+  length(): number {
     if (!this.#head) return 0;
     if (this.#head.sig === this.#head) return 1;
     let c = 0;
@@ -190,7 +198,7 @@ export default class ListaCircular {
    * @param {number} n - Número de elementos a cargar.
    * @returns {void}
    */
-  cargarFibonacci (n: number): void {
+  cargarFibonacci(n: number): void {
     if (n <= 0) return;
     this.insertarFinal(0);
     if (n === 1) return;
@@ -213,11 +221,7 @@ export default class ListaCircular {
    * @param {number} razon - Razón de la serie.
    * @returns {void}
    */
-  cargarSerieAritmetica (
-    numeroDeElementos: number,
-    valorInicial: number,
-    razon: number
-  ): void {
+  cargarSerieAritmetica(numeroDeElementos: number, valorInicial: number, razon: number): void {
     if (numeroDeElementos <= 0) return;
 
     for (let i = 0; i < numeroDeElementos; i++) {
@@ -232,19 +236,19 @@ export default class ListaCircular {
    * @param {number} razon - Razón de la serie.
    * @returns {void}
    */
-  cargarSerieGeometrica (numeroDeElementos: number, valorInicial: number, razon: number): void {
+  cargarSerieGeometrica(numeroDeElementos: number, valorInicial: number, razon: number): void {
     if (numeroDeElementos <= 0) return;
 
     let n = 1;
     for (let i = 0; i < numeroDeElementos; i++, n++) {
-      this.insertarFinal(valorInicial * Math.round(Math.pow(razon, n - 1)));
+      this.insertarFinal(valorInicial * Math.round(razon ** (n - 1)));
     }
   }
 
   /**
    * Ordena la lista
    */
-  ordenar (): void {
+  ordenar(): void {
     if (!this.#head) return;
     let x = this.#head;
     let y: NodoListaCircular | null = null;
@@ -253,7 +257,7 @@ export default class ListaCircular {
       y = x.sig;
       while (y !== this.#head) {
         if (x.dato > y!.dato) {
-          ;[x.dato, y!.dato] = [y!.dato, x.dato];
+          [x.dato, y!.dato] = [y!.dato, x.dato];
         }
         y = y!.sig;
       }
@@ -265,7 +269,7 @@ export default class ListaCircular {
    * Segmenta la lista
    * @param {MethodsOfNumero} method  Metodo de la clase Número
    */
-  segmentar (method: MethodsOfNumero): void {
+  segmentar(method: MethodsOfNumero): void {
     if (!this.#head) return;
     const n1 = new Numero();
     const n2 = new Numero();
@@ -278,10 +282,12 @@ export default class ListaCircular {
       while (y !== this.#head) {
         n1.cargar(y!.dato);
         n2.cargar(x.dato);
-        if ((n1[method]() && !n2[method]()) ||
-              (n1[method]() && n2[method]() && y!.dato < x.dato) ||
-              (!n1[method]() && !n2[method]() && y!.dato < x.dato)) {
-          ;[x.dato, y!.dato] = [y!.dato, x.dato];
+        if (
+          (n1[method]() && !n2[method]()) ||
+          (n1[method]() && n2[method]() && y!.dato < x.dato) ||
+          (!n1[method]() && !n2[method]() && y!.dato < x.dato)
+        ) {
+          [x.dato, y!.dato] = [y!.dato, x.dato];
         }
         y = y!.sig;
       }
@@ -293,7 +299,7 @@ export default class ListaCircular {
    * Intercala la lista
    * @param {MethodsOfNumero} method  Metodo de la clase Número
    */
-  intercalar (method: MethodsOfNumero): void {
+  intercalar(method: MethodsOfNumero): void {
     if (!this.#head) return;
     const n1 = new Numero();
     const n2 = new Numero();
@@ -309,10 +315,12 @@ export default class ListaCircular {
         while (y !== this.#head) {
           n1.cargar(y!.dato);
           n2.cargar(x.dato);
-          if ((n1[method]() && !n2[method]()) ||
-              (n1[method]() && n2[method]() && y!.dato < x.dato) ||
-              (!n1[method]() && !n2[method]() && y!.dato < x.dato)) {
-            ;[x.dato, y!.dato] = [y!.dato, x.dato];
+          if (
+            (n1[method]() && !n2[method]()) ||
+            (n1[method]() && n2[method]() && y!.dato < x.dato) ||
+            (!n1[method]() && !n2[method]() && y!.dato < x.dato)
+          ) {
+            [x.dato, y!.dato] = [y!.dato, x.dato];
           }
           y = y!.sig;
         }
@@ -320,10 +328,12 @@ export default class ListaCircular {
         while (y !== this.#head) {
           n1.cargar(y!.dato);
           n2.cargar(x.dato);
-          if ((!n1[method]() && n2[method]()) ||
+          if (
+            (!n1[method]() && n2[method]()) ||
             (!n1[method]() && !n2[method]() && y!.dato < x.dato) ||
-            (n1[method]() && n2[method]() && y!.dato < x.dato)) {
-            ;[x.dato, y!.dato] = [y!.dato, x.dato];
+            (n1[method]() && n2[method]() && y!.dato < x.dato)
+          ) {
+            [x.dato, y!.dato] = [y!.dato, x.dato];
           }
           y = y!.sig;
         }
@@ -337,7 +347,7 @@ export default class ListaCircular {
    * @param dato el dato a buscar
    * @returns {boolean}
    */
-  busquedaSecuencial (dato: number): boolean {
+  busquedaSecuencial(dato: number): boolean {
     if (!this.#head) return false;
     let x = this.#head;
     do {
@@ -348,9 +358,9 @@ export default class ListaCircular {
   }
 
   /**
-     * Invierte la lista enlazada circular
-     */
-  invertir (): void {
+   * Invierte la lista enlazada circular
+   */
+  invertir(): void {
     if (!this.#head || (this.#head.sig === this.#head && this.#head.ant === this.#head)) return;
 
     let x = this.#head;
@@ -370,7 +380,13 @@ export default class ListaCircular {
    * Funcion que se ejecuta para cada nodo
    * @param callbackfn callback
    */
-  forEach (callbackfn: (value: number, nodo: NodoListaCircular | null, list: NodoListaCircular | null) => void): void {
+  forEach(
+    callbackfn: (
+      value: number,
+      nodo: NodoListaCircular | null,
+      list: NodoListaCircular | null
+    ) => void
+  ): void {
     if (!this.#head) return;
     let x = this.#head;
     do {
@@ -382,7 +398,7 @@ export default class ListaCircular {
   /**
    * @returns una copia de la lista
    */
-  lista (): NodoListaCircular | null {
+  lista(): NodoListaCircular | null {
     return structuredClone(this.#head);
   }
 }

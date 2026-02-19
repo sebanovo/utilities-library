@@ -4,20 +4,20 @@
 export default class Stack<T> {
   private readonly list: T[] = [];
 
-  isEmpty () {
+  isEmpty() {
     return this.list.length === 0;
   }
 
-  push (item: T) {
+  push(item: T) {
     this.list.push(item);
     return item;
   }
 
-  pop () {
+  pop() {
     return this.list.pop();
   }
 
-  peek () {
+  peek() {
     if (this.list.length === 0) {
       return;
     }

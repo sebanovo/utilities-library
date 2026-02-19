@@ -1,4 +1,4 @@
-import { type MethodsOfNumero } from '../types/types';
+import type { MethodsOfNumero } from '../types/types';
 import { methodsOfNumero } from '../types/methodsOfNumero';
 /**
  * Clase que representa un número entero y proporciona métodos para manipularlo.
@@ -9,7 +9,7 @@ export default class Numero {
    * Carga un número en la instancia.
    * @param {number} number - número que se carga en la instancia.
    */
-  cargar (number: number): void {
+  cargar(number: number): void {
     this.#numero = number;
   }
 
@@ -17,7 +17,7 @@ export default class Numero {
    * Retorna el número en string
    * @returns {string}
    */
-  descargar (): string {
+  descargar(): string {
     return this.#numero.toString();
   }
 
@@ -25,37 +25,39 @@ export default class Numero {
    * Retorna el número en string
    * @returns {string}
    */
-  numero (): number {
+  numero(): number {
     return this.#numero;
   }
 
-  #checarDireccion (direccion: string): never | void {
-    if (direccion !== 'asc' && direccion !== 'desc') { throw new Error("La dirección tiene que ser 'asc' o 'desc'"); }
+  #checarDireccion(direccion: string): never | void {
+    if (direccion !== 'asc' && direccion !== 'desc') {
+      throw new Error("La dirección tiene que ser 'asc' o 'desc'");
+    }
   }
 
-  #checarMethodsOfNumero (method: MethodsOfNumero): never | void {
+  #checarMethodsOfNumero(method: MethodsOfNumero): never | void {
     const index = methodsOfNumero.indexOf(method);
     if (index === -1) {
       throw new Error('El metodo no corresponse a una funcion de la clase Número');
     }
   }
 
-  static obtenerUltimoDigito (n: number): number {
+  static obtenerUltimoDigito(n: number): number {
     return n % 10;
   }
 
-  static adicionarAlFinal (n: number, digit: number) {
+  static adicionarAlFinal(n: number, digit: number) {
     return n * 10 + digit;
   }
 
-  static eliminarUltimoDigito (n: number) {
+  static eliminarUltimoDigito(n: number) {
     return Math.floor(n / 10);
   }
 
   /**
    * invierte el número almacenado forma1.
    */
-  invertir1 (): void {
+  invertir1(): void {
     let resultado = 0;
     let numero = this.#numero;
     while (numero > 0) {
@@ -69,7 +71,7 @@ export default class Numero {
   /**
    * invierte el número almacenado forma1 recursivo.
    */
-  invertir1R (): void {
+  invertir1R(): void {
     const rec = (n: number): number => {
       if (n < 10) {
         return n;
@@ -81,27 +83,27 @@ export default class Numero {
     this.#numero = rec(this.#numero);
   }
 
-  static obtenerPrimerDigito (n: number): number {
+  static obtenerPrimerDigito(n: number): number {
     if (n === 0) return 0;
-    return Math.floor(n / Math.pow(10, Math.floor(Math.log10(n))));
+    return Math.floor(n / 10 ** Math.floor(Math.log10(n)));
   }
 
-  static adicionarAlPrincipio (n: number, digit: number) {
+  static adicionarAlPrincipio(n: number, digit: number) {
     if (n === 0) return digit;
     const cantidadDigitos = Numero.cantidadDigitos(n);
-    return digit * Math.pow(10, cantidadDigitos) + n;
+    return digit * 10 ** cantidadDigitos + n;
   }
 
-  static eliminarPrimerDigito (n: number) {
+  static eliminarPrimerDigito(n: number) {
     if (n === 0) return 0;
-    const potencia = Math.pow(10, Math.floor(Math.log10(n)));
+    const potencia = 10 ** Math.floor(Math.log10(n));
     return n % potencia;
   }
 
   /**
    * invierte el número almacenado forma2.
    */
-  invertir2 (): void {
+  invertir2(): void {
     let resultado = 0;
     let numero = this.#numero;
     while (numero > 0) {
@@ -115,7 +117,7 @@ export default class Numero {
   /**
    * invierte el número almacenado forma2 recursivo.
    */
-  invertir2R (): void {
+  invertir2R(): void {
     const rec = (n: number): number => {
       if (n < 10) {
         return n;
@@ -131,7 +133,7 @@ export default class Numero {
    * Retorna la longitud del número
    * @returns {number}
    */
-  length (): number {
+  length(): number {
     return Math.abs(this.#numero).toString().length;
   }
 
@@ -139,18 +141,17 @@ export default class Numero {
    * Retorna la longitud del número
    * @returns {number}
    */
-  static cantidadDigitos (n: number): number {
+  static cantidadDigitos(n: number): number {
     if (n === 0) return 1;
     return Math.floor(Math.log10(Math.abs(n))) + 1;
   }
-
 
   /**
    * Ordena el número
    * @param {'asc' | 'desc'}  direccion Direccion del ordenamiento
    * @returns {void | never}
    */
-  ordenar (direccion: 'asc' | 'desc' = 'asc'): void {
+  ordenar(direccion: 'asc' | 'desc' = 'asc'): void {
     this.#checarDireccion(direccion);
 
     let aux;
@@ -185,7 +186,7 @@ export default class Numero {
    * Verifica si el número es par
    * @returns {boolean}
    */
-  esPar (): boolean {
+  esPar(): boolean {
     return this.#numero % 2 === 0;
   }
 
@@ -193,7 +194,7 @@ export default class Numero {
    * Verifica si el número es primo
    * @returns {boolean}
    */
-  esPrimo (): boolean {
+  esPrimo(): boolean {
     for (let i = 2; i < this.#numero; i++) {
       if (this.#numero % i === 0) {
         return false;
@@ -208,7 +209,7 @@ export default class Numero {
    * @param MAX_VALUE MAX VALUE
    * @returns number random
    */
-  static random (MIN_VALUE: number, MAX_VALUE: number): number {
+  static random(MIN_VALUE: number, MAX_VALUE: number): number {
     return Math.floor(Math.random() * (MAX_VALUE - MIN_VALUE + 1)) + MIN_VALUE;
   }
 
@@ -216,7 +217,7 @@ export default class Numero {
    * Verifica si el número es capicua
    * @returns {boolean}
    */
-  esCapicua (): boolean {
+  esCapicua(): boolean {
     const copia = this.#numero;
     this.invertir1();
     return copia === this.#numero;
@@ -226,7 +227,7 @@ export default class Numero {
    * Verifica si el número es cuadrado perfecto
    * @returns {boolean}
    */
-  esCuadradoPerfecto (): boolean {
+  esCuadradoPerfecto(): boolean {
     const raizCuadrada = Math.floor(Math.sqrt(this.#numero));
     return raizCuadrada * raizCuadrada === this.#numero;
   }
@@ -235,7 +236,7 @@ export default class Numero {
    * Verifica si el número es fibonacci
    * @returns {boolean}
    */
-  esFibonacci (): boolean {
+  esFibonacci(): boolean {
     const copia1 = new Numero();
     const copia2 = new Numero();
     copia1.cargar(5 * this.#numero * this.#numero + 4);
@@ -249,12 +250,12 @@ export default class Numero {
    * @example
    * n1.retornarCuentaRegresiva(5) // 54321
    */
-  cuentaRegresiva (): number {
+  cuentaRegresiva(): number {
     let numero = this.#numero;
     let resultado = 0;
     while (numero > 0) {
       resultado = resultado * 10 + numero;
-      numero = numero - 1;
+      numero -= 1;
     }
     return resultado;
   }
@@ -264,13 +265,13 @@ export default class Numero {
    * @example
    * 524 -> 55555224444
    */
-  repetirDigitos (): void {
+  repetirDigitos(): void {
     const repetirDigito = (x: number): number => {
       let copia = x;
       let resultado = 0;
       while (copia > 0) {
         resultado = resultado * 10 + x;
-        copia = copia - 1;
+        copia -= 1;
       }
       return resultado;
     };
@@ -288,7 +289,7 @@ export default class Numero {
    * Calcula el factorial de un número
    * @returns {number} El factorial del número
    */
-  factorial (): number {
+  factorial(): number {
     if (this.#numero < 0) throw new Error('No existe el factorial de números negativos');
     let resultado = 1;
     if (this.#numero === 0 || this.#numero === 1) {
@@ -305,7 +306,7 @@ export default class Numero {
    * @param {MethodsOfNumero} method metodo de la clase número
    * @param {boolean} is valor booleano
    */
-  eliminarDigitosMetodos (method: MethodsOfNumero, is: boolean = true): void {
+  eliminarDigitosMetodos(method: MethodsOfNumero, is = true): void {
     this.#checarMethodsOfNumero(method);
     const n1 = new Numero();
     let resultado = 0;
@@ -325,10 +326,10 @@ export default class Numero {
    * Encuentra el mayor y menor digito.
    * @return {{mayor: number, menor: number}}
    */
-  encontrarMayorYMenorDigito (): { mayor: number, menor: number } {
+  encontrarMayorYMenorDigito(): { mayor: number; menor: number } {
     const resultado = {
       mayor: this.#numero % 10,
-      menor: this.#numero % 10
+      menor: this.#numero % 10,
     };
     let copia = this.#numero;
     while (copia > 0) {
@@ -352,18 +353,19 @@ export default class Numero {
    * @param {number} base base N a convertir
    * @return {string}
    */
-  static decimalABaseN (numero: number, base: number): string {
-    if (base < 1 || base > this.#digits.length) throw new Error(`La base tiene que estar entre 1 y ${this.#digits.length}`);
-    else if (base === 1) {
+  static decimalABaseN(numero: number, base: number): string {
+    if (base < 1 || base > this.#digits.length) {
+      throw new Error(`La base tiene que estar entre 1 y ${this.#digits.length}`);
+    } else if (base === 1) {
       let resultado = '';
       while (numero > 0) {
-        resultado = resultado + base;
+        resultado += base;
         numero--;
       }
       return resultado;
     } else if (numero === 0) return '0';
     else {
-      const result: string [] = [];
+      const result: string[] = [];
       while (numero > 0) {
         result.push(this.#digits[numero % base]);
         numero = Math.floor(numero / base);
@@ -378,9 +380,10 @@ export default class Numero {
    * @param {number} base base N a convertir
    * @return {string}
    */
-  static baseNADecimal (numero: string, base: number): number {
-    if (base < 1 || base > this.#digits.length) throw new Error(`La base tiene que estar entre 1 y ${this.#digits.length}`);
-    else if (base === 1) {
+  static baseNADecimal(numero: string, base: number): number {
+    if (base < 1 || base > this.#digits.length) {
+      throw new Error(`La base tiene que estar entre 1 y ${this.#digits.length}`);
+    } else if (base === 1) {
       return numero.length;
     } else {
       numero = numero.toUpperCase();

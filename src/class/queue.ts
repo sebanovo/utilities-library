@@ -4,27 +4,27 @@
 export default class Queue<T> {
   private readonly list: T[] = [];
 
-  isEmpty () {
+  isEmpty() {
     return this.list.length === 0;
   }
 
-  add (item: T) {
+  add(item: T) {
     this.list.push(item);
     return true;
   }
 
-  poll () {
+  poll() {
     return this.list.shift();
   }
 
-  peek () {
+  peek() {
     if (this.list.length === 0) {
       return;
     }
     return this.list[0];
   }
 
-  size () {
+  size() {
     return this.list.length;
   }
 }

@@ -6,17 +6,19 @@ export type MethodsOfNumero =
   | 'esFibonacci';
 
 export interface objetoMaxYFrec {
-  maximo: number
-  frecuencia: number
-
+  maximo: number;
+  frecuencia: number;
 }
-
 /*
 Dimensiones de una matriz
 */
 export interface MatrizDimension {
-  rows: number
-  columns: number
+  rows: number;
+  columns: number;
 }
 
-export interface TensorDimension { rows: number, columns: number, layers: number }
+export interface TensorDimension {
+  rows: number;
+  columns: number;
+  layers: number;
+}

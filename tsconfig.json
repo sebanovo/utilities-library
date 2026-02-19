@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "target": "ES2022", /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
-    "lib": ["ES2022", "DOM"],
+    "target": "es2022", /* compila con las apis hasta es2022. */
     "module": "ESNext" /* Specify what module code is generated. */,
     "rootDir": "./src" /* Specify the root folder within your source files. */,
+    "lib": ["ES2022"], /* siempre igual que es target */
     "declaration": true /* Generate .d.ts files from TypeScript and JavaScript files in your project. */,
-    "outDir": "./dist/" /* Specify an output folder for all emitted files. */,
-    "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
+    "outDir": "./dist" /* Specify an output folder for all emitted files. */,
     "strict": true,
+    "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
   },
   "include": ["./src/**/*.ts"],
 }
