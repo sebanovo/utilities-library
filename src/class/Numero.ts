@@ -40,19 +40,91 @@ export default class Numero {
     }
   }
 
+  static obtenerUltimoDigito (n: number): number {
+    return n % 10;
+  }
+
+  static adicionarAlFinal (n: number, digit: number) {
+    return n * 10 + digit;
+  }
+
+  static eliminarUltimoDigito (n: number) {
+    return Math.floor(n / 10);
+  }
+
   /**
-   * invierte el número almacenado.
+   * invierte el número almacenado forma1.
    */
-  invertir (): void {
-    let digito;
+  invertir1 (): void {
     let resultado = 0;
     let numero = this.#numero;
     while (numero > 0) {
-      digito = numero % 10;
-      resultado = resultado * 10 + digito;
-      numero = Math.floor(numero / 10);
+      const digito = Numero.obtenerUltimoDigito(numero);
+      resultado = Numero.adicionarAlFinal(resultado, digito);
+      numero = Numero.eliminarUltimoDigito(numero);
     }
     this.#numero = resultado;
+  }
+
+  /**
+   * invierte el número almacenado forma1 recursivo.
+   */
+  invertir1R (): void {
+    const rec = (n: number): number => {
+      if (n < 10) {
+        return n;
+      } else {
+        const digito = Numero.obtenerUltimoDigito(n);
+        return Numero.adicionarAlPrincipio(rec(Numero.eliminarUltimoDigito(n)), digito);
+      }
+    };
+    this.#numero = rec(this.#numero);
+  }
+
+  static obtenerPrimerDigito (n: number): number {
+    if (n === 0) return 0;
+    return Math.floor(n / Math.pow(10, Math.floor(Math.log10(n))));
+  }
+
+  static adicionarAlPrincipio (n: number, digit: number) {
+    if (n === 0) return digit;
+    const cantidadDigitos = Numero.cantidadDigitos(n);
+    return digit * Math.pow(10, cantidadDigitos) + n;
+  }
+
+  static eliminarPrimerDigito (n: number) {
+    if (n === 0) return 0;
+    const potencia = Math.pow(10, Math.floor(Math.log10(n)));
+    return n % potencia;
+  }
+
+  /**
+   * invierte el número almacenado forma2.
+   */
+  invertir2 (): void {
+    let resultado = 0;
+    let numero = this.#numero;
+    while (numero > 0) {
+      const digito = Numero.obtenerPrimerDigito(numero);
+      resultado = Numero.adicionarAlPrincipio(resultado, digito);
+      numero = Numero.eliminarPrimerDigito(numero);
+    }
+    this.#numero = resultado;
+  }
+
+  /**
+   * invierte el número almacenado forma2 recursivo.
+   */
+  invertir2R (): void {
+    const rec = (n: number): number => {
+      if (n < 10) {
+        return n;
+      } else {
+        const digito = Numero.obtenerPrimerDigito(n);
+        return Numero.adicionarAlFinal(rec(Numero.eliminarPrimerDigito(n)), digito);
+      }
+    };
+    this.#numero = rec(this.#numero);
   }
 
   /**
@@ -60,8 +132,18 @@ export default class Numero {
    * @returns {number}
    */
   length (): number {
-    return this.#numero.toString().length;
+    return Math.abs(this.#numero).toString().length;
   }
+
+  /**
+   * Retorna la longitud del número
+   * @returns {number}
+   */
+  static cantidadDigitos (n: number): number {
+    if (n === 0) return 1;
+    return Math.floor(Math.log10(Math.abs(n))) + 1;
+  }
+
 
   /**
    * Ordena el número
@@ -136,7 +218,7 @@ export default class Numero {
    */
   esCapicua (): boolean {
     const copia = this.#numero;
-    this.invertir();
+    this.invertir1();
     return copia === this.#numero;
   }
 

@@ -13,7 +13,7 @@
 10. [Stack](#stack)
 11. [Binary Search Tree](#binary-search-tree)
 12. [AVL Tree](#avl-tree)
-13. [M-Way Tree](#m-way-tree)
+13. [MWay Tree](#mway-tree)
 14. [Contribuciones](#contribuciones)
 15. [Licencia](#licencia)
 

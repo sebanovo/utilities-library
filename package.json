@@ -1,6 +1,6 @@
 {
   "name": "utilities-library",
-  "version": "3.2.11",
+  "version": "3.2.12",
   "files": [
     "LICENSE",
     "README.md",
@@ -13,7 +13,6 @@
   "unpkg": "./dist/index.min.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "dev": "ts-node ./src/index.ts",
     "build": "rollup -c",
     "lint": "eslint --ext .ts,.js . --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint --ext .ts,.js . --fix",
