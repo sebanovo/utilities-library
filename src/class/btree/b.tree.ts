@@ -9,6 +9,9 @@ import BTreeNode from './b.node';
  * referencia de youtube:
  * - No soporta claves repetidas como el B+ Tree
  * - Es balanceado
+ * Ojo:
+ * Esta implementación en realidad crear un nodo de (grado + 1) hijos y grado claves para
+ * poder usar temporalmente esos comodines
  * https://youtu.be/Fu7kVWTcH5Y?si=p5X7EPcb_Jk2L3fC
  * https://youtu.be/Cqtc81Iee08?si=lYoiIM3cpyDBqtbY
  * Para el arbol B+:
@@ -32,17 +35,6 @@ export default class BTree<T> extends MWayTree<T> {
     this.MINIMUM_NUMBER_OF_KEYS = this.MINIMUM_NUMBER_OF_CHILDS - 1;
   }
 
-  private buscarPosicionClave(key: number, nodo: BTreeNode<T> | null): number {
-    if (nodo === null) return -1;
-    for (let i = 0; i < nodo.countData(); i++) {
-      let dataActual = nodo.getData(i);
-      if (dataActual?.key === key) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
   private buscarPosicionDondeBajar(key: number, nodo: BTreeNode<T>) {
     if (nodo === null) return -1;
     for (let i = 0; i < nodo.countData(); i++) {
@@ -54,7 +46,15 @@ export default class BTree<T> extends MWayTree<T> {
     return nodo.countData();
   }
 
+  /**
+   * Insertar un dato en el nodo y posteriormenete lo ordena
+   * @param nodoActual Nodo a insertar
+   * @param data  dato a insertar
+   */
   private insertarDatoOrdenado(nodoActual: BTreeNode<T>, data: Data<T>) {
+    if (nodoActual.countData() >= this.degree) {
+      throw new Error('No se puede insertar dato porque el nodo tiene la memoria llena');
+    }
     nodoActual.setData(nodoActual.countData(), data);
     for (let i = 0; i < nodoActual.countData() - 1; i++) {
       for (let j = 0; j < nodoActual.countData() - 1; j++) {
@@ -220,7 +220,7 @@ export default class BTree<T> extends MWayTree<T> {
     let nodoActual = this.root;
     while (nodoActual !== null) {
       const node = this.getNode(nodoActual, data.key);
-      // ✔ Caso 1: clave ya existe → actualizar
+      // ✔ Caso 1: clave ya existe (actualizar)
       if (node !== null) {
         for (let i = 0; i < node.countData(); i++) {
           if (node.getData(i)?.key === data.key) {
@@ -231,7 +231,7 @@ export default class BTree<T> extends MWayTree<T> {
         break;
       }
 
-      // ✔ Caso 2: hoja → insertar
+      // ✔ Caso 2: hoja (insertar)
       if (nodoActual.isLeaf()) {
         this.insertarDatoOrdenado(nodoActual, data);
         if (nodoActual.countData() > this.MAXIMUM_NUMBER_OF_KEYS) {
@@ -240,12 +240,14 @@ export default class BTree<T> extends MWayTree<T> {
         break;
       }
 
+      // ✔ Caso 3: seguir buscando
       let posicionDondeBajar = this.buscarPosicionDondeBajar(data!.key, nodoActual);
       stack.push(nodoActual);
       nodoActual = nodoActual.getChild(posicionDondeBajar)!;
     }
     return this;
   }
+
   override insertR(data: Data<T>): this {
     this.insert(data);
     return this;

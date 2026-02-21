@@ -32,8 +32,9 @@
     "stack",
     "queue",
     "binary search tree",
-    "avl",
-    "mway tree"
+    "avl tree",
+    "mway tree",
+    "b tree"
   ],
   "engines": {
     "node": ">=17.0.0"

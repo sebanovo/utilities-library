@@ -14,6 +14,7 @@
 11. [Binary Search Tree](#binary-search-tree)
 12. [AVL Tree](#avl-tree)
 13. [MWay Tree](#mway-tree)
+13. [B Tree](#b-tree)
 14. [Contribuciones](#contribuciones)
 15. [Licencia](#licencia)
 
@@ -539,6 +540,23 @@ t1.insert({key: 3, value: 2})
 
 ```javascript
 const t1 = new MWayTree(4)
+t1.insert({key: 1, value: 0})
+t1.insert({key: 2, value: 1})
+t1.insert({key: 3, value: 2})
+```
+
+## B Tree 
+
+### Metodos
+
+- insert 
+- delete 
+- to string 
+
+## Ejemplo 14
+
+```javascript
+const t1 = new BTree(3)
 t1.insert({key: 1, value: 0})
 t1.insert({key: 2, value: 1})
 t1.insert({key: 3, value: 2})
