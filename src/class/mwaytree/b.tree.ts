@@ -255,6 +255,7 @@ export default class BTree<T> extends MWayTree<T> {
     let nodoActual = this.root;
     do {
       let posicionDeLaClaveAInsertar = this.buscarPosicionClave(data.key, nodoActual);
+      // si ya existe remplaza el valor solamente
       if (posicionDeLaClaveAInsertar !== -1) {
         nodoActual = this.buscarNodo(data.key, nodoActual)!;
         nodoActual.setData(posicionDeLaClaveAInsertar, data);

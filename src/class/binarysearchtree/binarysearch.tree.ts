@@ -24,6 +24,36 @@ export default class BinarySearchTree<T> {
     return this.root === null;
   }
 
+  getNode(root: BinarySearchTreeNode<T> | null, keyToSearch: number) {
+    let x = root;
+
+    while (x !== null) {
+      if (keyToSearch < x.getData().key) {
+        x = x.getLeft()!;
+      } else if (keyToSearch > x.getData().key) {
+        x = x.getRight()!;
+      } else {
+        return x;
+      }
+    }
+    return null;
+  }
+
+  getNodeR(root: BinarySearchTreeNode<T> | null, keyToSearch: number) {
+    const fn = (x: BinarySearchTreeNode<T> | null, key: number) => {
+      if (x === null) {
+        return null;
+      } else if (x?.getData().key === key) {
+        return x;
+      } else if (key < x.getData().key) {
+        return fn(x.getLeft(), key);
+      } else {
+        return fn(x.getRight(), key);
+      }
+    };
+    return fn(root, keyToSearch);
+  }
+
   // Cuenta la cantidad de datos
   cardinality(root: BinarySearchTreeNode<T> | null): number {
     let c: number;
@@ -156,34 +186,12 @@ export default class BinarySearchTree<T> {
     return this.findKey(key) !== null;
   }
 
-  findKey(key: number) {
-    let x = this.root;
-
-    while (x !== null) {
-      if (key < x.getData().key) {
-        x = x.getLeft()!;
-      } else if (key > x.getData().key) {
-        x = x.getRight()!;
-      } else {
-        return x.getData().value;
-      }
-    }
-    return null;
+  findKey(keyToSearch: number) {
+    return this.getNode(this.root, keyToSearch)?.getData().value;
   }
 
   findKeyR(keyToSearch: number) {
-    const fn = (root: BinarySearchTreeNode<T> | null, key: number) => {
-      if (root === null) {
-        return null;
-      } else if (root?.getData().key === key) {
-        return root.getData().value;
-      } else if (key < root.getData().key) {
-        return fn(root.getLeft(), key);
-      } else {
-        return fn(root.getRight(), key);
-      }
-    };
-    return fn(this.root, keyToSearch);
+    return this.getNode(this.root, keyToSearch)?.getData().value;
   }
 
   levelOrderR() {
@@ -519,7 +527,10 @@ export default class BinarySearchTree<T> {
 
   // Elimina un nodo del arbol
   delete(keyToDelete: number) {
-    const fn = (node: BinarySearchTreeNode<T> | null, key: number): BinarySearchTreeNode<T> | null => {
+    const fn = (
+      node: BinarySearchTreeNode<T> | null,
+      key: number
+    ): BinarySearchTreeNode<T> | null => {
       if (node === null) {
         return null;
       } else if (key < node.getData().key) {

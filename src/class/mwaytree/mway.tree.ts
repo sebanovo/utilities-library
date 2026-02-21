@@ -18,19 +18,62 @@ export default class MWayTree<T> {
     this.root = null;
   }
 
-  public getRoot() {
+  getRoot() {
     return this.root;
   }
 
-  public setRoot(newRoot: MWayTreeNode<T> | null) {
+  setRoot(newRoot: MWayTreeNode<T> | null) {
     this.root = newRoot;
   }
 
-  public isEmpty(): boolean {
+  isEmpty(): boolean {
     return this.root === null;
   }
 
-  public cardinality(root: MWayTreeNode<T> | null): number {
+  getNode(root: MWayTreeNode<T> | null, key: number) {
+    let x = root;
+    while (x !== null) {
+      let updateNode = false;
+      for (let i = 0; !updateNode && i < x.countData(); i++) {
+        if (key === x.getData(i)?.key) {
+          return x.getData(i);
+        }
+        if (key < x.getData(i)!.key) {
+          updateNode = true;
+          x = x.getChild(i)!;
+        }
+      }
+      if (!updateNode) {
+        x = x.getChild(x.countData())!;
+      }
+    }
+    return null;
+  }
+
+  getNodeR(root: MWayTreeNode<T> | null, keyToSearch: number) {
+    const fn = (node: MWayTreeNode<T> | null, key: number) => {
+      if (node === null) {
+        return null;
+      } else {
+        let updateNode = false;
+        for (let i = 0; !updateNode && i < node.countData(); i++) {
+          if (key === node.getData(i)?.key) {
+            return node.getData(i);
+          } else if (key < node.getData(i)!.key) {
+            updateNode = true;
+            return fn(node.getChild(i), key);
+          }
+        }
+        if (!updateNode) {
+          return fn(node.getChild(node.countData()), key);
+        }
+      }
+      return null;
+    };
+    return fn(root, keyToSearch);
+  }
+
+  cardinality(root: MWayTreeNode<T> | null): number {
     let c = 0;
     if (root === null) {
       return 0;
@@ -45,7 +88,7 @@ export default class MWayTree<T> {
   }
 
   // Cuenta la cantidad de nodos del arbol
-  public size(root: MWayTreeNode<T> | null): number {
+  size(root: MWayTreeNode<T> | null): number {
     if (root === null) return 0;
     let x = root;
     let count = 0;
@@ -66,7 +109,7 @@ export default class MWayTree<T> {
     return count;
   }
 
-  public sizeR(root: MWayTreeNode<T> | null): number {
+  sizeR(root: MWayTreeNode<T> | null): number {
     let result = 0;
     if (root === null) {
       // nada
@@ -79,7 +122,7 @@ export default class MWayTree<T> {
     return result;
   }
 
-  public heightR(root: MWayTreeNode<T> | null) {
+  heightR(root: MWayTreeNode<T> | null) {
     let h = 0;
     if (root === null) {
       // nada
@@ -92,7 +135,7 @@ export default class MWayTree<T> {
     return h;
   }
 
-  public height(root: MWayTreeNode<T> | null) {
+  height(root: MWayTreeNode<T> | null) {
     if (root === null) return 0;
     let x = root;
     const queue = new Queue<MWayTreeNode<T>>();
@@ -118,7 +161,7 @@ export default class MWayTree<T> {
   }
 
   // Regresa el nodo minimo
-  public min(root: MWayTreeNode<T> | null) {
+  min(root: MWayTreeNode<T> | null) {
     if (root === null) return null;
     let x = root;
     let ant = x;
@@ -131,7 +174,7 @@ export default class MWayTree<T> {
     return ant;
   }
 
-  public minR(root: MWayTreeNode<T> | null): MWayTreeNode<T> | null {
+  minR(root: MWayTreeNode<T> | null): MWayTreeNode<T> | null {
     if (root === null) {
       return null;
     } else if (root.getChild(0) === null) {
@@ -142,7 +185,7 @@ export default class MWayTree<T> {
   }
 
   // Regresa el nodo maximo
-  public max(root: MWayTreeNode<T> | null) {
+  max(root: MWayTreeNode<T> | null) {
     if (root === null) return null;
     let x = root;
     let ant = x;
@@ -155,7 +198,7 @@ export default class MWayTree<T> {
     return ant;
   }
 
-  public maxR(root: MWayTreeNode<T> | null): MWayTreeNode<T> | null {
+  maxR(root: MWayTreeNode<T> | null): MWayTreeNode<T> | null {
     if (root === null) {
       return null;
     } else if (root.getChild(root.countData()) === null) {
@@ -165,55 +208,19 @@ export default class MWayTree<T> {
     }
   }
 
-  public hasKey(key: number) {
+  hasKey(key: number) {
     return this.findKey(key) !== null;
   }
 
-  public findKey(key: number) {
-    if (this.root === null) return null;
-    let x = this.root;
-    while (x !== null) {
-      let updateNode = false;
-      for (let i = 0; !updateNode && i < x.countData(); i++) {
-        if (key === x.getData(i)?.key) {
-          return x.getData(i)!.value;
-        }
-        if (key < x.getData(i)!.key) {
-          updateNode = true;
-          x = x.getChild(i)!;
-        }
-      }
-      if (!updateNode) {
-        x = x.getChild(x.countData())!;
-      }
-    }
-    return null;
+  findKey(keyToSearch: number) {
+    return this.getNode(this.root, keyToSearch)?.value;
   }
 
   findKeyR(keyToSearch: number) {
-    const fn = (root: MWayTreeNode<T> | null, key: number) => {
-      if (root === null) {
-        return null;
-      } else {
-        let updateNode = false;
-        for (let i = 0; !updateNode && i < root.countData(); i++) {
-          if (key === root.getData(i)?.key) {
-            return root.getData(i)!.value;
-          } else if (key < root.getData(i)!.key) {
-            updateNode = true;
-            return fn(root.getChild(i), key);
-          }
-        }
-        if (!updateNode) {
-          return fn(root.getChild(root.countData()), key);
-        }
-      }
-      return null;
-    };
-    return fn(this.root, keyToSearch);
+    return this.getNodeR(this.root, keyToSearch)?.value;
   }
 
-  public levelOrder() {
+  levelOrder() {
     if (this.root === null) return [];
 
     let x = this.root;
@@ -236,7 +243,7 @@ export default class MWayTree<T> {
     return list;
   }
 
-  public levelOrderR() {
+  levelOrderR() {
     if (this.root === null) return [];
     const levels: Array<Array<Data<T>>> = [];
     const fn = (root: MWayTreeNode<T> | null, level: number) => {
@@ -257,7 +264,7 @@ export default class MWayTree<T> {
     return levels.flat(1);
   }
 
-  public preOrder(): Array<Data<T>> {
+  preOrder(): Array<Data<T>> {
     if (this.root === null) return [];
 
     interface Frame {
@@ -294,7 +301,7 @@ export default class MWayTree<T> {
     return list;
   }
 
-  public preOrderR() {
+  preOrderR() {
     const list: Array<Data<T>> = [];
     const rec = (node: MWayTreeNode<T> | null) => {
       if (node !== null) {
@@ -309,7 +316,7 @@ export default class MWayTree<T> {
     return list;
   }
 
-  public postOrderR() {
+  postOrderR() {
     const list: Array<Data<T>> = [];
     const rec = (node: MWayTreeNode<T> | null) => {
       if (node !== null) {
@@ -324,7 +331,7 @@ export default class MWayTree<T> {
     return list;
   }
 
-  public inOrderR() {
+  inOrderR() {
     const list: Array<Data<T>> = [];
     const rec = (node: MWayTreeNode<T> | null) => {
       if (node !== null) {
@@ -339,7 +346,7 @@ export default class MWayTree<T> {
     return list;
   }
 
-  public insertR(data: Data<T>) {
+  insertR(data: Data<T>) {
     if (!data.key) throw new Error('La key no puede ser nulo');
 
     const fn = (node: MWayTreeNode<T> | null): MWayTreeNode<T> => {
@@ -378,7 +385,7 @@ export default class MWayTree<T> {
     return this;
   }
 
-  public insert(data: Data<T>): this {
+  insert(data: Data<T>): this {
     if (this.root === null) {
       const newNodo = new MWayTreeNode<T>(this.degree);
       newNodo.setData(0, data);
@@ -460,7 +467,7 @@ export default class MWayTree<T> {
     return node.getChild(node.countData()) !== null;
   }
 
-  public delete(keyToDelete: number) {
+  delete(keyToDelete: number) {
     const fn = (node: MWayTreeNode<T> | null, key: number): MWayTreeNode<T> | null => {
       if (node === null) {
         return null;
@@ -497,7 +504,7 @@ export default class MWayTree<T> {
     this.root = fn(this.root, keyToDelete);
   }
 
-  public toString(): string {
+  toString(): string {
     if (this.root === null) {
       return 'El árbol está vacío';
     }
@@ -527,7 +534,7 @@ export default class MWayTree<T> {
   }
 
   // cuenta la cantidad de hijos izquierdos
-  public countLeftChildren() {
+  countLeftChildren() {
     const fn = (node: MWayTreeNode<T> | null): number => {
       if (node === null) {
         return 0;
@@ -547,7 +554,7 @@ export default class MWayTree<T> {
   }
 
   // cuenta la cantidad de hijos derechos
-  public countRightChildren() {
+  countRightChildren() {
     const fn = (node: MWayTreeNode<T> | null): number => {
       if (node === null) {
         return 0;
@@ -567,7 +574,7 @@ export default class MWayTree<T> {
   }
 
   // Verifica si el nodo tiene todos sus nodos hijos
-  public isFullNodeinLevel(targetLevel: number): boolean {
+  isFullNodeinLevel(targetLevel: number): boolean {
     const fn = (node: MWayTreeNode<T> | null, currentTarget: number): boolean => {
       if (node === null) {
         return false;
@@ -586,7 +593,7 @@ export default class MWayTree<T> {
   }
 
   // Cuenta la cantidad de nodos del nivel (n)
-  public countNodesInLevel(targetLevel: number) {
+  countNodesInLevel(targetLevel: number) {
     const fn = (node: MWayTreeNode<T> | null, currentTarget: number): number => {
       if (node === null) {
         return 0;
