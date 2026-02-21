@@ -4,7 +4,13 @@ import MWayTreeNode, { DEFAULT_GRADE } from './mway.node';
 import MWayTree from './mway.tree';
 
 /**
- * Clase que representa un arbol m-way tree y proporciona métodos para manipularlo.
+ * Clase que representa un arbol B tree y proporciona métodos para manipularlo.
+ * referencia de youtube:
+ * - No soporta claves repetidas como el B+ Tree
+ * - Es balanceado
+ * https://youtu.be/Fu7kVWTcH5Y?si=p5X7EPcb_Jk2L3fC
+ * https://youtu.be/Cqtc81Iee08?si=lYoiIM3cpyDBqtbY
+ * https://youtu.be/kbbHTXvylqY?si=hKZ1JaYegIBtJ2Ej
  */
 export default class BTree<T> extends MWayTree<T> {
   private MAXIMUM_NUMBER_OF_KEYS: number;
@@ -13,14 +19,21 @@ export default class BTree<T> extends MWayTree<T> {
   private MINIMUM_NUMBER_OF_CHILDS: number;
 
   constructor(degree: number = DEFAULT_GRADE) {
+    if (degree < 3) {
+      throw new Error(
+        'El grado no puede ser menor a 3 porque pierde la propiedad de ser balanceado'
+      );
+    }
     super(degree);
     this.MAXIMUM_NUMBER_OF_KEYS = degree - 1;
-    this.MINIMUM_NUMBER_OF_KEYS = Math.floor(this.MAXIMUM_NUMBER_OF_KEYS / 2);
-    this.MINIMUM_NUMBER_OF_CHILDS = this.MINIMUM_NUMBER_OF_KEYS + 1;
+    this.MINIMUM_NUMBER_OF_CHILDS = Math.ceil(degree / 2);
+    this.MINIMUM_NUMBER_OF_KEYS = this.MINIMUM_NUMBER_OF_CHILDS - 1;
   }
+
   private buscarPosicionClave(key: number, nodo: MWayTreeNode<T> | null): number {
     if (nodo === null) return -1;
     if (nodo.isLeaf()) {
+      // aqui dice que es undefined
       // buscar en la hoja
       for (let i = 0; i < nodo.countData(); i++) {
         let dataActual = nodo.getData(i);
@@ -35,13 +48,15 @@ export default class BTree<T> extends MWayTree<T> {
       if (dataActual?.key === key) {
         return i;
       }
-      if (dataActual!.key < key) {
+      if (key < dataActual!.key) {
         return this.buscarPosicionClave(key, nodo.getChild(i));
       }
-    } // fin del for
+    }
     // verificamos si en la ultimo hijo tiene la claveABuscar o no y retornamos
     return this.buscarPosicionClave(key, nodo.getChild(nodo.countData()));
   }
+
+  // busca el nodo
   private buscarNodo(key: number, nodo: MWayTreeNode<T> | null): MWayTreeNode<T> | null {
     if (nodo === null) return null;
     if (nodo.isLeaf()) {
@@ -63,11 +78,11 @@ export default class BTree<T> extends MWayTree<T> {
     return this.buscarNodo(key, nodo.getChild(posicionParaBajar));
   }
 
-  private buscarPosicionDondeBajar(key: number, nodo: MWayTreeNode<T> | null) {
+  private buscarPosicionDondeBajar(key: number, nodo: MWayTreeNode<T>) {
     if (nodo === null) return -1;
     for (let i = 0; i < nodo?.countData(); i++) {
       const dataActual = nodo.getData(i);
-      if (dataActual?.key === key) {
+      if (dataActual && key < dataActual!.key) {
         return i;
       }
     }
@@ -80,7 +95,7 @@ export default class BTree<T> extends MWayTree<T> {
       for (let j = 0; j < nodoActual.countData() - 1; j++) {
         let dataActual = nodoActual.getData(j);
         let dataSiguiente = nodoActual.getData(j + 1);
-        if (dataActual!.key < dataSiguiente!.key) {
+        if (dataActual!.key > dataSiguiente!.key) {
           nodoActual.setData(j, dataSiguiente);
           nodoActual.setData(j + 1, dataActual);
         }
@@ -115,10 +130,10 @@ export default class BTree<T> extends MWayTree<T> {
      * era la que esta rompiendo la regla y creamos una nueva raiz
      */
     if (stack.isEmpty()) {
-      const newRoot = new MWayTreeNode<T>(this.degree + 1);
+      const newRoot = new MWayTreeNode<T>(this.degree);
       newRoot.setData(0, data);
       newRoot.setChild(0, nodoAntesDeLaClaveASubir);
-      newRoot.setChild(0, nodoDespuesDeLaClaveASubir);
+      newRoot.setChild(1, nodoDespuesDeLaClaveASubir);
       this.root = newRoot;
       return;
     }
@@ -212,8 +227,8 @@ export default class BTree<T> extends MWayTree<T> {
   }
 
   private crearNuevoNodo(posicionInicial: number, nodo: MWayTreeNode<T>, posicionFinal: number) {
-    const nodoARetornar = new MWayTreeNode<T>(this.degree + 1);
-    for (let i = 0; i < posicionFinal; i++) {
+    const nodoARetornar = new MWayTreeNode<T>(this.degree);
+    for (let i = posicionInicial; i < posicionFinal; i++) {
       const data = nodo.getData(i);
       this.insertarClaveYValorOrdenado(nodoARetornar, data!);
       const hijoDelNodoActual = nodo.getChild(i);
@@ -228,32 +243,6 @@ export default class BTree<T> extends MWayTree<T> {
     }
     return nodoARetornar;
   }
-  //  private NodoMvias<K, V> crearNuevoNodo(int posicionInicial,
-  //       NodoMvias<K, V> nodoActual, int posicionFinal) {
-  //     /* crea un nuevo nodo */
-  //     NodoMvias<K, V> nodoARetornar = new NodoMvias(this.orden + 1);
-  //     /* hacemos un for desde la posicion inicial hasta la posicion final */
-  //     for (int i = posicionInicial; i < posicionFinal; i++) {
-  //       /* sacamos las claves y valores que esten en esa posicion */
-  //       K claveDelNodoActual = nodoActual.getClave(i);
-  //       V valorDeLaClaveActual = nodoActual.getValor(i);
-  //       /* y la vamos nsertando ordenamente en el nuevo nodo */
-  //       super.insertarClaveYValorOrdenado(nodoARetornar, claveDelNodoActual,
-  //           valorDeLaClaveActual);
-  //       /*
-  //        * preguntamos si tiene hijos diferentes de vacio y los copia(inserta)
-  //        * al nuevo nodo
-  //        */
-  //       if (!nodoActual.esHijoVacio(i)) {
-  //         NodoMvias<K, V> hijoDelNodoActual = nodoActual.getHijo(i);
-  //         K claveDelHijo = hijoDelNodoActual.getClave(0);
-  //         int posicionParaInsertarHijo = super.buscarPosicionDondeBajar(nodoARetornar, claveDelHijo);
-  //         nodoARetornar.setHijo(posicionParaInsertarHijo, hijoDelNodoActual);
-  //       }
-  //     } // fin del for
-  //     /* retornamos el nuevo nodo */
-  //     return nodoARetornar;
-  //   }
 
   override insert(data: Data<T>): this {
     if (this.root === null) {
@@ -263,27 +252,31 @@ export default class BTree<T> extends MWayTree<T> {
       return this;
     }
     const stack = new Stack<MWayTreeNode<T>>();
-    let x = this.root;
+    let nodoActual = this.root;
     do {
-      let posicionDeLaClaveAInsertar = this.buscarPosicionClave(data.key, x);
+      let posicionDeLaClaveAInsertar = this.buscarPosicionClave(data.key, nodoActual);
       if (posicionDeLaClaveAInsertar !== -1) {
-        x = this.buscarNodo(data.key, x)!;
-        x.setData(posicionDeLaClaveAInsertar, data);
-        x = null!;
-      } else if (x.isLeaf()) {
-        this.insertarClaveYValorOrdenado(x, data);
-        if (x.countData() > this.MAXIMUM_NUMBER_OF_KEYS) {
-          this.dividirElNodo(x, stack);
+        nodoActual = this.buscarNodo(data.key, nodoActual)!;
+        nodoActual.setData(posicionDeLaClaveAInsertar, data);
+        nodoActual = null!;
+      } else if (nodoActual.isLeaf()) {
+        this.insertarClaveYValorOrdenado(nodoActual, data);
+        if (nodoActual.countData() > this.MAXIMUM_NUMBER_OF_KEYS) {
+          this.dividirElNodo(nodoActual, stack);
         }
-        x = null!;
+        nodoActual = null!;
       } else {
         // el nodoActual no es una hoja y ya sabemos que la clave no existe
         // buscamos la posicion por donde bajar
-        let posicionPorDondeBajar = this.buscarPosicionDondeBajar(data!.key, x);
-        stack.push(x);
-        x = x.getChild(posicionPorDondeBajar)!;
+        let posicionPorDondeBajar = this.buscarPosicionDondeBajar(data!.key, nodoActual);
+        stack.push(nodoActual);
+        nodoActual = nodoActual.getChild(posicionPorDondeBajar)!;
       }
-    } while (x !== null);
+    } while (nodoActual !== null);
+    return this;
+  }
+  override insertR(data: Data<T>): this {
+    this.insert(data);
     return this;
   }
 }
