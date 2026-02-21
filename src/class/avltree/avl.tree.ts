@@ -1,5 +1,6 @@
 import BinarySearchTree from '../binarysearchtree/binarysearch.tree';
-import BinarySearchTreeNode, { type Data } from '../binarysearchtree/binarysearch.node';
+import { type Data } from '../binarysearchtree/binarysearch.node';
+import AVLTreeNode from './avl.node';
 
 /**
  * Clase que representa un arbol m-way tree y proporciona métodos para manipularlo.
@@ -13,32 +14,32 @@ export default class AVLTree<T> extends BinarySearchTree<T> {
     super();
   }
 
-  private singleRightRotation(node: BinarySearchTreeNode<T>): BinarySearchTreeNode<T> {
+  private singleRightRotation(node: AVLTreeNode<T>): AVLTreeNode<T> {
     const left = node.getLeft()!;
     node.setLeft(left.getRight());
     left.setRight(node);
     return left;
   }
 
-  private singleLeftRotation(node: BinarySearchTreeNode<T>): BinarySearchTreeNode<T> {
+  private singleLeftRotation(node: AVLTreeNode<T>): AVLTreeNode<T> {
     const right = node.getRight()!;
     node.setRight(right.getLeft());
     right.setLeft(node);
     return right;
   }
 
-  private doubleRightRotation(node: BinarySearchTreeNode<T>): BinarySearchTreeNode<T> {
+  private doubleRightRotation(node: AVLTreeNode<T>): AVLTreeNode<T> {
     node.setLeft(this.singleLeftRotation(node.getLeft()!));
     return this.singleRightRotation(node);
   }
 
-  private doubleLeftRotation(node: BinarySearchTreeNode<T>): BinarySearchTreeNode<T> {
+  private doubleLeftRotation(node: AVLTreeNode<T>): AVLTreeNode<T> {
     node.setRight(this.singleRightRotation(node.getRight()!));
     return this.singleLeftRotation(node);
   }
 
   // balancea el arbol
-  private swing(node: BinarySearchTreeNode<T>): BinarySearchTreeNode<T> {
+  private swing(node: AVLTreeNode<T>): AVLTreeNode<T> {
     const leftCurrentHeight = super.height(node.getLeft());
     const rightCurrentHeight = super.height(node.getRight());
     const sub = leftCurrentHeight - rightCurrentHeight;
@@ -65,9 +66,9 @@ export default class AVLTree<T> extends BinarySearchTree<T> {
   override insert(data: Data<T>) {
     if (!data.key) throw new Error('La key no puede ser nulo');
 
-    const fn = (node: BinarySearchTreeNode<T> | null): BinarySearchTreeNode<T> => {
+    const fn = (node: AVLTreeNode<T> | null): AVLTreeNode<T> => {
       if (node === null) {
-        return new BinarySearchTreeNode<T>(data);
+        return new AVLTreeNode<T>(data);
       } else if (data.key < node.getData().key) {
         node.setLeft(fn(node.getLeft()));
         return this.swing(node);
@@ -86,12 +87,12 @@ export default class AVLTree<T> extends BinarySearchTree<T> {
   override insertR(data: Data<T>): this {
     if (!data.key) throw new Error('La key no puede ser nulo');
     if (this.root === null) {
-      this.root = new BinarySearchTreeNode<T>(data);
+      this.root = new AVLTreeNode<T>(data);
       return this;
     }
-    const fn = (node: BinarySearchTreeNode<T> | null) => {
+    const fn = (node: AVLTreeNode<T> | null) => {
       if (node === null) {
-        return new BinarySearchTreeNode<T>(data);
+        return new AVLTreeNode<T>(data);
       } else {
         if (data.key < node.getData().key) {
           node.setLeft(fn(node.getLeft()));
@@ -109,10 +110,7 @@ export default class AVLTree<T> extends BinarySearchTree<T> {
   }
 
   override delete(keyToDelete: number): this {
-    const fn = (
-      node: BinarySearchTreeNode<T> | null,
-      key: number
-    ): BinarySearchTreeNode<T> | null => {
+    const fn = (node: AVLTreeNode<T> | null, key: number): AVLTreeNode<T> | null => {
       if (node === null) {
         return null;
       } else if (key < node.getData().key) {

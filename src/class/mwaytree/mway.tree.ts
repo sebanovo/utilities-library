@@ -529,7 +529,6 @@ export default class MWayTree<T> {
       if (node === null) {
         return `${prefix + (isLast ? '└── ' : '├── ')}null\n`;
       }
-      console.log(node);
       let result = `${prefix + (isLast ? '└── ' : '├── ')}[${node
         .getDataArray()
         .map((d) => (d ? d.key : ' '))

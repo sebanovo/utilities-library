@@ -569,10 +569,10 @@ export default class BinarySearchTree<T> {
     if (this.root === null) return 'El árbol está vacio';
     const fn = (node: BinarySearchTreeNode<T> | null, prefix: string, isLeft: boolean): string => {
       if (node === null) {
-        return `${prefix + (isLeft ? '|--(L) ' : '└──(R) ')}null\n`;
+        return `${prefix + (isLeft ? '|-- ' : '└─- ')}null\n`;
       }
 
-      let result = `${prefix + (isLeft ? '|--(L) ' : '└─-(R) ')}${node.getData().key}\n`;
+      let result = `${prefix + (isLeft ? '|-- ' : '└─- ')}${node.getData().key}\n`;
 
       const newPrefix = prefix + (isLeft ? '|  ' : '   ');
 
@@ -581,7 +581,7 @@ export default class BinarySearchTree<T> {
       return result;
     };
 
-    return `└──(#) ${this.root.getData().key}\n${fn(
+    return `└── ${this.root.getData().key}\n${fn(
       this.root.getLeft(),
       '   ',
       true
