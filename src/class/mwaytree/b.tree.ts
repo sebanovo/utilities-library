@@ -148,7 +148,7 @@ export default class BTree<T> extends MWayTree<T> {
     // proceso 2
     /* hacemos lo mismo pero con el otro nodo nodoDespuesDeLaClaveASubir */
     const dataDespuesDeLaClaveSubir = nodoDespuesDeLaClaveASubir.getData(0);
-    const claveDelNodoDespuesDeLaClaveSubir = dataAntesDeLaClaveSubir!.key;
+    const claveDelNodoDespuesDeLaClaveSubir = dataDespuesDeLaClaveSubir!.key;
     /*
      * una vez que sacamos la clave del nodoAntesDeLaClaveASubir
      * vemos por donde bajar del nodoAncestro
