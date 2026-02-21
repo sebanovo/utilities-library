@@ -36,7 +36,7 @@ export default class MWayTree<T> {
       let updateNode = false;
       for (let i = 0; !updateNode && i < x.countData(); i++) {
         if (key === x.getData(i)?.key) {
-          return x.getData(i);
+          return x;
         }
         if (key < x.getData(i)!.key) {
           updateNode = true;
@@ -58,7 +58,7 @@ export default class MWayTree<T> {
         let updateNode = false;
         for (let i = 0; !updateNode && i < node.countData(); i++) {
           if (key === node.getData(i)?.key) {
-            return node.getData(i);
+            return node;
           } else if (key < node.getData(i)!.key) {
             updateNode = true;
             return fn(node.getChild(i), key);
@@ -213,11 +213,27 @@ export default class MWayTree<T> {
   }
 
   findKey(keyToSearch: number) {
-    return this.getNode(this.root, keyToSearch)?.value;
+    const node = this.getNode(this.root, keyToSearch);
+    if (node === null) return null;
+    for (let i = 0; i < node!.countData(); i++) {
+      const data = node!.getData(i);
+      if (data?.key === keyToSearch) {
+        return data.value;
+      }
+    }
+    return node.getData(node.countData())?.value;
   }
 
   findKeyR(keyToSearch: number) {
-    return this.getNodeR(this.root, keyToSearch)?.value;
+    const node = this.getNodeR(this.root, keyToSearch);
+    if (node === null) return null;
+    for (let i = 0; i < node!.countData(); i++) {
+      const data = node!.getData(i);
+      if (data?.key === keyToSearch) {
+        return data.value;
+      }
+    }
+    return node.getData(node.countData())?.value;
   }
 
   levelOrder() {

@@ -56,27 +56,27 @@ export default class BTree<T> extends MWayTree<T> {
     return this.buscarPosicionClave(key, nodo.getChild(nodo.countData()));
   }
 
-  // busca el nodo
-  private buscarNodo(key: number, nodo: MWayTreeNode<T> | null): MWayTreeNode<T> | null {
-    if (nodo === null) return null;
-    if (nodo.isLeaf()) {
-      for (let i = 0; i < nodo.countData(); i++) {
-        const dataActual = nodo.getData(i);
-        if (dataActual?.key === key) {
-          return nodo;
-        }
-      }
-      return null;
-    }
-    for (let i = 0; i < nodo.countData(); i++) {
-      const dataActual = nodo.getData(i);
-      if (dataActual?.key === key) {
-        return nodo;
-      }
-    }
-    let posicionParaBajar = this.buscarPosicionDondeBajar(key, nodo);
-    return this.buscarNodo(key, nodo.getChild(posicionParaBajar));
-  }
+  // // busca el nodo
+  // private buscarNodo(key: number, nodo: MWayTreeNode<T> | null): MWayTreeNode<T> | null {
+  //   if (nodo === null) return null;
+  //   if (nodo.isLeaf()) {
+  //     for (let i = 0; i < nodo.countData(); i++) {
+  //       const dataActual = nodo.getData(i);
+  //       if (dataActual?.key === key) {
+  //         return nodo;
+  //       }
+  //     }
+  //     return null;
+  //   }
+  //   for (let i = 0; i < nodo.countData(); i++) {
+  //     const dataActual = nodo.getData(i);
+  //     if (dataActual?.key === key) {
+  //       return nodo;
+  //     }
+  //   }
+  //   let posicionParaBajar = this.buscarPosicionDondeBajar(key, nodo);
+  //   return this.buscarNodo(key, nodo.getChild(posicionParaBajar));
+  // }
 
   private buscarPosicionDondeBajar(key: number, nodo: MWayTreeNode<T>) {
     if (nodo === null) return -1;
@@ -257,7 +257,7 @@ export default class BTree<T> extends MWayTree<T> {
       let posicionDeLaClaveAInsertar = this.buscarPosicionClave(data.key, nodoActual);
       // si ya existe remplaza el valor solamente
       if (posicionDeLaClaveAInsertar !== -1) {
-        nodoActual = this.buscarNodo(data.key, nodoActual)!;
+        nodoActual = super.getNodeR(nodoActual, data.key)!;
         nodoActual.setData(posicionDeLaClaveAInsertar, data);
         nodoActual = null!;
       } else if (nodoActual.isLeaf()) {
