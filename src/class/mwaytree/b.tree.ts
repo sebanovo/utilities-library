@@ -1,5 +1,4 @@
 import { Data } from '../binarysearchtree/binarysearch.node';
-import BinarySearchTree from '../binarysearchtree/binarysearch.tree';
 import Stack from '../stack';
 import MWayTreeNode, { DEFAULT_GRADE } from './mway.node';
 import MWayTree from './mway.tree';
