@@ -3,6 +3,9 @@ import BinarySearchTreeNode, { type Data } from '../binarysearchtree/binarysearc
 
 /**
  * Clase que representa un arbol m-way tree y proporciona métodos para manipularlo.
+ * https://youtu.be/6sm25BHVirg?si=xIoM3jo-GoGL28l9
+ * https://youtu.be/R0h1InmDxi8?si=hozGjcpERGWCIrGn
+ * https://youtu.be/yumXtZIWzhY?si=umsjH7pCjQZREwxf
  */
 export default class AVLTree<T> extends BinarySearchTree<T> {
   private readonly MAXIMUN_DIFFERENCE = 1;

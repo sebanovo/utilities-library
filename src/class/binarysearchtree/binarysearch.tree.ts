@@ -4,6 +4,15 @@ import BinarySearchTreeNode, { type Data } from './binarysearch.node';
 
 /**
  * Clase que representa un binary search tree y proporciona métodos para manipularlo.
+ * Insertar:
+ * https://youtu.be/MMjU88uZDlo?si=JlNPihyNOQib0ARm
+ * Eliminar:
+ * https://youtu.be/Nx2kDiqKrKE?si=7JSPbB-mzfD3rv2k
+ * Arboles de expresion algebraica:
+ * https://youtu.be/EijbqAdgxeA?si=1P0A4octzOCxSoir
+ * https://youtu.be/EdxTaeX2W34?si=sCDvHlVA4GymjoXg
+ * Arboles N-Arios
+ * https://youtu.be/WW_4woIwkHA?si=INzttYMB_gABX6jH
  */
 export default class BinarySearchTree<T> {
   protected root: BinarySearchTreeNode<T> | null;

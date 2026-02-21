@@ -537,11 +537,12 @@ export default class MWayTree<T> {
 
       const newPrefix = prefix + (isLast ? '    ' : '│   ');
 
-      for (let i = 0; i < node.countData(); i++) {
-        result += fn(node.getChild(i), newPrefix, i === node.countData());
+      const n = node.getDataArray().length;
+      for (let i = 0; i < n; i++) {
+        result += fn(node.getChild(i), newPrefix, i === n);
       }
 
-      result += fn(node.getChild(node.countData()), newPrefix, true);
+      result += fn(node.getChild(n), newPrefix, true);
 
       return result;
     };
