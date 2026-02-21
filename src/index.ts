@@ -14,7 +14,7 @@ export { default as NodoListaCircular } from './class/ListaCircular';
 export { default as NodoListaDoblementeEnlazada } from './class/ListaDoblementeEnlazada';
 
 // tree nodes
-export { default as BinaryTreeNode } from './class/binarysearchtree/binarysearch.node';
+export { default as BinarySearchTreeNode } from './class/binarysearchtree/binarysearch.node';
 export { default as MWayTreeNode } from './class/mwaytree/mway.node';
 
 // trees

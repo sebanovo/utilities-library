@@ -6,9 +6,9 @@ export interface Data<T> {
 /**
  * Clase que representa el nodo de un arbol binario.
  */
-export default class BinaryTreeNode<T> {
-  private right: BinaryTreeNode<T> | null = null;
-  private left: BinaryTreeNode<T> | null = null;
+export default class BinarySearchTreeNode<T> {
+  private right: BinarySearchTreeNode<T> | null = null;
+  private left: BinarySearchTreeNode<T> | null = null;
   private data: Data<T>;
 
   constructor({ key, value }: Data<T>) {
@@ -19,7 +19,7 @@ export default class BinaryTreeNode<T> {
     return this.right;
   }
 
-  setRight(node: BinaryTreeNode<T> | null) {
+  setRight(node: BinarySearchTreeNode<T> | null) {
     this.right = node;
   }
 
@@ -27,7 +27,7 @@ export default class BinaryTreeNode<T> {
     return this.left;
   }
 
-  setLeft(node: BinaryTreeNode<T> | null) {
+  setLeft(node: BinarySearchTreeNode<T> | null) {
     this.left = node;
   }
 

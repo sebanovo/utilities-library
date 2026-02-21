@@ -1,19 +1,19 @@
 import type { Data } from '../binarysearchtree/binarysearch.node';
-
+// EL GRADO ES EL NUMERO MAXIMO DE HIJOS QUE TIENE CADA NODO
 export const DEFAULT_GRADE = 2;
 
 /**
  * Clase que representa el nodo de un arbol m-way.
  */
-export default class MWayNode<T> {
+export default class MWayTreeNode<T> {
   private listData: Array<Data<T> | null>;
-  private listChilds: Array<MWayNode<T> | null>;
+  private listChilds: Array<MWayTreeNode<T> | null>;
   private readonly degree: number;
 
   constructor(degree: number = DEFAULT_GRADE) {
     this.degree = degree;
     if (this.degree < 2) {
-      throw new Error('El grado debe ser mayor o igual importgraa 2');
+      throw new Error('El grado debe ser mayor o igual 2');
     }
 
     this.listData = new Array(this.degree - 1).fill(null);
@@ -36,7 +36,7 @@ export default class MWayNode<T> {
     return this.listChilds[position];
   }
 
-  setChild(positon: number, newNodo: MWayNode<T> | null) {
+  setChild(positon: number, newNodo: MWayTreeNode<T> | null) {
     this.listChilds[positon] = newNodo;
   }
 
@@ -107,7 +107,7 @@ export default class MWayNode<T> {
     return this.listChilds;
   }
 
-  setChildrenArray(arrayChildren: Array<MWayNode<T> | null>) {
+  setChildrenArray(arrayChildren: Array<MWayTreeNode<T> | null>) {
     this.listChilds = arrayChildren;
   }
 }
