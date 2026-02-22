@@ -93,10 +93,6 @@ export default class MWayTreeNode<T> {
     return this.listChilds[position] === null;
   }
 
-  findKeyIndex(key: T): number {
-    return this.listData.findIndex((data) => data !== null && data.value === key);
-  }
-
   getDataArray() {
     return this.listData;
   }
