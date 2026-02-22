@@ -29,6 +29,7 @@ export default class BinarySearchTreeNode<T> {
 
   setLeft(node: BinarySearchTreeNode<T> | null) {
     this.left = node;
+    return this;
   }
 
   getData() {
@@ -37,6 +38,7 @@ export default class BinarySearchTreeNode<T> {
 
   setData(newData: Data<T>) {
     this.data = newData;
+    return this;
   }
 
   isLeaf(): boolean {

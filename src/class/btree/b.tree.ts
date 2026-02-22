@@ -46,70 +46,37 @@ export default class BTree<T> extends MWayTree<T> {
     return nodo.countData();
   }
 
-  /**
-   * Insertar un dato en el nodo y posteriormenete lo ordena
-   * @param nodoActual Nodo a insertar
-   * @param data  dato a insertar
-   */
-  private insertarDatoOrdenado(nodoActual: BTreeNode<T>, data: Data<T>) {
-    if (nodoActual.countData() >= this.degree) {
-      throw new Error('No se puede insertar dato porque el nodo tiene la memoria llena');
+  private splitNode(node: BTreeNode<T>, stack: Stack<BTreeNode<T>>): void {
+    // paso 1: copiar el nodo en un nodo izquierdo
+    const nodeLeft = this.copiarNodo(node, 0, this.MINIMUM_NUMBER_OF_KEYS);
+    let leftChild = node.getChild(this.MINIMUM_NUMBER_OF_KEYS);
+    if (leftChild !== null) {
+      nodeLeft.setChild(nodeLeft.countData(), leftChild);
     }
-    nodoActual.setData(nodoActual.countData(), data);
-    for (let i = 0; i < nodoActual.countData() - 1; i++) {
-      for (let j = 0; j < nodoActual.countData() - 1; j++) {
-        let dataActual = nodoActual.getData(j);
-        let dataSiguiente = nodoActual.getData(j + 1);
-        if (dataActual!.key > dataSiguiente!.key) {
-          nodoActual.setData(j, dataSiguiente);
-          nodoActual.setData(j + 1, dataActual);
-        }
-      }
-    }
-  }
-
-  private dividirElNodo(nodo: BTreeNode<T>, stack: Stack<BTreeNode<T>>): void {
-    const data = nodo.getData(this.MINIMUM_NUMBER_OF_KEYS);
-    // proceso 1
-    const nodoAntesDeLaClaveASubir = this.crearNuevoNodo(0, nodo, this.MINIMUM_NUMBER_OF_KEYS);
-    let hijoDelNodoActual = nodo.getChild(this.MINIMUM_NUMBER_OF_KEYS);
-    if (hijoDelNodoActual !== null) {
-      nodoAntesDeLaClaveASubir.setChild(nodoAntesDeLaClaveASubir.countData(), hijoDelNodoActual);
-    }
-    // proceso 2
-    const nodoDespuesDeLaClaveASubir = this.crearNuevoNodo(
-      this.MINIMUM_NUMBER_OF_KEYS + 1,
-      nodo,
-      nodo.countData()
-    );
-    hijoDelNodoActual = nodo.getChild(nodo.countData());
-    if (hijoDelNodoActual !== null) {
-      nodoDespuesDeLaClaveASubir.setChild(
-        nodoDespuesDeLaClaveASubir.countData(),
-        hijoDelNodoActual
-      );
+    // paso 2: copiar el nodo en un nodo derecho
+    const nodeRight = this.copiarNodo(node, this.MINIMUM_NUMBER_OF_KEYS + 1, node.countData());
+    const rightChild = node.getChild(node.countData());
+    if (rightChild !== null) {
+      nodeRight.setChild(nodeRight.countData(), rightChild);
     }
 
-    /*
-     * revisamos la pila de ancestros si estuviera vacia asumimos que la raiz
-     * era la que esta rompiendo la regla y creamos una nueva raiz
-     */
+    const data = node.getData(this.MINIMUM_NUMBER_OF_KEYS);
+    // caso especial: el nodo era la raiz, osea pila vacia
     if (stack.isEmpty()) {
       const newRoot = new BTreeNode<T>(this.degree + 1);
       newRoot.setData(0, data);
-      newRoot.setChild(0, nodoAntesDeLaClaveASubir);
-      newRoot.setChild(1, nodoDespuesDeLaClaveASubir);
+      newRoot.setChild(0, nodeLeft);
+      newRoot.setChild(1, nodeRight);
       this.root = newRoot;
       return;
     }
-    /*
-     * sacamos el nodo de la pila de ancestros y ponemos los nuevos nodos
-     * nodoAntesDeLaClave y nodoDespuesDeLaClave
-     */
-    const nodoAncestro = stack.pop();
-    this.insertarDatoOrdenado(nodoAncestro!, data!);
+
+    // mover dato al nodo padre
+    const parentNode = stack.pop()!;
+    parentNode.setData(parentNode.countData(), data).sort(); // setea al final y ordena
+
     // proceso1
-    const dataAntesDeLaClaveSubir = nodoAntesDeLaClaveASubir.getData(0);
+    const dataAntesDeLaClaveSubir = nodeLeft.getData(0);
     const claveDelNodoAntesDeLaClaveSubir = dataAntesDeLaClaveSubir!.key;
     /*
      * una vez que sacamos la clave del nodoAntesDeLaClaveASubir
@@ -117,17 +84,17 @@ export default class BTree<T> extends MWayTree<T> {
      */
     let posicionParaInsertarElNodo = this.buscarPosicionDondeBajar(
       claveDelNodoAntesDeLaClaveSubir,
-      nodoAncestro!
+      parentNode!
     );
     /*
      * actualizamos el hijo que era donde habia roto la regla
      * del nro de claves
      */
-    nodoAncestro?.setChild(posicionParaInsertarElNodo, nodoAntesDeLaClaveASubir);
+    parentNode?.setChild(posicionParaInsertarElNodo, nodeLeft);
 
     // proceso 2
     /* hacemos lo mismo pero con el otro nodo nodoDespuesDeLaClaveASubir */
-    const dataDespuesDeLaClaveSubir = nodoDespuesDeLaClaveASubir.getData(0);
+    const dataDespuesDeLaClaveSubir = nodeRight.getData(0);
     const claveDelNodoDespuesDeLaClaveSubir = dataDespuesDeLaClaveSubir!.key;
     /*
      * una vez que sacamos la clave del nodoAntesDeLaClaveASubir
@@ -135,29 +102,25 @@ export default class BTree<T> extends MWayTree<T> {
      */
     posicionParaInsertarElNodo = this.buscarPosicionDondeBajar(
       claveDelNodoDespuesDeLaClaveSubir,
-      nodoAncestro!
+      parentNode!
     );
     /* preguntamos si existe un nodo en esa posicion */
-    const hijo = nodoAncestro?.getChild(posicionParaInsertarElNodo);
+    const hijo = parentNode?.getChild(posicionParaInsertarElNodo);
     if (hijo !== null) {
       /*
        * llamamos aun metodo privado que recorra todos
        * los hijos desde una posicion y inserte el nodoDespuesDeLaClaveASubir
        */
-      this.insertarHijoOrdenado(
-        nodoAncestro!,
-        posicionParaInsertarElNodo,
-        nodoDespuesDeLaClaveASubir
-      );
+      this.insertarHijoOrdenado(parentNode!, posicionParaInsertarElNodo, nodeRight);
     } else {
-      nodoAncestro?.setChild(posicionParaInsertarElNodo, nodoDespuesDeLaClaveASubir);
+      parentNode?.setChild(posicionParaInsertarElNodo, nodeRight);
     }
     /*
      * verificamos si el nodoAncestro esta rompiendo la regla de nro maximo de
      * claves
      */
-    if (nodoAncestro!.countData() > this.MAXIMUM_NUMBER_OF_KEYS) {
-      this.dividirElNodo(nodoAncestro!, stack);
+    if (parentNode!.countData() > this.MAXIMUM_NUMBER_OF_KEYS) {
+      this.splitNode(parentNode!, stack);
     }
   }
 
@@ -191,22 +154,27 @@ export default class BTree<T> extends MWayTree<T> {
     nodoActual.setChild(posicionAInsertar, nodoAInsertar);
   }
 
-  private crearNuevoNodo(posicionInicial: number, nodo: BTreeNode<T>, posicionFinal: number) {
-    const nodoARetornar = new BTreeNode<T>(this.degree + 1);
+  /**
+   * Copia un nodo en otro nodo
+   * @param node  nodo a ser copiado en otro nodo
+   * @param posicionInicial posicion Inicial del nodo a copiar
+   * @param posicionFinal  posicion Final del nodo a copiar
+   * @returns {BTreeNode<T>} nodo nuevo a retornar
+   */
+  private copiarNodo(
+    node: BTreeNode<T>,
+    posicionInicial: number,
+    posicionFinal: number
+  ): BTreeNode<T> {
+    const nodeCopied = new BTreeNode<T>(this.degree + 1);
     for (let i = posicionInicial; i < posicionFinal; i++) {
-      const data = nodo.getData(i);
-      this.insertarDatoOrdenado(nodoARetornar, data!);
-      const hijoDelNodoActual = nodo.getChild(i);
-      if (hijoDelNodoActual !== null) {
-        const dataHijo = hijoDelNodoActual.getData(0);
-        const posicionParaInsertarHijo = this.buscarPosicionDondeBajar(
-          dataHijo!.key,
-          nodoARetornar
-        );
-        nodoARetornar.setChild(posicionParaInsertarHijo, hijoDelNodoActual);
+      nodeCopied.setData(nodeCopied.countData(), node.getData(i));
+      const children = node.getChild(i);
+      if (children !== null) {
+        nodeCopied.setChild(nodeCopied.countChildren(), children);
       }
     }
-    return nodoARetornar;
+    return nodeCopied;
   }
 
   override insert(data: Data<T>): this {
@@ -233,9 +201,9 @@ export default class BTree<T> extends MWayTree<T> {
 
       // ✔ Caso 2: hoja (insertar)
       if (nodoActual.isLeaf()) {
-        this.insertarDatoOrdenado(nodoActual, data);
+        nodoActual.setData(nodoActual.countData(), data).sort();
         if (nodoActual.countData() > this.MAXIMUM_NUMBER_OF_KEYS) {
-          this.dividirElNodo(nodoActual, stack);
+          this.splitNode(nodoActual, stack);
         }
         break;
       }

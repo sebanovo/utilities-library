@@ -30,6 +30,7 @@ export default class MWayTreeNode<T> {
 
   setData(position: number, newData: Data<T> | null) {
     this.listData[position] = newData;
+    return this;
   }
 
   getChild(position: number) {
@@ -38,6 +39,7 @@ export default class MWayTreeNode<T> {
 
   setChild(positon: number, newNodo: MWayTreeNode<T> | null) {
     this.listChilds[positon] = newNodo;
+    return this;
   }
 
   isLeaf() {
@@ -54,6 +56,17 @@ export default class MWayTreeNode<T> {
     return this.countChildren() === this.listChilds.length;
   }
 
+  // Cuenta la cantidad de datos
+  countData() {
+    let c = 0;
+    for (let i = 0; i < this.listData.length; i++) {
+      if (this.listData[i] !== null) {
+        c++;
+      }
+    }
+    return c;
+  }
+
   // Cuenta la cantidad de hijos
   countChildren() {
     let c = 0;
@@ -68,17 +81,6 @@ export default class MWayTreeNode<T> {
   // cuenta los hijos nulos
   countEmptyData() {
     return this.listData.length - this.countData();
-  }
-
-  // Cuenta la cantidad de datos
-  countData() {
-    let c = 0;
-    for (let i = 0; i < this.listData.length; i++) {
-      if (this.listData[i] !== null) {
-        c++;
-      }
-    }
-    return c;
   }
 
   // cuenta los hijos nulos
@@ -99,7 +101,7 @@ export default class MWayTreeNode<T> {
     return this.listData;
   }
 
-  setDataArray(arrayData: typeof this.listData) {
+  setDataArray(arrayData: (Data<T> | null)[]) {
     this.listData = arrayData;
   }
 
@@ -109,5 +111,22 @@ export default class MWayTreeNode<T> {
 
   setChildrenArray(arrayChildren: Array<MWayTreeNode<T> | null>) {
     this.listChilds = arrayChildren;
+  }
+
+  /**
+   * Ordena el nodo de forma ascendente o descendente
+   */
+  sort(direccion: 'asc' | 'desc' = 'asc') {
+    for (let i = 0; i < this.countData() - 1; i++) {
+      for (let j = 0; j < this.countData() - 1; j++) {
+        let data = this.getData(j);
+        let dataNext = this.getData(j + 1);
+        if (direccion === 'asc' ? data!.key > dataNext!.key : data!.key < dataNext!.key) {
+          this.setData(j, dataNext);
+          this.setData(j + 1, data);
+        }
+      }
+    }
+    return this;
   }
 }
