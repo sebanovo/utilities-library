@@ -33,16 +33,6 @@ export default class BTree<T> extends MWayTree<T> {
     this.MINIMUM_NUMBER_OF_KEYS = this.MINIMUM_NUMBER_OF_CHILDS - 1;
   }
 
-  private calculateInsertionPosition(key: number, nodo: BTreeNode<T>) {
-    if (nodo === null) return -1;
-    for (let i = 0; i < nodo.countData(); i++) {
-      const dataActual = nodo.getData(i);
-      if (key < dataActual!.key) {
-        return i;
-      }
-    }
-    return nodo.countData();
-  }
   /**
    * Copia un rango de datos e hijos de un nodo.
    */
@@ -76,8 +66,8 @@ export default class BTree<T> extends MWayTree<T> {
     return [leftNode, rightNode];
   }
 
-  private separarNodo(node: BTreeNode<T>, stack: Stack<BTreeNode<T>>, key: number): void {
-    // paso 1: dividir el nodo en nodo izquierdo y derecho
+  private separarNodo(node: BTreeNode<T>, stack: Stack<BTreeNode<T>>): void {
+    // dividir el nodo en nodo izquierdo y derecho
     const [leftNode, rightNode] = this.splitNode(node);
 
     const middleData = node.getData(this.MINIMUM_NUMBER_OF_KEYS);
@@ -90,18 +80,10 @@ export default class BTree<T> extends MWayTree<T> {
       this.root = newRoot;
       return;
     } else {
-      // Subir la clave central al nodo padre
+      // clonar los datos e hijos al nodo temporal
       const originalParent = stack.pop()!;
       const temporalParentNode = new BTreeNode<T>(this.degree + 1);
-      // copiar nodo actual a temporalNode
-      for (let i = 0; i < originalParent.countData(); i++) {
-        temporalParentNode.setData(i, originalParent.getData(i));
-        temporalParentNode.setChild(i, originalParent.getChild(i));
-      }
-      temporalParentNode.setChild(
-        temporalParentNode.countData(),
-        originalParent.getChild(originalParent.countData())
-      );
+      this.clone(originalParent, temporalParentNode);
 
       // Desplazar elementos hacia la derecha mientras sean mayores al nuevo dato
       let pos = temporalParentNode.countData();
@@ -114,43 +96,38 @@ export default class BTree<T> extends MWayTree<T> {
 
       // Insertar hijo izquierdo
       const leftFirstKey = leftNode.getData(0)!.key;
-      let leftInsertPos = this.calculateInsertionPosition(leftFirstKey, temporalParentNode);
+      let leftInsertPos = temporalParentNode.findGreaterKeyIndex(leftFirstKey);
       temporalParentNode.setChild(leftInsertPos, leftNode);
 
       // Insertar hijo derecho
       const rightFirstKey = rightNode.getData(0)!.key;
-      let rightInsertPos = this.calculateInsertionPosition(rightFirstKey, temporalParentNode);
+      let rightInsertPos = temporalParentNode.findGreaterKeyIndex(rightFirstKey);
 
-      const existingChild = temporalParentNode.getChild(rightInsertPos);
-      if (existingChild !== null) {
-        // inserta el hijo derecho desplazando los demás a la derecha
-        for (let i = temporalParentNode.countData(); i >= rightInsertPos; i--) {
-          const children = temporalParentNode.getChild(i);
-          if (children !== null) {
-            temporalParentNode.setChild(i + 1, children);
-          }
-        }
-        temporalParentNode.setChild(rightInsertPos, rightNode);
-      } else {
-        temporalParentNode.setChild(rightInsertPos, rightNode);
+      // Desplazar hijos a la derecha y luego insertar
+      for (let i = temporalParentNode.countData() - 1; i >= rightInsertPos; i--) {
+        const children = temporalParentNode.getChild(i);
+        temporalParentNode.setChild(i + 1, children);
       }
+      temporalParentNode.setChild(rightInsertPos, rightNode);
 
       if (temporalParentNode.countData() > this.MAXIMUM_NUMBER_OF_KEYS) {
-        this.separarNodo(temporalParentNode, stack, key);
+        this.separarNodo(temporalParentNode, stack);
       } else {
         originalParent.clear();
-        for (let i = 0; i < temporalParentNode.countData(); i++) {
-          originalParent.setData(i, temporalParentNode.getData(i));
-        }
-
-        // Si NO es hoja -> copiar hijos
-        if (!temporalParentNode.isLeaf()) {
-          for (let i = 0; i <= temporalParentNode.countData(); i++) {
-            originalParent.setChild(i, temporalParentNode.getChild(i));
-          }
-        }
+        this.clone(temporalParentNode, originalParent);
       }
     }
+  }
+
+  /**
+   * Clona un nodo con grado
+   */
+  private clone(originalNode: BTreeNode<T>, cloneNode: BTreeNode<T>): void {
+    for (let i = 0; i < originalNode.countData(); i++) {
+      cloneNode.setData(i, originalNode.getData(i));
+      cloneNode.setChild(i, originalNode.getChild(i));
+    }
+    cloneNode.setChild(cloneNode.countData(), originalNode.getChild(originalNode.countData()));
   }
 
   override insert(data: Data<T>): this {
@@ -161,9 +138,9 @@ export default class BTree<T> extends MWayTree<T> {
       return this;
     }
     const stack = new Stack<BTreeNode<T>>();
-    let nodoActual = this.root;
-    while (nodoActual !== null) {
-      const node = this.getNode(nodoActual, data.key);
+    let x = this.root;
+    while (x !== null) {
+      const node = this.getNode(x, data.key);
       // Caso 1: clave ya existe (actualizar)
       if (node !== null) {
         for (let i = 0; i < node.countData(); i++) {
@@ -176,49 +153,29 @@ export default class BTree<T> extends MWayTree<T> {
       }
 
       // Caso 2: hoja (insertar)
-      if (nodoActual.isLeaf()) {
-        // copiar nodo actual a temporalNode
+      if (x.isLeaf()) {
         const temporalNode = new BTreeNode<T>(this.degree + 1);
-        for (let i = 0; i < nodoActual.countData(); i++) {
-          temporalNode.setData(i, nodoActual.getData(i));
-          temporalNode.setChild(i, nodoActual.getChild(i));
-        }
-        temporalNode.setChild(
-          temporalNode.countData(),
-          nodoActual.getChild(nodoActual.countData())
-        );
-
+        this.clone(x, temporalNode);
         // Desplazar elementos hacia la derecha mientras sean mayores al nuevo dato
         let pos = temporalNode.countData();
         while (pos > 0 && temporalNode.getData(pos - 1)!.key > data.key) {
           temporalNode.setData(pos, temporalNode.getData(pos - 1));
           pos--;
         }
-
         temporalNode.setData(pos, data);
         if (temporalNode.countData() > this.MAXIMUM_NUMBER_OF_KEYS) {
-          this.separarNodo(temporalNode, stack, data.key);
+          this.separarNodo(temporalNode, stack);
         } else {
-          // limpiamos nodoActual
-          nodoActual.clear();
-          for (let i = 0; i < temporalNode.countData(); i++) {
-            nodoActual.setData(i, temporalNode.getData(i));
-          }
-
-          // Si NO es hoja -> copiar hijos
-          if (!temporalNode.isLeaf()) {
-            for (let i = 0; i <= temporalNode.countData(); i++) {
-              nodoActual.setChild(i, temporalNode.getChild(i));
-            }
-          }
+          x.clear();
+          this.clone(temporalNode, x);
         }
         break;
       }
 
       // Caso 3: seguir buscando
-      let posicionDondeBajar = this.calculateInsertionPosition(data!.key, nodoActual);
-      stack.push(nodoActual);
-      nodoActual = nodoActual.getChild(posicionDondeBajar)!;
+      let posicionDondeBajar = x.findGreaterKeyIndex(data!.key);
+      stack.push(x);
+      x = x.getChild(posicionDondeBajar)!;
     }
     return this;
   }
@@ -249,11 +206,9 @@ export default class BTree<T> extends MWayTree<T> {
                 node.setData(i, data);
               } else {
                 // caso dividir el nodo
+                // clonar el nodo dividir el nodo
                 const temporalNode = new BTreeNode<T>(this.degree + 1);
-                // copiar nodo actual a temporalNode
-                for (let i = 0; i < node.countData(); i++) {
-                  temporalNode.setData(i, node.getData(i));
-                }
+                this.clone(node, temporalNode);
 
                 // Desplazar elementos hacia la derecha mientras sean mayores al nuevo dato
                 let pos = temporalNode.countData();
@@ -264,11 +219,15 @@ export default class BTree<T> extends MWayTree<T> {
 
                 // Insertar el nuevo dato en la posición encontrada
                 temporalNode.setData(pos, data);
-
-                // splitear el nodo
-                const [leftNode, rightNode] = this.splitNode(temporalNode);
+                if (temporalNode.countData() > this.MAXIMUM_NUMBER_OF_KEYS) {
+                  this.separarNodo(temporalNode, stack);
+                } else {
+                  node.clear();
+                  this.clone(temporalNode, node);
+                }
               }
             } else {
+              stack.push(node);
               node.setChild(i, fn(node.getChild(i)));
               return node;
             }
@@ -280,8 +239,28 @@ export default class BTree<T> extends MWayTree<T> {
             node.setData(node.countData(), data);
           } else {
             // caso dividir el nodo
+            // clonar el nodo dividir el nodo
+            const temporalNode = new BTreeNode<T>(this.degree + 1);
+            this.clone(node, temporalNode);
+
+            // Desplazar elementos hacia la derecha mientras sean mayores al nuevo dato
+            let pos = temporalNode.countData();
+            while (pos > 0 && temporalNode.getData(pos - 1)!.key > data.key) {
+              temporalNode.setData(pos, temporalNode.getData(pos - 1));
+              pos--;
+            }
+
+            // Insertar el nuevo dato en la posición encontrada
+            temporalNode.setData(pos, data);
+            if (temporalNode.countData() > this.MAXIMUM_NUMBER_OF_KEYS) {
+              this.separarNodo(temporalNode, stack);
+            } else {
+              node.clear();
+              this.clone(temporalNode, node);
+            }
           }
         } else {
+          stack.push(node);
           node.setChild(node.countData(), fn(node.getChild(node.countData())));
         }
       }

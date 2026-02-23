@@ -2,7 +2,7 @@
  * Clase Cola
  */
 export default class Queue<T> {
-  private readonly list: T[] = [];
+  private list: T[] = [];
 
   isEmpty() {
     return this.list.length === 0;
@@ -26,5 +26,13 @@ export default class Queue<T> {
 
   size() {
     return this.list.length;
+  }
+
+  getArray() {
+    return [...this.list];
+  }
+
+  clear() {
+    this.list = [];
   }
 }

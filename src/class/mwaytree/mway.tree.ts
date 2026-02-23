@@ -21,6 +21,10 @@ export default class MWayTree<T> {
     this.root = null;
   }
 
+  getDegree() {
+    return this.degree;
+  }
+
   getRoot() {
     return this.root;
   }

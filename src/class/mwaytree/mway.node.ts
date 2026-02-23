@@ -113,6 +113,16 @@ export default class MWayTreeNode<T> {
     this.listChilds = arrayChildren;
   }
 
+  findGreaterKeyIndex(keyToCompare: number) {
+    for (let i = 0; i < this.countData(); i++) {
+      const data = this.getData(i);
+      if (keyToCompare < data!.key) {
+        return i;
+      }
+    }
+    return this.countData();
+  }
+
   clear() {
     this.listData = new Array(this.degree - 1).fill(null);
     this.listChilds = new Array(this.degree).fill(null);
