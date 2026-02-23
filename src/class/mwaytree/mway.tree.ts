@@ -14,6 +14,9 @@ export default class MWayTree<T> {
   protected readonly degree: number;
 
   constructor(degree: number = DEFAULT_GRADE) {
+    if (degree <= 1) {
+      throw new Error('El grado debe ser mayor que 1');
+    }
     this.degree = degree;
     this.root = null;
   }

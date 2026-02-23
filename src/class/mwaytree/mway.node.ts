@@ -11,11 +11,10 @@ export default class MWayTreeNode<T> {
   private readonly degree: number;
 
   constructor(degree: number = DEFAULT_GRADE) {
-    this.degree = degree;
-    if (this.degree < 2) {
-      throw new Error('El grado debe ser mayor o igual 2');
+    if (degree <= 1) {
+      throw new Error('El grado debe ser mayor que 1');
     }
-
+    this.degree = degree;
     this.listData = new Array(this.degree - 1).fill(null);
     this.listChilds = new Array(degree).fill(null);
   }
@@ -114,20 +113,8 @@ export default class MWayTreeNode<T> {
     this.listChilds = arrayChildren;
   }
 
-  /**
-   * Ordena el nodo de forma ascendente o descendente
-   */
-  sort(direccion: 'asc' | 'desc' = 'asc') {
-    for (let i = 0; i < this.countData() - 1; i++) {
-      for (let j = 0; j < this.countData() - 1; j++) {
-        let data = this.getData(j);
-        let dataNext = this.getData(j + 1);
-        if (direccion === 'asc' ? data!.key > dataNext!.key : data!.key < dataNext!.key) {
-          this.setData(j, dataNext);
-          this.setData(j + 1, data);
-        }
-      }
-    }
-    return this;
+  clear() {
+    this.listData = new Array(this.degree - 1).fill(null);
+    this.listChilds = new Array(this.degree).fill(null);
   }
 }
