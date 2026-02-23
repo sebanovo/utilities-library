@@ -6,6 +6,10 @@ node_modules/
 
 doc/
 
+.vscode/
+
+tests/
+
 .gitignore
 
 jsdoc.json
@@ -24,10 +28,6 @@ tsconfig.json
 
 tsconfig.test.json
 
-tests
-
 pnpm-lock.yaml
-
-.vscode
 
 rollup.config.js
