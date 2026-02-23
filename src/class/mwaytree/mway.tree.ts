@@ -11,7 +11,7 @@ import Stack from '../stack';
  */
 export default class MWayTree<T> {
   protected root: MWayTreeNode<T> | null;
-  protected degree: number;
+  protected readonly degree: number;
 
   constructor(degree: number = DEFAULT_GRADE) {
     this.degree = degree;
@@ -402,6 +402,7 @@ export default class MWayTree<T> {
   }
 
   insert(data: Data<T>): this {
+    if (!data.key) throw new Error('La key no puede ser nulo');
     if (this.root === null) {
       const newNodo = new MWayTreeNode<T>(this.degree);
       newNodo.setData(0, data);

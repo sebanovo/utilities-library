@@ -83,6 +83,11 @@ export default class MWayTreeNode<T> {
     return this.listData.length - this.countData();
   }
 
+  // verifica si hay el nodo tiene espacio disponible para insertar
+  hasDataSpaceForInsert() {
+    return this.countEmptyData() > 0;
+  }
+
   // cuenta los hijos nulos
   countEmptyChildren() {
     return this.listChilds.length - this.countChildren();
