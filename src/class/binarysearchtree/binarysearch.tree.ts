@@ -11,8 +11,6 @@ import BinarySearchTreeNode, { type Data } from './binarysearch.node';
  * Arboles de expresion algebraica:
  * https://youtu.be/EijbqAdgxeA?si=1P0A4octzOCxSoir
  * https://youtu.be/EdxTaeX2W34?si=sCDvHlVA4GymjoXg
- * Arboles N-Arios
- * https://youtu.be/WW_4woIwkHA?si=INzttYMB_gABX6jH
  */
 export default class BinarySearchTree<T> {
   protected root: BinarySearchTreeNode<T> | null;
@@ -64,17 +62,36 @@ export default class BinarySearchTree<T> {
   }
 
   // Cuenta la cantidad de datos
-  cardinality(root: BinarySearchTreeNode<T> | null): number {
+  cardinalityR(root: BinarySearchTreeNode<T> | null): number {
     let c: number;
     if (root === null) {
       c = 0;
     } else {
-      c = 1;
       const countLeftKeys = this.cardinality(root.getLeft());
       const countRightKeys = this.cardinality(root.getRight());
-      c += countLeftKeys + countRightKeys;
+      c = countLeftKeys + countRightKeys + 1;
     }
     return c;
+  }
+
+  // Cuenta la cantidad de datos
+  cardinality(root: BinarySearchTreeNode<T> | null): number {
+    if (root === null) return 0;
+    let x = root;
+    let count = 0;
+    const queue = new Queue<BinarySearchTreeNode<T>>();
+    queue.add(x);
+    while (!queue.isEmpty()) {
+      x = queue.poll()!;
+      count++;
+      if (x.getLeft() !== null) {
+        queue.add(x.getLeft()!);
+      }
+      if (x.getRight() !== null) {
+        queue.add(x.getRight()!);
+      }
+    }
+    return count;
   }
 
   // Cuenta la cantidad de nodos del arbol

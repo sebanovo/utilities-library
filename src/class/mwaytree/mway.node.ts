@@ -103,14 +103,16 @@ export default class MWayTreeNode<T> {
 
   setDataArray(arrayData: (Data<T> | null)[]) {
     this.listData = arrayData;
+    return this;
   }
 
-  getChildrenArray() {
+  getChildrensArray() {
     return this.listChilds;
   }
 
-  setChildrenArray(arrayChildren: Array<MWayTreeNode<T> | null>) {
-    this.listChilds = arrayChildren;
+  setChildrensArray(childrensArray: Array<MWayTreeNode<T> | null>) {
+    this.listChilds = childrensArray;
+    return this;
   }
 
   insertDataOrdered(data: Data<T>) {
@@ -121,6 +123,7 @@ export default class MWayTreeNode<T> {
       pos--;
     }
     this.setData(pos, data);
+    return this;
   }
 
   findGreaterKeyIndex(keyToCompare: number) {
@@ -136,5 +139,6 @@ export default class MWayTreeNode<T> {
   clear() {
     this.listData = new Array(this.degree - 1).fill(null);
     this.listChilds = new Array(this.degree).fill(null);
+    return this;
   }
 }

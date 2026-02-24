@@ -16,11 +16,13 @@ export { default as NodoListaDoblementeEnlazada } from './class/ListaDoblementeE
 // tree nodes
 export { default as BinarySearchTreeNode } from './class/binarysearchtree/binarysearch.node';
 export { default as AVLTreeNode } from './class/avltree/avl.node';
+export { default as NAryTreeNode } from './class/narytree/nary.node';
 export { default as MWayTreeNode } from './class/mwaytree/mway.node';
-export { default as BTree } from './class/btree/b.tree';
 export { default as BTreeNode } from './class/btree/b.node';
 
 // trees
 export { default as BinarySearchTree } from './class/binarysearchtree/binarysearch.tree';
 export { default as AVLTree } from './class/avltree/avl.tree';
+export { default as NAryTree } from './class/narytree/nary.tree';
 export { default as MWayTree } from './class/mwaytree/mway.tree';
+export { default as BTree } from './class/btree/b.tree';
