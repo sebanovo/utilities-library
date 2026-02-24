@@ -34,6 +34,16 @@ export default class BTree<T> extends MWayTree<T> {
   }
 
   /**
+   * Copia el nodo destino al nodo destino
+   */
+  private copyNode(sourceNode: BTreeNode<T>, targetNode: BTreeNode<T>): void {
+    for (let i = 0; i < sourceNode.countData(); i++) {
+      targetNode.setData(i, sourceNode.getData(i));
+      targetNode.setChild(i, sourceNode.getChild(i));
+    }
+    targetNode.setChild(targetNode.countData(), sourceNode.getChild(sourceNode.countData()));
+  }
+  /**
    * Copia un rango de datos e hijos de un nodo.
    */
   private splitRange(
@@ -83,16 +93,8 @@ export default class BTree<T> extends MWayTree<T> {
       // clonar los datos e hijos al nodo temporal
       const originalParent = stack.pop()!;
       const temporalParentNode = new BTreeNode<T>(this.degree + 1);
-      this.clone(originalParent, temporalParentNode);
-
-      // Desplazar elementos hacia la derecha mientras sean mayores al nuevo dato
-      let pos = temporalParentNode.countData();
-      while (pos > 0 && temporalParentNode.getData(pos - 1)!.key > middleData!.key) {
-        temporalParentNode.setData(pos, temporalParentNode.getData(pos - 1));
-        pos--;
-      }
-
-      temporalParentNode.setData(pos, middleData);
+      this.copyNode(originalParent, temporalParentNode);
+      temporalParentNode.insertDataOrdered(middleData!);
 
       // Insertar hijo izquierdo
       const leftFirstKey = leftNode.getData(0)!.key;
@@ -114,20 +116,9 @@ export default class BTree<T> extends MWayTree<T> {
         this.separarNodo(temporalParentNode, stack);
       } else {
         originalParent.clear();
-        this.clone(temporalParentNode, originalParent);
+        this.copyNode(temporalParentNode, originalParent);
       }
     }
-  }
-
-  /**
-   * Clona un nodo con grado
-   */
-  private clone(originalNode: BTreeNode<T>, cloneNode: BTreeNode<T>): void {
-    for (let i = 0; i < originalNode.countData(); i++) {
-      cloneNode.setData(i, originalNode.getData(i));
-      cloneNode.setChild(i, originalNode.getChild(i));
-    }
-    cloneNode.setChild(cloneNode.countData(), originalNode.getChild(originalNode.countData()));
   }
 
   override insert(data: Data<T>): this {
@@ -155,19 +146,14 @@ export default class BTree<T> extends MWayTree<T> {
       // Caso 2: hoja (insertar)
       if (x.isLeaf()) {
         const temporalNode = new BTreeNode<T>(this.degree + 1);
-        this.clone(x, temporalNode);
-        // Desplazar elementos hacia la derecha mientras sean mayores al nuevo dato
-        let pos = temporalNode.countData();
-        while (pos > 0 && temporalNode.getData(pos - 1)!.key > data.key) {
-          temporalNode.setData(pos, temporalNode.getData(pos - 1));
-          pos--;
-        }
-        temporalNode.setData(pos, data);
+        this.copyNode(x, temporalNode);
+        temporalNode.insertDataOrdered(data);
+
         if (temporalNode.countData() > this.MAXIMUM_NUMBER_OF_KEYS) {
           this.separarNodo(temporalNode, stack);
         } else {
           x.clear();
-          this.clone(temporalNode, x);
+          this.copyNode(temporalNode, x);
         }
         break;
       }
@@ -180,95 +166,8 @@ export default class BTree<T> extends MWayTree<T> {
     return this;
   }
 
-  // override insertR(data: Data<T>): this {
-  //   this.insert(data);
-  //   return this;
-  // }
-
   override insertR(data: Data<T>): this {
-    if (!data.key) throw new Error('La key no puede ser nulo');
-    const fn = (node: BTreeNode<T> | null): BTreeNode<T> => {
-      if (node === null) {
-        const newNode = new BTreeNode<T>(this.degree);
-        newNode.setData(0, data);
-        return newNode;
-      } else {
-        for (let i = 0; i < node.countData(); i++) {
-          if (data.key === node.getData(i)?.key) {
-            node.getData(i)!.value = data.value;
-            return node;
-          } else if (data.key < node.getData(i)!.key) {
-            if (node.isLeaf()) {
-              if (node.hasDataSpaceForInsert()) {
-                for (let j = node.countData(); j > i; j--) {
-                  node.setData(j, node.getData(j - 1));
-                }
-                node.setData(i, data);
-              } else {
-                // caso dividir el nodo
-                // clonar el nodo dividir el nodo
-                const temporalNode = new BTreeNode<T>(this.degree + 1);
-                this.clone(node, temporalNode);
-
-                // Desplazar elementos hacia la derecha mientras sean mayores al nuevo dato
-                let pos = temporalNode.countData();
-                while (pos > 0 && temporalNode.getData(pos - 1)!.key > data.key) {
-                  temporalNode.setData(pos, temporalNode.getData(pos - 1));
-                  pos--;
-                }
-
-                // Insertar el nuevo dato en la posición encontrada
-                temporalNode.setData(pos, data);
-                if (temporalNode.countData() > this.MAXIMUM_NUMBER_OF_KEYS) {
-                  this.separarNodo(temporalNode, stack);
-                } else {
-                  node.clear();
-                  this.clone(temporalNode, node);
-                }
-              }
-            } else {
-              stack.push(node);
-              node.setChild(i, fn(node.getChild(i)));
-              return node;
-            }
-            return node;
-          }
-        }
-        if (node.isLeaf()) {
-          if (node.hasDataSpaceForInsert()) {
-            node.setData(node.countData(), data);
-          } else {
-            // caso dividir el nodo
-            // clonar el nodo dividir el nodo
-            const temporalNode = new BTreeNode<T>(this.degree + 1);
-            this.clone(node, temporalNode);
-
-            // Desplazar elementos hacia la derecha mientras sean mayores al nuevo dato
-            let pos = temporalNode.countData();
-            while (pos > 0 && temporalNode.getData(pos - 1)!.key > data.key) {
-              temporalNode.setData(pos, temporalNode.getData(pos - 1));
-              pos--;
-            }
-
-            // Insertar el nuevo dato en la posición encontrada
-            temporalNode.setData(pos, data);
-            if (temporalNode.countData() > this.MAXIMUM_NUMBER_OF_KEYS) {
-              this.separarNodo(temporalNode, stack);
-            } else {
-              node.clear();
-              this.clone(temporalNode, node);
-            }
-          }
-        } else {
-          stack.push(node);
-          node.setChild(node.countData(), fn(node.getChild(node.countData())));
-        }
-      }
-      return node;
-    };
-    const stack = new Stack<BTreeNode<T>>();
-    this.root = fn(this.root);
-
+    this.insert(data);
     return this;
   }
 }

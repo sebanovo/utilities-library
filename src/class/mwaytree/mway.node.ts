@@ -113,6 +113,16 @@ export default class MWayTreeNode<T> {
     this.listChilds = arrayChildren;
   }
 
+  insertDataOrdered(data: Data<T>) {
+    // Desplazar elementos hacia la derecha mientras sean mayores al nuevo dato
+    let pos = this.countData();
+    while (pos > 0 && this.getData(pos - 1)!.key > data.key) {
+      this.setData(pos, this.getData(pos - 1));
+      pos--;
+    }
+    this.setData(pos, data);
+  }
+
   findGreaterKeyIndex(keyToCompare: number) {
     for (let i = 0; i < this.countData(); i++) {
       const data = this.getData(i);
