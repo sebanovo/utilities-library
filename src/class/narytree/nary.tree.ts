@@ -288,6 +288,34 @@ export default class NAryTree<T> {
     return list;
   }
 
+  preOrder() {
+    let x = this.root;
+    if (x === null) {
+      return [];
+    }
+
+    const stack = new Stack<NAryTreeNode<T>>();
+    const list: Array<T> = [];
+    stack.push(x);
+
+    while (!stack.isEmpty()) {
+      const nodoActual = stack.pop()!;
+
+      if (nodoActual.getData() !== null) {
+        list.push(nodoActual.getData());
+      }
+
+      for (let i = nodoActual.countChilds() - 1; i >= 0; i--) {
+        const child = nodoActual.getChild(i);
+        if (child !== null) {
+          stack.push(child);
+        }
+      }
+    }
+
+    return list;
+  }
+
   postOrderR() {
     const list: Array<T> = [];
     const rec = (node: NAryTreeNode<T> | null) => {
@@ -298,6 +326,35 @@ export default class NAryTree<T> {
       list.push(node.getData());
     };
     rec(this.root);
+    return list;
+  }
+
+  postOrder() {
+    let x = this.root;
+    if (x === null) {
+      return [];
+    }
+    const stack1 = new Stack<NAryTreeNode<T>>();
+    const stack2 = new Stack<NAryTreeNode<T>>();
+    const list: T[] = [];
+
+    stack1.push(x);
+    // Primera fase: llenar pila2 en orden inverso
+    while (!stack1.isEmpty()) {
+      const node = stack1.pop()!;
+      stack2.push(node);
+
+      for (let i = 0; i < node.countChilds(); i++) {
+        if (node.getChild(i) !== null) {
+          stack1.push(node.getChild(i)!);
+        }
+      }
+    }
+
+    // Primera fase: llenar pila2 en orden inverso
+    while (!stack2.isEmpty()) {
+      list.push(stack2.pop()!.getData());
+    }
     return list;
   }
 

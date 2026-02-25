@@ -347,38 +347,29 @@ export default class BinarySearchTree<T> {
 
   postOrder() {
     if (this.root === null) return [];
+    const stack1 = new Stack<BinarySearchTreeNode<T>>();
+    const stack2 = new Stack<BinarySearchTreeNode<T>>();
+    const list: Data<T>[] = [];
+    stack1.push(this.root);
 
-    let x = this.root;
-    const stack = new Stack<BinarySearchTreeNode<T>>();
-    const list: Array<Data<T>> = [];
+    // Primera fase: llenar pila2 en orden inverso
+    while (!stack1.isEmpty()) {
+      const node = stack1.pop()!;
+      stack2.push(node);
 
-    while (x !== null) {
-      stack.push(x);
-      if (x.getLeft() !== null) {
-        x = x.getLeft()!;
-      } else {
-        x = x.getRight()!;
+      if (node.getLeft() !== null) {
+        stack1.push(node.getLeft()!);
+      }
+      if (node.getRight() !== null) {
+        stack1.push(node.getRight()!);
       }
     }
 
-    while (!stack.isEmpty()) {
-      const aux = stack.pop()!;
-      list.push(aux.getData());
-      if (!stack.isEmpty()) {
-        const dad = stack.peek()!;
-        if (dad.getRight() !== null && dad.getRight() !== aux) {
-          let rightChildren = dad.getRight();
-          while (rightChildren !== null) {
-            stack.push(rightChildren);
-            if (rightChildren.getLeft() !== null) {
-              rightChildren = rightChildren.getLeft();
-            } else {
-              rightChildren = rightChildren.getRight();
-            }
-          }
-        }
-      }
+    // Segunda fase: vaciar pila2 (este es el orden postOrder)
+    while (!stack2.isEmpty()) {
+      list.push(stack2.pop()!.getData());
     }
+
     return list;
   }
 
