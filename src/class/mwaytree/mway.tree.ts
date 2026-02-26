@@ -354,6 +354,44 @@ export default class MWayTree<T> {
     return list;
   }
 
+  /*
+  // ejercio pendiente de realizar
+  postOrder() {
+    if (this.root === null) {
+      return [];
+    }
+    const stack1 = new Stack<MWayTreeNode<T>>();
+    const stack2 = new Stack<MWayTreeNode<T>>();
+    const list: Data<T>[] = [];
+
+    stack1.push(this.root);
+    while (!stack1.isEmpty()) {
+      const node = stack1.pop()!;
+      stack2.push(node);
+
+      // Agregar hijos en orden inverso para que salgan en orden correcto
+      for (let i = 0; i < node.countData(); i++) {
+        const child = node.getChild(i);
+        if (child !== null) {
+          stack1.push(child);
+        }
+      }
+      const child = node.getChild(node.countData());
+      if (child !== null) {
+        stack1.push(child);
+      }
+    }
+
+    // Primera fase: llenar pila2 en orden inverso
+    while (!stack2.isEmpty()) {
+      const node = stack2.pop()!;
+      for (let i = 0; i < node?.countData(); i++) {
+        list.push(node?.getData(i)!);
+      }
+    }
+    return list;
+  }
+  */
   inOrderR() {
     const list: Array<Data<T>> = [];
     const rec = (node: MWayTreeNode<T> | null) => {

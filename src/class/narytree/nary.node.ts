@@ -78,7 +78,7 @@ export default class NAryTreeNode<T> {
     return this.listChilds.length > 0;
   }
 
-  countChilds(): number {
+  countChidren(): number {
     return this.listChilds.length;
   }
 }

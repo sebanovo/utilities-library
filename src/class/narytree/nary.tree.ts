@@ -48,7 +48,7 @@ export default class NAryTree<T> {
         return nodoActual;
       }
 
-      for (let i = nodoActual.countChilds() - 1; i >= 0; i--) {
+      for (let i = nodoActual.countChidren() - 1; i >= 0; i--) {
         const child = nodoActual.getChild(i);
         if (child !== null) {
           stack.push(child);
@@ -99,7 +99,7 @@ export default class NAryTree<T> {
       x = queue.poll()!;
       count++;
 
-      for (let i = 0; i < x.countChilds(); i++) {
+      for (let i = 0; i < x.countChidren(); i++) {
         const child = x.getChild(i);
         if (child !== null) {
           queue.add(child);
@@ -134,7 +134,7 @@ export default class NAryTree<T> {
       x = queue.poll()!;
       count++;
 
-      for (let i = 0; i < x.countChilds(); i++) {
+      for (let i = 0; i < x.countChidren(); i++) {
         const child = x.getChild(i);
         if (child !== null) {
           queue.add(child);
@@ -216,7 +216,7 @@ export default class NAryTree<T> {
         min = nodoActual;
       }
 
-      for (let i = nodoActual.countChilds() - 1; i >= 0; i--) {
+      for (let i = nodoActual.countChidren() - 1; i >= 0; i--) {
         const child = nodoActual.getChild(i);
         if (child !== null) {
           stack.push(child);
@@ -264,7 +264,7 @@ export default class NAryTree<T> {
         max = nodoActual;
       }
 
-      for (let i = nodoActual.countChilds() - 1; i >= 0; i--) {
+      for (let i = nodoActual.countChidren() - 1; i >= 0; i--) {
         const child = nodoActual.getChild(i);
         if (child !== null) {
           stack.push(child);
@@ -280,7 +280,7 @@ export default class NAryTree<T> {
     const rec = (node: NAryTreeNode<T> | null) => {
       if (node === null) return;
       list.push(node.getData());
-      for (let i = 0; i < node?.countChilds(); i++) {
+      for (let i = 0; i < node?.countChidren(); i++) {
         rec(node.getChild(i));
       }
     };
@@ -305,7 +305,7 @@ export default class NAryTree<T> {
         list.push(nodoActual.getData());
       }
 
-      for (let i = nodoActual.countChilds() - 1; i >= 0; i--) {
+      for (let i = nodoActual.countChidren() - 1; i >= 0; i--) {
         const child = nodoActual.getChild(i);
         if (child !== null) {
           stack.push(child);
@@ -320,7 +320,7 @@ export default class NAryTree<T> {
     const list: Array<T> = [];
     const rec = (node: NAryTreeNode<T> | null) => {
       if (node === null) return;
-      for (let i = 0; i < node?.countChilds(); i++) {
+      for (let i = 0; i < node?.countChidren(); i++) {
         rec(node.getChild(i));
       }
       list.push(node.getData());
@@ -344,7 +344,7 @@ export default class NAryTree<T> {
       const node = stack1.pop()!;
       stack2.push(node);
 
-      for (let i = 0; i < node.countChilds(); i++) {
+      for (let i = 0; i < node.countChidren(); i++) {
         if (node.getChild(i) !== null) {
           stack1.push(node.getChild(i)!);
         }

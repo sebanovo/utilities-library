@@ -26,3 +26,6 @@ export { default as AVLTree } from './class/avltree/avl.tree';
 export { default as NAryTree } from './class/narytree/nary.tree';
 export { default as MWayTree } from './class/mwaytree/mway.tree';
 export { default as BTree } from './class/btree/b.tree';
+
+// extra
+export { default as Extra } from './class/extra/Extra';

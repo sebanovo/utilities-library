@@ -350,7 +350,6 @@ export default class BinarySearchTree<T> {
     const stack1 = new Stack<BinarySearchTreeNode<T>>();
     const stack2 = new Stack<BinarySearchTreeNode<T>>();
     const list: Data<T>[] = [];
-    stack1.push(this.root);
 
     // Primera fase: llenar pila2 en orden inverso
     while (!stack1.isEmpty()) {
