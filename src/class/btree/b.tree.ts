@@ -131,15 +131,10 @@ export default class BTree<T> extends MWayTree<T> {
     const stack = new Stack<BTreeNode<T>>();
     let x = this.root;
     while (x !== null) {
-      const node = this.getNode(x, data.key);
       // Caso 1: clave ya existe (actualizar)
-      if (node !== null) {
-        for (let i = 0; i < node.countData(); i++) {
-          if (node.getData(i)?.key === data.key) {
-            node.setData(i, data);
-            break;
-          }
-        }
+      const index = x.indexOf(data.key);
+      if (index !== -1) {
+        x.setData(index, data);
         break;
       }
 
@@ -167,7 +162,43 @@ export default class BTree<T> extends MWayTree<T> {
   }
 
   override insertR(data: Data<T>): this {
-    this.insert(data);
+    const rec = (node: BTreeNode<T> | null, data: Data<T>, stack: Stack<BTreeNode<T>>): void => {
+      // Caso base 1: árbol vacío
+      if (node === null) {
+        const newNode = new BTreeNode<T>(this.degree);
+        newNode.setData(0, data);
+        this.root = newNode;
+        return;
+      }
+
+      // Buscar si la clave ya existe en el nodo actual
+      const index = node.indexOf(data.key);
+      if (index !== -1) {
+        node.setData(index, data);
+        return;
+      }
+
+      // Caso base 2: es hoja
+      if (node.isLeaf()) {
+        const temporalNode = new BTreeNode<T>(this.degree + 1);
+        this.copyNode(node, temporalNode);
+        temporalNode.insertDataOrdered(data);
+
+        if (temporalNode.countData() > this.MAXIMUM_NUMBER_OF_KEYS) {
+          this.separarNodo(temporalNode, stack);
+        } else {
+          node.clear();
+          this.copyNode(temporalNode, node);
+        }
+        return;
+      }
+
+      // Caso recursivo: seguir buscando
+      const posicionDondeBajar = node.findGreaterKeyIndex(data.key);
+      stack.push(node);
+      rec(node.getChild(posicionDondeBajar)!, data, stack);
+    };
+    rec(this.root, data, new Stack<BTreeNode<T>>());
     return this;
   }
 }

@@ -15,7 +15,7 @@ export default class MWayTreeNode<T> {
       throw new Error('El grado debe ser mayor que 1');
     }
     this.degree = degree;
-    this.listData = new Array(this.degree - 1).fill(null);
+    this.listData = new Array(degree - 1).fill(null);
     this.listChilds = new Array(degree).fill(null);
   }
 
@@ -50,8 +50,22 @@ export default class MWayTreeNode<T> {
     return true;
   }
 
+  indexOf(key: number) {
+    for (let i = 0; i < this.listData.length; i++) {
+      if (this.listData[i]?.key === key) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  // tiene todos los datos llenos
+  isFullDataNode() {
+    return this.countData() === this.listData.length;
+  }
+
   // tiene todos sus hijos
-  isFullNode() {
+  isFullChildrenNode() {
     return this.countChildren() === this.listChilds.length;
   }
 

@@ -13,10 +13,11 @@
 10. [Stack](#stack)
 11. [Binary Search Tree](#binary-search-tree)
 12. [AVL Tree](#avl-tree)
-13. [MWay Tree](#mway-tree)
-13. [B Tree](#b-tree)
-14. [Contribuciones](#contribuciones)
-15. [Licencia](#licencia)
+13. [NAry Tree](#nary-tree)
+14. [MWay Tree](#mway-tree)
+15. [B Tree](#b-tree)
+16. [Contribuciones](#contribuciones)
+17. [Licencia](#licencia)
 
 Visita el repositorio : <https://github.com/sebanovo/utilities-library>
 
@@ -528,7 +529,7 @@ t1.insert({key: 2, value: 1})
 t1.insert({key: 3, value: 2})
 ```
 
-## MWay Tree 
+## NAry Tree 
 
 ### Metodos
 
@@ -537,6 +538,23 @@ t1.insert({key: 3, value: 2})
 - to string 
 
 ## Ejemplo 13
+
+```javascript
+const t1 = new NAryTree(4)
+t1.insert(1)
+t1.insert(2)
+t1.insert(2)
+```
+
+## MWay Tree 
+
+### Metodos
+
+- insert 
+- delete 
+- to string 
+
+## Ejemplo 14
 
 ```javascript
 const t1 = new MWayTree(4)
@@ -553,7 +571,7 @@ t1.insert({key: 3, value: 2})
 - delete 
 - to string 
 
-## Ejemplo 14
+## Ejemplo 15
 
 ```javascript
 const t1 = new BTree(3)

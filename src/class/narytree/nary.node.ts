@@ -9,7 +9,7 @@
  */
 export default class NAryTreeNode<T> {
   private data: T;
-  private listChilds: (NAryTreeNode<T> | null)[];
+  private listChilds: NAryTreeNode<T>[];
 
   constructor(data: T) {
     this.data = data;
@@ -54,7 +54,7 @@ export default class NAryTreeNode<T> {
     return this.listChilds;
   }
 
-  setChildrensArray(childrensArray: Array<NAryTreeNode<T> | null>) {
+  setChildrensArray(childrensArray: Array<NAryTreeNode<T>>) {
     this.listChilds = childrensArray;
     return this;
   }

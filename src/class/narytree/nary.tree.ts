@@ -48,7 +48,7 @@ export default class NAryTree<T> {
         return nodoActual;
       }
 
-      for (let i = nodoActual.countChidren() - 1; i >= 0; i--) {
+      for (let i = 0; i < nodoActual.countChidren(); i++) {
         const child = nodoActual.getChild(i);
         if (child !== null) {
           stack.push(child);
@@ -374,6 +374,112 @@ export default class NAryTree<T> {
     return this;
   }
 
+  /**
+   * Elimina el nodo pero los hijos pasan al padre excepto si se elimina la raiz, dónde su primer hijo pasara a ser la nueva raiz
+   */
+  deleteNodeAndSubTree(data: T) {
+    if (this.root === null) return;
+
+    if (this.root.getData() === data) {
+      this.root = null;
+      return;
+    }
+
+    const rec = (node: NAryTreeNode<T>, data: T): boolean => {
+      // Revisar hijos directos
+      for (let i = 0; i < node.countChidren(); i++) {
+        if (node.getChild(i)!.getData() === data) {
+          node.deleteByIndex(i);
+          return true;
+        }
+
+        if (rec(node.getChild(i)!, data)) {
+          return true;
+        }
+      }
+      return false;
+    };
+    rec(this.root!, data);
+  }
+
+  /**
+   * Elimina y los hijos pasan a los padres, excepto la raiz donde su primer hijo pasa a ser la nueva raiz
+   */
+  deleteNodeWithRelocation(data: T) {
+    if (this.root === null) return;
+
+    // Caso especial: eliminar la raíz
+    if (this.root.getData() === data) {
+      if (this.root.isLeaf()) {
+        this.root = null;
+      } else {
+        this.root = this.root.getChild(0);
+      }
+      return;
+    }
+
+    const rec = (node: NAryTreeNode<T>, data: T) => {
+      for (let i = 0; i < node.countChidren(); i++) {
+        const child = node.getChild(i);
+        if (child.getData() === data) {
+          for (const grandChild of child.getChildrensArray()) {
+            node.appendChild(grandChild);
+          }
+          // }
+
+          node.deleteByIndex(i);
+          return true;
+        }
+        if (rec(child, data)) {
+          return true;
+        }
+      }
+      return false;
+    };
+    rec(this.root!, data);
+  }
+
+  /**
+   *  Elimina todas las ocurrencias incluyendo los subarboles
+   */
+  deleteAllMatchAndSubtree(data: T) {
+    let node = this.getNode(this.root, data);
+    while (node !== null) {
+      this.deleteNodeAndSubTree(data);
+      node = this.getNode(this.root, data);
+    }
+  }
+
+  /**
+   * Elimina todas las ocurrencias pero no destruye los subarboles
+   */
+  deleteAllMatchWithRelocation(data: T) {
+    let node = this.getNode(this.root, data);
+    while (node !== null) {
+      this.deleteNodeWithRelocation(data);
+      node = this.getNode(this.root, data);
+    }
+  }
+
+  /**
+   * Elimina todas las hojas del arbol
+   */
+  deleteLeaves() {
+    if (this.root === null) return;
+    const rec = (node: NAryTreeNode<T>): void => {
+      // Recorrer de atrás hacia adelante
+      for (let i = node.countChidren() - 1; i >= 0; i--) {
+        const child = node.getChild(i);
+        if (child.isLeaf()) {
+          node.deleteByIndex(i);
+        } else {
+          rec(node.getChild(i));
+        }
+      }
+    };
+    rec(this.root);
+  }
+
   toString(): string {
     if (this.root === null) {
       return 'El árbol está vacío';
@@ -387,7 +493,7 @@ export default class NAryTree<T> {
 
       const newPrefix = prefix + (isLast ? '    ' : '│   ');
 
-      const n = node.getChildrensArray().length;
+      const n = node.countChidren();
       for (let i = 0; i < n; i++) {
         result += fn(node.getChild(i), newPrefix, i === n - 1);
       }
