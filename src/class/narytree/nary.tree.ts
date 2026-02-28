@@ -382,7 +382,7 @@ export default class NAryTree<T> {
 
     if (this.root.getData() === data) {
       this.root = null;
-      return;
+      return this;
     }
 
     const rec = (node: NAryTreeNode<T>, data: T): boolean => {
@@ -400,13 +400,14 @@ export default class NAryTree<T> {
       return false;
     };
     rec(this.root!, data);
+    return this;
   }
 
   /**
    * Elimina y los hijos pasan a los padres, excepto la raiz donde su primer hijo pasa a ser la nueva raiz
    */
   deleteNodeWithRelocation(data: T) {
-    if (this.root === null) return;
+    if (this.root === null) return this;
 
     // Caso especial: eliminar la raíz
     if (this.root.getData() === data) {
@@ -415,7 +416,7 @@ export default class NAryTree<T> {
       } else {
         this.root = this.root.getChild(0);
       }
-      return;
+      return this;
     }
 
     const rec = (node: NAryTreeNode<T>, data: T) => {
@@ -425,8 +426,6 @@ export default class NAryTree<T> {
           for (const grandChild of child.getChildrensArray()) {
             node.appendChild(grandChild);
           }
-          // }
-
           node.deleteByIndex(i);
           return true;
         }
@@ -437,6 +436,7 @@ export default class NAryTree<T> {
       return false;
     };
     rec(this.root!, data);
+    return this;
   }
 
   /**
@@ -448,6 +448,7 @@ export default class NAryTree<T> {
       this.deleteNodeAndSubTree(data);
       node = this.getNode(this.root, data);
     }
+    return this;
   }
 
   /**
@@ -459,13 +460,14 @@ export default class NAryTree<T> {
       this.deleteNodeWithRelocation(data);
       node = this.getNode(this.root, data);
     }
+    return this;
   }
 
   /**
    * Elimina todas las hojas del arbol
    */
   deleteLeaves() {
-    if (this.root === null) return;
+    if (this.root === null) return this;
     const rec = (node: NAryTreeNode<T>): void => {
       // Recorrer de atrás hacia adelante
       for (let i = node.countChidren() - 1; i >= 0; i--) {
@@ -478,6 +480,7 @@ export default class NAryTree<T> {
       }
     };
     rec(this.root);
+    return this;
   }
 
   toString(): string {

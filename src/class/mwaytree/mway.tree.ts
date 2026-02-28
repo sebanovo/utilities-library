@@ -493,7 +493,7 @@ export default class MWayTree<T> {
     return array[index - 1];
   }
 
-  private hasChildToBefore(node: MWayTreeNode<T>, init: number): boolean {
+  protected hasChildToAfter(node: MWayTreeNode<T>, init: number): boolean {
     for (let i = init + 1; i < node.countData(); i++) {
       if (node.getChild(i) !== null) {
         return true;
@@ -519,7 +519,7 @@ export default class MWayTree<T> {
             } else {
               // case 2.1 find succesor in order
               // case 2.2 find predecessor in order
-              const replacementData = this.hasChildToBefore(node, i)
+              const replacementData = this.hasChildToAfter(node, i)
                 ? this.getSuccesorInOrder(key)
                 : this.getPredecessorInOrder(key);
               const modifiedNode = fn(node, replacementData!.key);
@@ -537,6 +537,7 @@ export default class MWayTree<T> {
       return node;
     };
     this.root = fn(this.root, keyToDelete);
+    return this;
   }
 
   toString(): string {

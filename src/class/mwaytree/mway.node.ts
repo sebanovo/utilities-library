@@ -140,6 +140,15 @@ export default class MWayTreeNode<T> {
     return this;
   }
 
+  insertChildOrdered(keyToCompare: number, child: MWayTreeNode<T>) {
+    let rightInsertPos = child.findGreaterKeyIndex(keyToCompare);
+    for (let i = child.countData() - 1; i >= rightInsertPos; i--) {
+      child.setChild(i + 1, child.getChild(i));
+    }
+    child.setChild(rightInsertPos, child);
+    return this;
+  }
+
   findGreaterKeyIndex(keyToCompare: number) {
     for (let i = 0; i < this.countData(); i++) {
       const data = this.getData(i);
