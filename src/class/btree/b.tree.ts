@@ -302,20 +302,18 @@ export default class BTree<T> extends MWayTree<T> {
        * en claso que fuera el hermano de adelante sacamos el primer dato del
        * hermano y lo borramos del nodoHermano y lo insertamos al padre
        */
-      const dataDelNodoQuePresta = nodoQuePresta.getData(0)!;
-      // super.eliminarClaveDeNodoDePosicion(nodoQuePresta, 0);
-      // eliminar elemento del nodo
-      this.eliminarClaveDeNodoDePosicion(nodoQuePresta, 0);
+      const dataDelPadre = nodoPadre.getData(posicionDeNodoQueDebePrestarse);
+      this.eliminarClaveDeNodoDePosicion(nodoPadre, posicionDeNodoQueDebePrestarse);
+      nodoQueDebePrestarse.insertDataOrdered(dataDelPadre!);
 
+      const dataDelNodoQuePresta = nodoQuePresta.getData(0)!;
+      this.eliminarClaveDeNodoDePosicion(nodoQuePresta, 0);
       /* luego lo insertamos en el nodoQueDebePrestarse */
       nodoPadre.insertDataOrdered(dataDelNodoQuePresta);
       /*
        * sacamos el dato del padre en la posicion del nodoQueDebePresta
        * lo borramos y lo insertamos en el nodoQueDebePrestarse
        */
-      const dataDelPadre = nodoPadre.getData(posicionDeNodoQueDebePrestarse);
-      this.eliminarClaveDeNodoDePosicion(nodoPadre, posicionDeNodoQueDebePrestarse);
-      nodoQueDebePrestarse.insertDataOrdered(dataDelPadre!);
 
       /*
        * en el caso que no fuera una hoja el nodo que presta este le da tambien
@@ -352,18 +350,17 @@ export default class BTree<T> extends MWayTree<T> {
        * en claso que no fuera el hermano de adelante sacamos el ultimo dato del
        * hermano y lo borramos del nodoHermano y lo insertamos al padre
        */
-      // K claveDelNodoQuePresta = nodoQuePresta.getClave(nodoQuePresta.nroDeClavesNoVacias() - 1);
+      // /*
+      //  * sacamos el dato del padre en la posicion del nodoQueDebePrestarse
+      //  * lo borramos y lo insertamos en el nodoQueDebePrestarse
+      //  */
+      const claveDelPadre = nodoPadre.getData(posicionDeNodoQueDebePrestarse);
+      this.eliminarClaveDeNodoDePosicion(nodoPadre, posicionDeNodoQueDebePrestarse);
+      nodoQueDebePrestarse.insertDataOrdered(claveDelPadre!);
+
       const claveDelNodoQuePresta = nodoQuePresta.getData(nodoQuePresta.countData() - 1);
       this.eliminarClaveDeNodoDePosicion(nodoQuePresta, nodoQuePresta.countData() - 1);
       nodoPadre.insertDataOrdered(claveDelNodoQuePresta!);
-      /*
-       * sacamos el dato del padre en la posicion del nodoQueDebePrestarse
-       * lo borramos y lo insertamos en el nodoQueDebePrestarse
-       */
-      const claveDelPadre = nodoPadre.getData(posicionDeNodoQueDebePrestarse);
-
-      this.eliminarClaveDeNodoDePosicion(nodoPadre, posicionDeNodoQueDebePrestarse);
-      nodoQueDebePrestarse.insertDataOrdered(claveDelPadre!);
       /*
        * en el caso que no fuera una hoja el nodo que presta este le da tambien
        * su hijo al que presta

@@ -494,12 +494,12 @@ export default class MWayTree<T> {
   }
 
   protected hasChildToAfter(node: MWayTreeNode<T>, init: number): boolean {
-    for (let i = init + 1; i < node.countData(); i++) {
+    for (let i = init + 1; i < this.degree; i++) {
       if (node.getChild(i) !== null) {
         return true;
       }
     }
-    return node.getChild(node.countData()) !== null;
+    return false;
   }
 
   delete(keyToDelete: number) {
