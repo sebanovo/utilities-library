@@ -26,7 +26,7 @@ export default class MWayTree<T> {
   }
 
   getRoot() {
-    return this.root;
+    return structuredClone(this.root);
   }
 
   setRoot(newRoot: MWayTreeNode<T> | null) {
@@ -40,7 +40,7 @@ export default class MWayTree<T> {
   getNode(root: MWayTreeNode<T> | null, key: number) {
     let x = root;
     while (x !== null) {
-      const index = x.indexOf(key);
+      const index = x.getIndexOfData(key);
       if (index !== -1) {
         return x;
       }
@@ -54,7 +54,7 @@ export default class MWayTree<T> {
       if (node === null) {
         return null;
       } else {
-        const index = node.indexOf(key);
+        const index = node.getIndexOfData(key);
         if (index !== -1) {
           return node;
         }
@@ -207,13 +207,13 @@ export default class MWayTree<T> {
   findKey(keyToSearch: number) {
     const node = this.getNode(this.root, keyToSearch);
     if (node === null) return null;
-    return node?.getData(node.indexOf(keyToSearch))?.value;
+    return node?.getData(node.getIndexOfData(keyToSearch))?.value;
   }
 
   findKeyR(keyToSearch: number) {
     const node = this.getNodeR(this.root, keyToSearch);
     if (node === null) return null;
-    return node?.getData(node.indexOf(keyToSearch))?.value;
+    return node?.getData(node.getIndexOfData(keyToSearch))?.value;
   }
 
   levelOrder() {
@@ -493,15 +493,6 @@ export default class MWayTree<T> {
     return array[index - 1];
   }
 
-  protected hasChildToAfter(node: MWayTreeNode<T>, init: number): boolean {
-    for (let i = init + 1; i < this.degree; i++) {
-      if (node.getChild(i) !== null) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   delete(keyToDelete: number) {
     const fn = (node: MWayTreeNode<T> | null, key: number): MWayTreeNode<T> | null => {
       if (node === null) {
@@ -519,7 +510,7 @@ export default class MWayTree<T> {
             } else {
               // case 2.1 find succesor in order
               // case 2.2 find predecessor in order
-              const replacementData = this.hasChildToAfter(node, i)
+              const replacementData = node.hasChildToAfter(i)
                 ? this.getSuccesorInOrder(key)
                 : this.getPredecessorInOrder(key);
               const modifiedNode = fn(node, replacementData!.key);

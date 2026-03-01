@@ -50,9 +50,18 @@ export default class MWayTreeNode<T> {
     return true;
   }
 
-  indexOf(key: number) {
+  getIndexOfData(key: number) {
     for (let i = 0; i < this.listData.length; i++) {
       if (this.listData[i]?.key === key) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  getIndexOfChild(childNode: MWayTreeNode<T>) {
+    for (let i = 0; i < this.listChilds.length; i++) {
+      if (this.getChild(i) === childNode && childNode !== null) {
         return i;
       }
     }
@@ -140,12 +149,35 @@ export default class MWayTreeNode<T> {
     return this;
   }
 
-  insertChildOrdered(keyToCompare: number, child: MWayTreeNode<T>) {
-    let rightInsertPos = child.findGreaterKeyIndex(keyToCompare);
-    for (let i = child.countData() - 1; i >= rightInsertPos; i--) {
-      child.setChild(i + 1, child.getChild(i));
+  displaceDatasToLeft(positionData: number) {
+    // if only has 1 data delete
+    for (let i = positionData; i < this.countData() - 1; i++) {
+      this.setData(i, this.getData(i + 1));
     }
-    child.setChild(rightInsertPos, child);
+    this.setData(this.countData() - 1, null);
+    return this;
+  }
+
+  displaceDatasToRight(positionData: number) {
+    for (let i = this.countData() - 1; i >= positionData; i--) {
+      this.setData(i + 1, this.getData(i));
+    }
+    this.setData(positionData, null);
+    return this;
+  }
+
+  displaceChildsToLeft(positionChild: number) {
+    for (let i = positionChild; i < this.countData(); i++) {
+      this.setChild(i, this.getChild(i + 1));
+    }
+    this.setChild(this.countData(), null);
+    return this;
+  }
+
+  displaceChildsToRight(positionChild: number) {
+    for (let i = this.countData() - 1; i >= positionChild; i--) {
+      this.setChild(i + 1, this.getChild(i));
+    }
     return this;
   }
 
@@ -157,6 +189,15 @@ export default class MWayTreeNode<T> {
       }
     }
     return this.countData();
+  }
+
+  hasChildToAfter(initPosition: number): boolean {
+    for (let i = initPosition + 1; i < this.listChilds.length; i++) {
+      if (this.getChild(i) !== null) {
+        return true;
+      }
+    }
+    return false;
   }
 
   clear() {

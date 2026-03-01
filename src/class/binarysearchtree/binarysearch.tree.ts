@@ -20,7 +20,7 @@ export default class BinarySearchTree<T> {
   }
 
   getRoot() {
-    return this.root;
+    return structuredClone(this.root);
   }
 
   setRoot(newRoot: BinarySearchTreeNode<T> | null) {
