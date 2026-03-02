@@ -24,6 +24,8 @@ export default class MWayTreeNode<T> {
   }
 
   getData(position: number) {
+    if (position < 0 || position >= this.listData.length)
+      throw new Error('Posicion fuera del limite');
     return this.listData[position];
   }
 
@@ -33,6 +35,8 @@ export default class MWayTreeNode<T> {
   }
 
   getChild(position: number) {
+    if (position < 0 || position >= this.listChilds.length)
+      throw new Error('Posicion fuera del limite');
     return this.listChilds[position];
   }
 
@@ -191,8 +195,35 @@ export default class MWayTreeNode<T> {
     return this.countData();
   }
 
+  hasDataToAfter(initPosition: number): boolean {
+    for (let i = initPosition + 1; i < this.listData.length; i++) {
+      if (this.getData(i) !== null) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  hasDataToBefore(initPosition: number): boolean {
+    for (let i = initPosition - 1; i >= 0; i--) {
+      if (this.getData(i) !== null) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   hasChildToAfter(initPosition: number): boolean {
     for (let i = initPosition + 1; i < this.listChilds.length; i++) {
+      if (this.getChild(i) !== null) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  hasChildToBefore(initPosition: number): boolean {
+    for (let i = initPosition - 1; i >= 0; i--) {
       if (this.getChild(i) !== null) {
         return true;
       }

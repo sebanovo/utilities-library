@@ -26,7 +26,7 @@ export default class MWayTree<T> {
   }
 
   getRoot() {
-    return structuredClone(this.root);
+    return this.root;
   }
 
   setRoot(newRoot: MWayTreeNode<T> | null) {

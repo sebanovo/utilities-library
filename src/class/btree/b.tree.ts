@@ -284,9 +284,10 @@ export default class BTree<T> extends MWayTree<T> {
         if (siblingNode.hasChildToAfter(0)) {
           // Desplazar todos los hijos del hermano una posición a la izquierda
           for (let i = 0; i < siblingNode.countData() + 1; i++) {
-            const remainingChild = siblingNode.getChild(i + 1);
-            underflowNode.displaceChildsToRight(i);
-            underflowNode.setChild(i, remainingChild);
+            // const remainingChild = siblingNode.getChild(i + 1);
+            // siblingNode.displaceChildsToRight(i);
+            // siblingNode.setChild(i, remainingChild);
+            siblingNode.setChild(i, siblingNode.getChild(i + 1));
           }
           // El último espacio del hermano queda vacío
           siblingNode.setChild(siblingNode.countData() + 1, null);
@@ -296,8 +297,8 @@ export default class BTree<T> extends MWayTree<T> {
     // CASO 2: El hermano está a la IZQUIERDA (presta su ÚLTIMA clave)
     else {
       // 2.1 Bajar la clave del padre al nodo con underflow
-      const parentKey = parent.getData(underflowPosition);
-      parent.displaceDatasToLeft(underflowPosition);
+      const parentKey = parent.getData(underflowPosition - 1);
+      parent.displaceDatasToLeft(underflowPosition - 1);
       underflowNode.insertDataOrdered(parentKey!);
 
       // 2.2 Subir la última clave del hermano al padre
@@ -326,7 +327,21 @@ export default class BTree<T> extends MWayTree<T> {
   }
 
   /**
-   * Se fusiona con su hermano
+   * Fusiona un nodo con underflow con su nodo hermano.
+   *
+   * Este método se utiliza cuando un nodo tiene menos claves del mínimo permitido (underflow)
+   * y su hermano no puede prestarle una clave. La fusión combina ambos nodos en uno solo,
+   * bajando una clave del padre como separador.
+   *
+   * El proceso de fusión sigue estos pasos:
+   * 1. Copia todas las claves del hermano al nodo con underflow
+   * 2. Baja la clave apropiada del padre al nodo fusionado
+   * 3. Transfiere todos los hijos del hermano al nodo fusionado (si no es hoja)
+   * 4. Elimina la referencia al hermano del padre y reorganiza los hijos restantes
+   *
+   * @param parent - Nodo padre que contiene ambos nodos
+   * @param underflowNode - Nodo que tiene déficit de claves (conserva su identidad)
+   * @param siblingNode - Nodo hermano que se fusionará con underflowNode (desaparecerá)
    */
   private mergeWithSibling(
     parent: BTreeNode<T>,
@@ -335,24 +350,23 @@ export default class BTree<T> extends MWayTree<T> {
   ) {
     const siblingPosition = parent.getIndexOfChild(siblingNode);
     const underflowPosition = parent.getIndexOfChild(underflowNode);
-    // hacemos un for para copiar los datos del hermano al nodoQueDebeFusionarse
+    // PASO 1: Copiar todas las claves del hermano al nodo con underflow
     for (let i = 0; i < siblingNode.countData(); i++) {
-      const claveDelHermano = siblingNode.getData(i);
-      underflowNode.insertDataOrdered(claveDelHermano!);
+      underflowNode.insertDataOrdered(siblingNode.getData(i)!);
     }
-    /*
-     * ahora verificamos si hay clave en la posicionDeNodoQueDebeFusionarse
-     * y copiamos los datos del padre
-     */
-    if (parent.getData(underflowPosition) !== null) {
-      const claveDelPadre = parent.getData(underflowPosition);
-      underflowNode.insertDataOrdered(claveDelPadre!);
-      // una vez copiado los datos los borramos del nodoPadre
+
+    // PASO 2: Bajar la clave separadora del padre al nodo fusionado
+    // La clave a bajar depende de la posición del nodo con underflow
+    if (parent.hasChildToAfter(underflowPosition)) {
+      // Caso: el hermano está después (existe un hijo después de underflowPosition)
+      // La clave en underflowPosition es la que separa ambos nodos
+      const parentKey = parent.getData(underflowPosition);
+      underflowNode.insertDataOrdered(parentKey!);
       parent.displaceDatasToLeft(underflowPosition);
     } else {
       // si no le restamos 1 a la posicion para tener sus datos
-      const claveDelPadre = parent.getData(underflowPosition - 1);
-      underflowNode.insertDataOrdered(claveDelPadre!);
+      const parentKey = parent.getData(underflowPosition - 1);
+      underflowNode.insertDataOrdered(parentKey!);
       // una vez copiado los datos los borramos del nodoPadre
       parent.displaceDatasToLeft(underflowPosition - 1);
     }
@@ -366,16 +380,14 @@ export default class BTree<T> extends MWayTree<T> {
            * sacamos su hijo y vemos en donde inserarlo en el
            * nodoQueDebeFusionarse
            */
-          const hijoDelNodoHermano = siblingNode.getChild(i);
-          const claveDelHijoDelNodoHermano = hijoDelNodoHermano?.getData(0);
-          const posicionAInsertarNuevoHijo = underflowNode.findGreaterKeyIndex(
-            claveDelHijoDelNodoHermano?.key!
-          );
-          if (underflowNode.getChild(posicionAInsertarNuevoHijo) === null) {
-            underflowNode.setChild(posicionAInsertarNuevoHijo, hijoDelNodoHermano);
+          const childOfSibling = siblingNode.getChild(i);
+          const firstDataOfChildOfSibling = childOfSibling?.getData(0);
+          const insertPosition = underflowNode.findGreaterKeyIndex(firstDataOfChildOfSibling?.key!);
+          if (underflowNode.getChild(insertPosition) === null) {
+            underflowNode.setChild(insertPosition, childOfSibling);
           } else {
-            underflowNode.displaceChildsToRight(posicionAInsertarNuevoHijo);
-            underflowNode.setChild(posicionAInsertarNuevoHijo, hijoDelNodoHermano);
+            underflowNode.displaceChildsToRight(insertPosition);
+            underflowNode.setChild(insertPosition, childOfSibling);
           }
         }
       }
@@ -394,10 +406,11 @@ export default class BTree<T> extends MWayTree<T> {
        * hay hermaos
        */
       if (parent.hasChildToAfter(siblingPosition)) {
-        // en esta parte no usar displaceChildsToLeft ni displaceChildsToRight (antipatron)
         for (let i = siblingPosition; i < parent.countData() + 1; i++) {
-          const hijosMasAdelante = parent.getChild(i + 1);
-          parent.setChild(i, hijosMasAdelante);
+          // const remainingChild = parent.getChild(i + 1);
+          // parent.displaceChildsToRight(i);
+          // parent.setChild(i, remainingChild);
+          parent.setChild(i, parent.getChild(i + 1));
         }
         parent.setChild(parent.countData() + 1, null);
       } else {
@@ -418,18 +431,19 @@ export default class BTree<T> extends MWayTree<T> {
   private handleUnderflow(underflow: BTreeNode<T>, ancestors: Stack<BTreeNode<T>>) {
     if (!ancestors.isEmpty()) {
       const parent = ancestors.pop()!;
-      const underFlowPosition = parent.getIndexOfChild(underflow);
       /*
        * hay tres casos que note cuando hice las pruebas y fueron:
        * 1) si el hijo que rompe las reglas es el del inicio
        * 2) si el hijo que rompe las reglas es el del medio
        * 3) si el hijo que rompe las reglas es el ultimo que tiene el padre
        */
+      const underFlowPosition = parent.getIndexOfChild(underflow);
       const hasRightSibling = parent.hasChildToAfter(underFlowPosition);
-      const hasLeftSibling = parent.getChild(underFlowPosition - 1) !== null;
+      const hasLeftSibling = parent.hasChildToBefore(underFlowPosition);
 
       // CASO 1: El nodo es el PRIMER hijo (solo puede tener hermano derecho)
-      if (hasRightSibling && underFlowPosition === 0) {
+      if (!hasLeftSibling && hasRightSibling) {
+        // if (underFlowPosition === 0 && hasRightSibling) {
         const rightSiblingPosition = underFlowPosition + 1;
         const rightSibling = parent.getChild(rightSiblingPosition)!;
 
@@ -448,7 +462,7 @@ export default class BTree<T> extends MWayTree<T> {
         }
       }
       // CASO 2: El nodo es un hijo INTERMEDIO (tiene hermanos en ambos lados)
-      else if (hasRightSibling && hasLeftSibling) {
+      else if (hasLeftSibling && hasRightSibling) {
         const rightSiblingPosition = underFlowPosition + 1;
         const rightSibling = parent.getChild(rightSiblingPosition)!;
 
@@ -479,7 +493,7 @@ export default class BTree<T> extends MWayTree<T> {
         }
       }
       // CASO 3: El nodo es el ÚLTIMO hijo (solo puede tener hermano izquierdo)
-      else if (!hasRightSibling && hasLeftSibling) {
+      else if (hasLeftSibling && !hasRightSibling) {
         const leftSiblingPosition = underFlowPosition - 1;
         const leftSibling = parent.getChild(leftSiblingPosition)!;
 
@@ -501,8 +515,9 @@ export default class BTree<T> extends MWayTree<T> {
     } else if (this.root!.countData() < 1) {
       const newRoot = this.root!.getChild(this.root!.countData());
       this.root = newRoot;
+    } else {
+      // CASO 5: La raíz tiene al menos 1 clave, no necesita acción
     }
-    // CASO 5: La raíz tiene al menos 1 clave, no necesita acción
   }
 
   override delete(keyToDelete: number) {
