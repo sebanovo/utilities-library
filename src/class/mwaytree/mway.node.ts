@@ -155,15 +155,15 @@ export default class MWayTreeNode<T> {
 
   displaceDatasToLeft(positionData: number) {
     // if only has 1 data delete
-    for (let i = positionData; i < this.countData() - 1; i++) {
+    for (let i = positionData; i < this.listData.length - 1; i++) {
       this.setData(i, this.getData(i + 1));
     }
-    this.setData(this.countData() - 1, null);
+    this.setData(this.listData.length - 1, null);
     return this;
   }
 
   displaceDatasToRight(positionData: number) {
-    for (let i = this.countData() - 1; i >= positionData; i--) {
+    for (let i = this.listData.length - 1; i >= positionData; i--) {
       this.setData(i + 1, this.getData(i));
     }
     this.setData(positionData, null);
@@ -171,15 +171,15 @@ export default class MWayTreeNode<T> {
   }
 
   displaceChildsToLeft(positionChild: number) {
-    for (let i = positionChild; i < this.countData(); i++) {
+    for (let i = positionChild; i < this.listChilds.length - 1; i++) {
       this.setChild(i, this.getChild(i + 1));
     }
-    this.setChild(this.countData(), null);
+    this.setChild(this.listChilds.length - 1, null);
     return this;
   }
 
   displaceChildsToRight(positionChild: number) {
-    for (let i = this.countData() - 1; i >= positionChild; i--) {
+    for (let i = this.listChilds.length - 1; i >= positionChild; i--) {
       this.setChild(i + 1, this.getChild(i));
     }
     return this;
