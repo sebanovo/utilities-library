@@ -27,5 +27,9 @@ export { default as NAryTree } from './class/narytree/nary.tree';
 export { default as MWayTree } from './class/mwaytree/mway.tree';
 export { default as BTree } from './class/btree/b.tree';
 
+// graphs
+export { default as Graph } from './class/graphs/unweighted/Graph';
+export { default as DirectedGraph } from './class/graphs/unweighted/DirectedGraph';
+
 // extra
 export { default as Extra } from './class/extra/Extra';
