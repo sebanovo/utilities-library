@@ -1,0 +1,30 @@
+* Determinar la cantidad de islas de un grafo
+1. Tenemos Grafo grafo
+2. Definimos un contador de islas (cantIslas) con 0
+3. Eligimos un vertice no marcado para realizar recorrido (verticeDeProceso)
+4. Realizamos o continuamos un recorrido DFS del grafo g procesando desde verticeDeProceso
+5. Sumamos uno a cantIslas
+6. Si en el reocrrido DFS del grafo g están todos marcados
+  6.1. retornamos cantIslas
+7. Si en el recorrido DFS del grafo g no están todos marcados
+  7.1. Repetir desde el paso 3
+
+* Determinar la cantidad de islas de un digrafo
+1. Tenemos un digrafo grafo
+2. Definimos un contador de islas (cantIslas) con 0
+3. Eligimos un vertice no marcado para realizar recorrido (verticeDeProceso)
+4. Realizamos o continuamos un recorrido DFS del grafo g procesando desde verticeDeProceso
+5. Si luego de finalizar el recorrido están todos marcados
+  5.1. cantIslas + 1
+  5.2. retorno cantIslas
+6. Si luego de finalizar el recorrido no están todos marcados
+  6.1. Elegir como nuevo verticeDeProceso un vertice no marcado con adyacente marcado
+  6.2. Si no existe como nuevo verticeDeProceso un vertice no marcado con adyacente marcado
+    6.2.1. cantIslas + 1
+    6.2.2. Repetimos desde el paso 3
+  6.3 Si existe como nuevo verticeDeProceso un vertice no marcado con adyacente marcado
+    6.3.1. Repetimos desde el paso 4
+
+* Determinar si un digrafo era débilmente conexo 
+* Determinar si hay ciclo en un grafo
+* Determinar si hay ciclo en un digrafo
