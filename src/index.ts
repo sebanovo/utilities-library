@@ -31,5 +31,8 @@ export { default as BTree } from './class/btree/b.tree';
 export { default as Graph } from './class/graphs/unweighted/Graph';
 export { default as DirectedGraph } from './class/graphs/unweighted/DirectedGraph';
 
+export { default as WeightedGraph } from './class/graphs/weighted/WeightedGraph';
+export { default as WeightedDirectedGraph } from './class/graphs/weighted/WeghtedDirectedGraph';
+
 // extra
 export { default as Extra } from './class/extra/Extra';

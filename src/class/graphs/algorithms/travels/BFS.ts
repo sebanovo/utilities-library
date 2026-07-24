@@ -1,24 +1,24 @@
-import Queue from '../../queue';
+import Queue from '../../../queue';
 import { ControlMarcado } from './ControlMarcado';
-import { IGraph } from './IGraph';
+import { IGraph } from '../../types/IGraph';
 
 /**
  * Clase que implementa el algoritmos BFS para un grafo.
  */
 export default class BFS {
-  private elGrafo: IGraph;
+  private grafo: IGraph;
   private recorrido: number[];
   private marcados: ControlMarcado;
 
-  public constructor(unGrafo: IGraph, posVerticeInicial: number) {
-    this.elGrafo = unGrafo;
+  public constructor(grafo: IGraph, posVerticeInicial: number) {
+    this.grafo = grafo;
     this.recorrido = [];
-    this.marcados = new ControlMarcado(this.elGrafo.cantidadVertices());
+    this.marcados = new ControlMarcado(this.grafo.cantidadVertices());
     this.ejecutarBFS(posVerticeInicial);
   }
 
   public ejecutarBFS(posDeVertice: number) {
-    this.elGrafo.validarVertice(posDeVertice); //validamos si el vertice esta en rango
+    this.grafo.validarVertice(posDeVertice); // validamos si el vertice esta en rango
     const colaDeVertices = new Queue<number>();
     colaDeVertices.add(posDeVertice);
     this.marcados.marcarVertice(posDeVertice);
@@ -26,7 +26,7 @@ export default class BFS {
     do {
       const posVerticeActual = colaDeVertices.poll() as number; //saca el vertice de la cola
       //obtiene un iterable con todos los adyacentes del vertice
-      const adyacenteDeVerticeActual = this.elGrafo.adyacentesDelVertice(posVerticeActual);
+      const adyacenteDeVerticeActual = this.grafo.vecinosDe(posVerticeActual);
       this.recorrido.push(posVerticeActual); //lo anota en la lista
       //hace un for each con los adyacentes del vertice
       for (let posDeAdyacente of adyacenteDeVerticeActual) {
@@ -54,7 +54,7 @@ export default class BFS {
   //este metodo revisa si un vertice fue visitado o no
   public llegoAVertice(posVertice: number) {
     //valida si el vertice esta en rango y luego revisa en la lista de marcados
-    this.elGrafo.validarVertice(posVertice);
+    this.grafo.validarVertice(posVertice);
     return this.marcados.estaMarcado(posVertice);
   }
 }

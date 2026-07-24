@@ -3,35 +3,35 @@ interface Comparable<T> {
 }
 
 /**
- * Clase que implementa
+ * Clase que implementa la arista destion como (indiceDeVerticeDestino, peso)
  */
-export default class AdyacenteConPeso implements Comparable<AdyacenteConPeso> {
-  private indiceDeVertice: number;
-  private peso: number;
+export default class WeightedNeighbor implements Comparable<WeightedNeighbor> {
+  private vertexIndex: number; // indiceDeVertice (destino)
+  private weight: number; // peso
 
   public constructor();
   public constructor(indiceDeVertice: number);
   public constructor(indiceDeVertice: number, peso: number);
 
   constructor(indiceDeVertice: number = 0, peso: number = 0) {
-    this.indiceDeVertice = indiceDeVertice;
-    this.peso = peso;
+    this.vertexIndex = indiceDeVertice;
+    this.weight = peso;
   }
 
   public getIndiceDeVertice() {
-    return this.indiceDeVertice;
+    return this.vertexIndex;
   }
 
   public setIndiceDeVertice(indiceDeVertice: number) {
-    this.indiceDeVertice = indiceDeVertice;
+    this.vertexIndex = indiceDeVertice;
   }
 
   public getPeso() {
-    return this.peso;
+    return this.weight;
   }
 
   public setPeso(peso: number) {
-    this.peso = peso;
+    this.weight = peso;
   }
 
   /**
@@ -41,14 +41,14 @@ export default class AdyacenteConPeso implements Comparable<AdyacenteConPeso> {
    * = 0 si son iguales
    * > 0 si this > otro
    */
-  public compareTo(otro: AdyacenteConPeso | null) {
+  public compareTo(otro: WeightedNeighbor | null) {
     if (otro === null) {
       return -1;
     }
-    return this.indiceDeVertice - otro.getIndiceDeVertice();
+    return this.vertexIndex - otro.getIndiceDeVertice();
   }
 
-  public equals(otro: AdyacenteConPeso | null) {
+  public equals(otro: WeightedNeighbor | null) {
     if (otro === null) {
       return false;
     }

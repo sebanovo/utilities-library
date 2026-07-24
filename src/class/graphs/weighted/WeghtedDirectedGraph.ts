@@ -1,15 +1,29 @@
+import AbstractGraph from '../types/AbstractGraph';
+import WeightedNeighbor from '../types/WeightedNeighbor';
 import WeightedGraph from './WeightedGraph';
-import AdyacenteConPeso from './AdyacenteConPeso';
 
-export default class DiGrafoPesado extends WeightedGraph {
-  constructor(nroVertices?: number) {
+export default class WeightedDirectedGraph extends AbstractGraph<WeightedNeighbor> {
+  constructor(nroVertices = 0) {
     super(nroVertices);
   }
 
-  /**
-   * Inserta una arista dirigida.
-   */
-  public override insertarArista(origen: number, destino: number, peso: number): void {
+  protected getIndice(adyacente: WeightedNeighbor): number {
+    return adyacente.getIndiceDeVertice();
+  }
+
+  protected copiar(adyacente: WeightedNeighbor): WeightedNeighbor {
+    return new WeightedNeighbor(adyacente.getIndiceDeVertice(), adyacente.getPeso());
+  }
+
+  protected actualizarIndices(lista: WeightedNeighbor[], verticeEliminado: number): void {
+    for (const adyacente of lista) {
+      if (adyacente.getIndiceDeVertice() > verticeEliminado) {
+        adyacente.setIndiceDeVertice(adyacente.getIndiceDeVertice() - 1);
+      }
+    }
+  }
+
+  public insertarArista(origen: number, destino: number, peso: number): void {
     this.validarVertice(origen);
     this.validarVertice(destino);
 
@@ -17,45 +31,48 @@ export default class DiGrafoPesado extends WeightedGraph {
       throw new Error('La arista ya existe');
     }
 
-    this.listaDeAdyacencia[origen].push(new AdyacenteConPeso(destino, peso));
+    this.listaDeAdyacencias[origen].push(new WeightedNeighbor(destino, peso));
 
-    this.listaDeAdyacencia[origen].sort((a, b) => a.compareTo(b));
+    this.listaDeAdyacencias[origen].sort((a, b) => a.compareTo(b));
   }
 
-  /**
-   * Elimina únicamente la arista origen → destino.
-   */
-  public override eliminarArista(origen: number, destino: number): void {
+  public eliminarArista(origen: number, destino: number): void {
     this.validarVertice(origen);
     this.validarVertice(destino);
 
-    if (!this.existeAdyacencia(origen, destino)) {
-      throw new Error('La arista no existe');
-    }
-
-    const lista = this.listaDeAdyacencia[origen];
+    const lista = this.listaDeAdyacencias[origen];
 
     const indice = lista.findIndex((a) => a.getIndiceDeVertice() === destino);
+
+    if (indice === -1) {
+      throw new Error('La arista no existe');
+    }
 
     lista.splice(indice, 1);
   }
 
-  /**
-   * En un digrafo el grado se divide en entrada y salida.
-   */
-  public override gradoDeVertice(_: number): number {
-    throw new Error('Use gradoDeEntrada() o gradoDeSalida().');
+  public cantidadDeAristas(): number {
+    let cantidad = 0;
+
+    for (const lista of this.listaDeAdyacencias) {
+      cantidad += lista.length;
+    }
+
+    return cantidad;
   }
 
-  /**
-   * Número de aristas que entran al vértice.
-   */
+  public gradoDeSalida(vertice: number): number {
+    this.validarVertice(vertice);
+
+    return this.listaDeAdyacencias[vertice].length;
+  }
+
   public gradoDeEntrada(vertice: number): number {
     this.validarVertice(vertice);
 
     let contador = 0;
 
-    for (const lista of this.listaDeAdyacencia) {
+    for (const lista of this.listaDeAdyacencias) {
       if (lista.some((a) => a.getIndiceDeVertice() === vertice)) {
         contador++;
       }
@@ -64,23 +81,31 @@ export default class DiGrafoPesado extends WeightedGraph {
     return contador;
   }
 
-  /**
-   * Número de aristas que salen del vértice.
-   */
-  public gradoDeSalida(vertice: number): number {
-    return super.gradoDeVertice(vertice);
-  }
+  public peso(origen: number, destino: number): number {
+    const adyacente = this.listaDeAdyacencias[origen].find(
+      (a) => a.getIndiceDeVertice() === destino
+    );
 
-  /**
-   * Cantidad total de aristas.
-   */
-  public override cantidadDeAristas(): number {
-    let contador = 0;
-
-    for (const lista of this.listaDeAdyacencia) {
-      contador += lista.length;
+    if (!adyacente) {
+      throw new Error('La arista no existe');
     }
 
-    return contador;
+    return adyacente.getPeso();
+  }
+
+  public toUndirected(): WeightedGraph {
+    const graph = new WeightedGraph(this.cantidadVertices());
+
+    for (let origen = 0; origen < this.cantidadVertices(); origen++) {
+      for (const vecino of this.adyacentesDelVertice(origen)) {
+        const destino = vecino.getIndiceDeVertice();
+
+        if (!graph.existeAdyacencia(origen, destino)) {
+          graph.insertarArista(origen, destino, vecino.getPeso());
+        }
+      }
+    }
+
+    return graph;
   }
 }

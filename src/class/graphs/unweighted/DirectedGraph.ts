@@ -1,78 +1,92 @@
+import AbstractGraph from '../types/AbstractGraph';
 import Graph from './Graph';
-/**
- * Clase que implementa un grafo dirigido.
- */
-export default class DirectedGraph extends Graph {
-  public constructor();
-  public constructor(nroVertice: number);
-  public constructor(nroVertice?: number) {
-    if (!nroVertice) {
-      super();
-      return;
+
+export default class DirectedGraph extends AbstractGraph<number> {
+  constructor(nroVertices = 0) {
+    super(nroVertices);
+  }
+
+  protected getIndice(adyacente: number): number {
+    return adyacente;
+  }
+
+  protected copiar(adyacente: number): number {
+    return adyacente;
+  }
+
+  protected actualizarIndices(lista: number[], verticeEliminado: number): void {
+    for (let i = 0; i < lista.length; i++) {
+      if (lista[i] > verticeEliminado) {
+        lista[i]--;
+      }
     }
-    super(nroVertice);
   }
 
-  public override insertarArista(posVerticeOrigen: number, posVerticeDestino: number) {
-    super.validarVertice(posVerticeOrigen);
-    super.validarVertice(posVerticeDestino);
-    if (super.existeAdyacencia(posVerticeOrigen, posVerticeDestino)) {
-      throw new Error('Arista Ya Existe Exception');
+  public insertarArista(origen: number, destino: number): void {
+    this.validarVertice(origen);
+    this.validarVertice(destino);
+
+    if (this.existeAdyacencia(origen, destino)) {
+      throw new Error('La arista ya existe');
     }
-    const adyacenciaDelOrigen = this.listaDeAdyacencias[posVerticeOrigen];
-    adyacenciaDelOrigen.push(posVerticeDestino);
-    adyacenciaDelOrigen.sort((a, b) => a - b);
+
+    this.listaDeAdyacencias[origen].push(destino);
+    this.listaDeAdyacencias[origen].sort((a, b) => a - b);
   }
 
-  public override cantidadDeAristas() {
-    let c = 0;
-    for (let adyacencias of this.listaDeAdyacencias) {
-      c += adyacencias.length;
+  public eliminarArista(origen: number, destino: number): void {
+    this.validarVertice(origen);
+    this.validarVertice(destino);
+
+    const indice = this.listaDeAdyacencias[origen].indexOf(destino);
+
+    if (indice === -1) {
+      throw new Error('La arista no existe');
     }
-    return c;
+
+    this.listaDeAdyacencias[origen].splice(indice, 1);
   }
 
-  /**
-   * No existe grado de un vertice en un grafo dirigido
-   * @param _
-   */
-  public override gradoDeVertice(_: number): number {
-    throw new Error('No existe grado de un vertice en un grafo dirigido');
+  public cantidadDeAristas(): number {
+    let cantidad = 0;
+
+    for (const adyacentes of this.listaDeAdyacencias) {
+      cantidad += adyacentes.length;
+    }
+
+    return cantidad;
   }
 
-  /**
-   * Este metodo devuelve el grado que (sale) de un vertice
-   */
-  public gradoDeSalida(posDeVertice: number) {
-    // llama al metodo de grado de vertice del grafo no dirigido
-    return super.gradoDeVertice(posDeVertice);
+  public gradoDeSalida(vertice: number): number {
+    this.validarVertice(vertice);
+
+    return this.listaDeAdyacencias[vertice].length;
   }
 
-  /**
-   * Este metodo devuelve el grado que (entra) de un vertice
-   */
-  public gradoDeEntrada(posDeVertice: number) {
-    super.validarVertice(posDeVertice);
+  public gradoDeEntrada(vertice: number): number {
+    this.validarVertice(vertice);
+
     let contador = 0;
-    for (let adyacenciaActual of this.listaDeAdyacencias) {
-      if (adyacenciaActual.includes(posDeVertice)) {
+
+    for (const lista of this.listaDeAdyacencias) {
+      if (lista.includes(vertice)) {
         contador++;
       }
     }
+
     return contador;
   }
+  public toUndirected(): Graph {
+    const graph = new Graph(this.cantidadVertices());
 
-  /**
-   * Este metodo se reescribio por que un digrafo solo borra en un sentido
-   */
-  public eliminarArista(posVerticeOrigen: number, posVerticeDestino: number) {
-    super.validarVertice(posVerticeOrigen);
-    super.validarVertice(posVerticeDestino);
-    if (!super.existeAdyacencia(posVerticeOrigen, posVerticeDestino)) {
-      throw new Error('Arista no existe');
+    for (let origen = 0; origen < this.cantidadVertices(); origen++) {
+      for (const destino of this.vecinosDe(origen)) {
+        if (!graph.existeAdyacencia(origen, destino)) {
+          graph.insertarArista(origen, destino);
+        }
+      }
     }
-    const adyacentesDelOrigen = this.listaDeAdyacencias[posVerticeOrigen];
-    const indiceOrigen = adyacentesDelOrigen.indexOf(posVerticeDestino);
-    adyacentesDelOrigen.splice(indiceOrigen, 1);
+
+    return graph;
   }
 }

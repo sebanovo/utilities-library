@@ -1,66 +1,72 @@
-import AdyacenteConPeso from './AdyacenteConPeso';
+import AbstractGraph from '../types/AbstractGraph';
+import WeightedNeighbor from '../types/WeightedNeighbor';
 
-export default class GrafoPesado {
-  protected listaDeAdyacencia: AdyacenteConPeso[][] = [];
-
-  constructor(nroVertices?: number) {
-    if (nroVertices === undefined) {
-      return;
-    }
-
-    if (nroVertices < 0) {
-      throw new Error('La cantidad de vértices no puede ser negativa');
-    }
-
-    for (let i = 0; i < nroVertices; i++) {
-      this.insertarVertice();
-    }
+export default class WeightedGraph extends AbstractGraph<WeightedNeighbor> {
+  protected getIndice(a: WeightedNeighbor): number {
+    return a.getIndiceDeVertice();
   }
 
-  public insertarVertice(): void {
-    this.listaDeAdyacencia.push([]);
+  protected copiar(a: WeightedNeighbor): WeightedNeighbor {
+    return new WeightedNeighbor(a.getIndiceDeVertice(), a.getPeso());
   }
 
-  public validarVertice(posVertice: number): void {
-    if (posVertice < 0 || posVertice >= this.listaDeAdyacencia.length) {
-      throw new Error('Posición de vértice inválida');
+  protected actualizarIndices(lista: WeightedNeighbor[], eliminado: number): void {
+    for (const a of lista) {
+      if (a.getIndiceDeVertice() > eliminado) {
+        a.setIndiceDeVertice(a.getIndiceDeVertice() - 1);
+      }
     }
-  }
-
-  public existeAdyacencia(origen: number, destino: number): boolean {
-    this.validarVertice(origen);
-    this.validarVertice(destino);
-
-    return this.listaDeAdyacencia[origen].some((a) => a.getIndiceDeVertice() === destino);
   }
 
   public insertarArista(origen: number, destino: number, peso: number): void {
+    this.validarVertice(origen);
+    this.validarVertice(destino);
+
     if (this.existeAdyacencia(origen, destino)) {
       throw new Error('La arista ya existe');
     }
 
-    this.listaDeAdyacencia[origen].push(new AdyacenteConPeso(destino, peso));
+    this.listaDeAdyacencias[origen].push(new WeightedNeighbor(destino, peso));
 
-    this.listaDeAdyacencia[origen].sort((a, b) => a.compareTo(b));
+    this.listaDeAdyacencias[origen].sort((a, b) => a.compareTo(b));
 
     if (origen !== destino) {
-      this.listaDeAdyacencia[destino].push(new AdyacenteConPeso(origen, peso));
+      this.listaDeAdyacencias[destino].push(new WeightedNeighbor(origen, peso));
 
-      this.listaDeAdyacencia[destino].sort((a, b) => a.compareTo(b));
+      this.listaDeAdyacencias[destino].sort((a, b) => a.compareTo(b));
     }
   }
 
-  public cantidadVertices(): number {
-    return this.listaDeAdyacencia.length;
+  public eliminarArista(origen: number, destino: number): void {
+    this.validarVertice(origen);
+    this.validarVertice(destino);
+
+    const listaOrigen = this.listaDeAdyacencias[origen];
+
+    const indiceOrigen = listaOrigen.findIndex((a) => a.getIndiceDeVertice() === destino);
+
+    if (indiceOrigen === -1) {
+      throw new Error('La arista no existe');
+    }
+
+    listaOrigen.splice(indiceOrigen, 1);
+
+    if (origen !== destino) {
+      const listaDestino = this.listaDeAdyacencias[destino];
+
+      const indiceDestino = listaDestino.findIndex((a) => a.getIndiceDeVertice() === origen);
+
+      listaDestino.splice(indiceDestino, 1);
+    }
   }
 
   public cantidadDeAristas(): number {
     let aristas = 0;
     let lazos = 0;
 
-    for (let i = 0; i < this.listaDeAdyacencia.length; i++) {
-      for (const adyacente of this.listaDeAdyacencia[i]) {
-        if (adyacente.getIndiceDeVertice() === i) {
+    for (let i = 0; i < this.listaDeAdyacencias.length; i++) {
+      for (const vecino of this.listaDeAdyacencias[i]) {
+        if (vecino.getIndiceDeVertice() === i) {
           lazos++;
         } else {
           aristas++;
@@ -71,66 +77,19 @@ export default class GrafoPesado {
     return aristas / 2 + lazos;
   }
 
-  public gradoDeVertice(posVertice: number): number {
-    this.validarVertice(posVertice);
-    return this.listaDeAdyacencia[posVertice].length;
-  }
+  public gradoDeVertice(vertice: number): number {
+    this.validarVertice(vertice);
 
-  public eliminarArista(origen: number, destino: number): void {
-    if (!this.existeAdyacencia(origen, destino)) {
-      throw new Error('La arista no existe');
-    }
-
-    const listaOrigen = this.listaDeAdyacencia[origen];
-
-    const indice = listaOrigen.findIndex((a) => a.getIndiceDeVertice() === destino);
-
-    listaOrigen.splice(indice, 1);
-
-    if (origen !== destino) {
-      const listaDestino = this.listaDeAdyacencia[destino];
-
-      const indice2 = listaDestino.findIndex((a) => a.getIndiceDeVertice() === origen);
-
-      listaDestino.splice(indice2, 1);
-    }
-  }
-
-  public eliminarVertice(posVertice: number): void {
-    this.validarVertice(posVertice);
-
-    this.listaDeAdyacencia.splice(posVertice, 1);
-
-    for (const lista of this.listaDeAdyacencia) {
-      const indice = lista.findIndex((a) => a.getIndiceDeVertice() === posVertice);
-
-      if (indice >= 0) {
-        lista.splice(indice, 1);
-      }
-
-      for (const adyacente of lista) {
-        if (adyacente.getIndiceDeVertice() > posVertice) {
-          adyacente.setIndiceDeVertice(adyacente.getIndiceDeVertice() - 1);
-        }
-      }
-    }
-  }
-
-  public adyacentesDelVertice(posVertice: number): AdyacenteConPeso[] {
-    this.validarVertice(posVertice);
-
-    return structuredClone(this.listaDeAdyacencia[posVertice]);
+    return this.listaDeAdyacencias[vertice].length;
   }
 
   public peso(origen: number, destino: number): number {
-    const adyacente = this.listaDeAdyacencia[origen].find(
-      (a) => a.getIndiceDeVertice() === destino
-    );
+    const vecino = this.listaDeAdyacencias[origen].find((a) => a.getIndiceDeVertice() === destino);
 
-    if (!adyacente) {
-      throw new Error('No existe la arista');
+    if (!vecino) {
+      throw new Error('La arista no existe');
     }
 
-    return adyacente.getPeso();
+    return vecino.getPeso();
   }
 }

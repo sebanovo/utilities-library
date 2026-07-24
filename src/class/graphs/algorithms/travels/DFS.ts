@@ -1,27 +1,27 @@
-import Stack from '../../stack';
+import Stack from '../../../stack';
 import { ControlMarcado } from './ControlMarcado';
-import { IGraph } from './IGraph';
+import { IGraph } from '../../types/IGraph';
 
 /**
  * Clase que implementa el algoritmos BFS para un grafo.
  */
 export default class DFS {
-  private elGrafo: IGraph;
+  private grafo: IGraph;
   private recorrido: number[];
   private marcados: ControlMarcado;
 
-  public constructor(unGrafo: IGraph, posVerticeInicial: number) {
-    this.elGrafo = unGrafo;
+  public constructor(grafo: IGraph, posVerticeInicial: number) {
+    this.grafo = grafo;
     this.recorrido = [];
-    this.marcados = new ControlMarcado(this.elGrafo.cantidadVertices());
+    this.marcados = new ControlMarcado(this.grafo.cantidadVertices());
     this.ejecutarDFS(posVerticeInicial);
   }
 
   public ejecutarDFS(posDeVerticeActual: number) {
-    this.elGrafo.validarVertice(posDeVerticeActual); //validamos si el vertice esta en rango
+    this.grafo.validarVertice(posDeVerticeActual); //validamos si el vertice esta en rango
     this.marcados.marcarVertice(posDeVerticeActual); // lo marcamos en la lista de marcados
     this.recorrido.push(posDeVerticeActual); //lo anotamos en la lista de visitados
-    const adyacenteDeVerticeActual = this.elGrafo.adyacentesDelVertice(posDeVerticeActual); // sacamos un iterable con los adyacentes del vertice
+    const adyacenteDeVerticeActual = this.grafo.vecinosDe(posDeVerticeActual); // sacamos un iterable con los adyacentes del vertice
     for (let posDeAdyacente of adyacenteDeVerticeActual) {
       //for each de los adyacentes
       //verifica si el adyacente no esta marcado
@@ -33,7 +33,7 @@ export default class DFS {
   }
 
   public ejecutarDFS2(posDeVertice: number) {
-    this.elGrafo.validarVertice(posDeVertice); //validamos si el vertice esta en rango
+    this.grafo.validarVertice(posDeVertice); //validamos si el vertice esta en rango
     const stackDeVertices = new Stack<number>();
     stackDeVertices.push(posDeVertice);
     this.marcados.marcarVertice(posDeVertice);
@@ -41,7 +41,7 @@ export default class DFS {
     do {
       const posVerticeActual = stackDeVertices.pop() as number; //saca el vertice de la cola
       //obtiene un iterable con todos los adyacentes del vertice
-      const adyacenteDeVerticeActual = this.elGrafo.adyacentesDelVertice(posVerticeActual);
+      const adyacenteDeVerticeActual = this.grafo.vecinosDe(posVerticeActual);
       this.recorrido.push(posVerticeActual); //lo anota en la lista
       //hace un for each con los adyacentes del vertice
       for (let i = adyacenteDeVerticeActual.length - 1; i >= 0; i--) {
@@ -71,7 +71,7 @@ export default class DFS {
   //este metodo revisa si un vertice fue visitado o no
   public llegoAVertice(posVertice: number) {
     //valida si el vertice esta en rango y luego revisa en la lista de marcados
-    this.elGrafo.validarVertice(posVertice);
+    this.grafo.validarVertice(posVertice);
     return this.marcados.estaMarcado(posVertice);
   }
 }
