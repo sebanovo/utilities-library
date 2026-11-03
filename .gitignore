@@ -4,4 +4,4 @@ dist/
 
 doc/
 
-tests/
+.ignore/**

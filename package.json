@@ -16,6 +16,9 @@
     "build": "rollup -c",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "test": "node --import tsx --test \"tests/**/*.test.ts\"",
+    "test:watch": "node --import tsx --test --watch \"tests/**/*.test.ts\"",
+    "test:types": "tsc -p tsconfig.test.json",
     "tsdoc": "typedoc --tsconfig ./tsconfig.json",
     "prepare": "npm run build && npm run tsdoc"
   },
@@ -47,6 +50,7 @@
   "devDependencies": {
     "@rollup/plugin-terser": "0.4.4",
     "@rollup/plugin-typescript": "12.3.0",
+    "@types/node": "^26.6.6",
     "@typescript-eslint/eslint-plugin": "8.56.0",
     "@typescript-eslint/parser": "8.56.0",
     "eslint": "9.35.0",
