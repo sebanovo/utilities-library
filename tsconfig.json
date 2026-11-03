@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es2022", /* compila con las apis hasta es2022. */
     "module": "ESNext" /* Specify what module code is generated. */,
+    "moduleResolution": "Bundler" /* Resolucion de modulos para bundlers como Rollup. */,
     "rootDir": "./src" /* Specify the root folder within your source files. */,
     "lib": ["ES2022"], /* siempre igual que es target */
     "declaration": true /* Generate .d.ts files from TypeScript and JavaScript files in your project. */,

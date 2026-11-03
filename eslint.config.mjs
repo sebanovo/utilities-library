@@ -5,7 +5,7 @@ import tsPlugin from '@typescript-eslint/eslint-plugin'
 
 export default defineConfig([
   {
-    ignores: ['node_modules/**', 'dist/**', 'doc/**', 'rollup.config.js','eslint.config.mjs'],
+    ignores: ['node_modules/**', 'dist/**', 'doc/**', 'rollup.config.js','eslint.config.mjs', '.ignore/**'],
   },
   {
     files: ["**/*.ts"],
@@ -22,6 +22,7 @@ export default defineConfig([
       prettier: eslintPluginPrettier,
     },
     rules: {
+      // Configuración general src + tests
       '@typescript-eslint/no-unsafe-argument': 'off',
       '@typescript-eslint/strict-boolean-expressions': 'off',
       '@typescript-eslint/ban-types': 'off',
@@ -38,7 +39,8 @@ export default defineConfig([
   {
     files: ['tests/**/*.ts'],
     rules: {
-      '@typescript-eslint/no-unused-vars': 'off',
+      // Aqui puedes sobreescribir la configuración de arriba y personalizarla para los tests
+      // '@typescript-eslint/no-unused-vars': 'off',
     },
   },
 ]);
